@@ -24,13 +24,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "nonrandom_secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get("DEBUG") == '1' else False
+DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "chaitinschool.org",
 ]
+
+ADMINS = [("Omega", "x@chaitinschool.org")]
 
 
 # Application definition
@@ -130,3 +132,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Email
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.postmarkapp.com"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+
+DEFAULT_FROM_EMAIL = "Chaitin School <x@chaitinschool.org>"
+EMAIL_FROM_HOST = "chaitinschool.org"
+SERVER_EMAIL = "Gregory <server@chaitinschool.org>"
+EMAIL_SUBJECT_PREFIX = "[chaitin] "
