@@ -1,2 +1,4 @@
 *.pyc
 venv/
+.coverage
+db.sqlite3
