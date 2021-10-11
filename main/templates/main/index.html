@@ -59,24 +59,6 @@
             </article>
 
             <article>
-                <strong>Subscribe</strong>
-                <form method="post" action="{% url 'index' %}">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
-                    {% csrf_token %}
-                    <input type="submit" value="submit">
-                </form>
-            </article>
-
-            <article>
-                <strong>Chat</strong>
-                <p>
-                    <a href="https://t.me/joinchat/5HSd1uRcdE5kMGFk">Join</a>
-                    our Telegram group.
-                </p>
-            </article>
-
-            <article>
                 <strong>Philosophy</strong>
                 <p>
                     school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
@@ -92,6 +74,24 @@
                     School used to mean leisure; then it came to be the things
                     one gained when on leisure. Now it means death. Let's
                     change that.
+                </p>
+            </article>
+
+            <article>
+                <strong>Subscribe</strong>
+                <form method="post" action="{% url 'index' %}">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    {% csrf_token %}
+                    <input type="submit" value="submit">
+                </form>
+            </article>
+
+            <article>
+                <strong>Chat</strong>
+                <p>
+                    <a href="https://t.me/joinchat/5HSd1uRcdE5kMGFk">Join</a>
+                    our Telegram group.
                 </p>
             </article>
         </main>
