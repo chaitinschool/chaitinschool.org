@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Chaitin — London School of Software Engineering</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+
+    <body>
+        {% if messages %}
+        <aside>
+            {% for message in messages %}
+            <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>
+                {{ message|safe }}
+            </div>
+            {% endfor %}
+
+            {{ form.non_field_errors }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <span class="form-error">{{ error|escape }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </aside>
+        {% endif %}
+
+        <main>
+            <a href="{% url 'index' %}" class="title">
+                <h1>
+                    Chaitin
+                </h1>
+            </a>
+            <div class="subtitle">London School of Software Engineering</div>
+
+            <article>
+                <strong>Workshops</strong>
+                <ul>
+                    <li>2021-10-27: Fast and fun Django web app development</li>
+                    <li>2021-11-24: Building kilo, a simple terminal editor</li>
+                </ul>
+            </article>
+
+            <article>
+                <strong>Subscribe</strong>
+                <form method="post" action="{% url 'index' %}">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    {% csrf_token %}
+                    <input type="submit" value="submit">
+                </form>
+            </article>
+
+            <article>
+                <strong>Etymology</strong>
+                <p>
+                    school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
+                    (skholḗ, “spare time, leisure”, later, “conversations and the
+                    knowledge gained through them during free time; the places
+                    where these conversations took place”).
+                </p>
+            </article>
+
+            <article>
+                <strong>Philosophy</strong>
+                <p>
+                    School used to mean leisure; then it came to be the things
+                    that one gained when on leisure. Now it means death. Let’s
+                    change that.
+                </p>
+            </article>
+
+            <article>
+                <strong>About</strong>
+                <p>
+                    We teach and learn software engineering. Join us!
+                </p>
+            </article>
+        </main>
+
+    </body>
+</html>
