@@ -214,8 +214,13 @@ h1 {
 }
 
 main {
-    width: 520px;
+    max-width: 520px;
     margin: 0 auto;
+}
+@media (max-width: 520px) {
+    main {
+        padding: 0 8px;
+    }
 }
 
 article {
