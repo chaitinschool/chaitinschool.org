@@ -2,3 +2,4 @@
 venv/
 .coverage
 db.sqlite3
+.envrc
