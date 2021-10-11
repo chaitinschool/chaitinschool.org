@@ -39,13 +39,13 @@ class SubscriptionTestCase(TestCase):
         )
 
         # verify email message
-        # self.assertEqual(len(mail.outbox), 1)
-        # self.assertIn("New subscription: tester@example.com", mail.outbox[0].subject)
-        # self.assertIn("tester@example.com", mail.outbox[0].body)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("New subscription: tester@example.com", mail.outbox[0].subject)
+        self.assertIn("tester@example.com", mail.outbox[0].body)
 
         # verify email headers
-        # self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
-        # self.assertEqual(
-        #    mail.outbox[0].from_email,
-        #    settings.SERVER_EMAIL,
-        # )
+        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
+        self.assertEqual(
+            mail.outbox[0].from_email,
+            settings.SERVER_EMAIL,
+        )

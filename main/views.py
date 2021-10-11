@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.mail import mail_admins
 from django.shortcuts import render
 
 from main import forms
@@ -41,11 +42,12 @@ def index(request):
 
         # this branch only executes if form is valid
         form.save()
-        # submitter_email = form.cleaned_data["email"]
-        # mail_admins(
-        #    f"New subscription: {submitter_email}",
-        #    f"Someone new has subscribed to Sci-Hub London. Hooray!\n\nIt's {submitter_email}\n",
-        # )
+        submitter_email = form.cleaned_data["email"]
+        mail_admins(
+            f"New subscription: {submitter_email}",
+            "Someone new has subscribed to the Chaitin School list. Hooray!\n"
+            + f"\nIt's {submitter_email}\n",
+        )
 
         messages.success(request, "Thanks! Email saved—we’ll be in touch soon!")
         return render(request, "main/index.html")
