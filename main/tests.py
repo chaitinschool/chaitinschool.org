@@ -11,6 +11,10 @@ class StaticTestCase(TestCase):
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
 
+    def test_workshops_get(self):
+        response = self.client.get(reverse("workshops"))
+        self.assertEqual(response.status_code, 200)
+
 
 class SubscriptionTestCase(TestCase):
     def test_subscribe_get(self):

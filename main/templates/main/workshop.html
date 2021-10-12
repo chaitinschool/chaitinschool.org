@@ -1,0 +1,54 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <h2>Workshop: Fast and fun Django web app development (Oct 2021)</h2>
+
+    <strong>What is it?</strong>
+    <p>
+        This is a workshop on Python and Django. Theodore Keloglou
+        (https://github.com/sirodoht) will show how one can build a
+        very simple web application and how to deploy it using
+        nginx and uWSGI on a Linux cloud instance.
+    </p>
+
+    <strong>Who is it for?</strong>
+    <p>
+        This workshop is for beginner programmers or programmers
+        who want to see how the Python web world works.
+        This workshop assumes basic programming knowledge.
+    </p>
+
+    <strong>What will you get out it?</strong>
+    <p>
+        You will see the how you can create and set up a Python
+        Django web application. You will also see how to deploy
+        WSGI-compatible web applications in a simple,
+        straightforward way.
+    </p>
+
+    <strong>Location</strong>
+    <p>
+        The workshop is taking place at <a href="https://space4.tech/">SPACE4</a>,
+        <br>
+        <a href="https://g.page/SPACE4COOP?share">
+            113-115 Fonthill Rd, Finsbury Park, London N4 3HH
+        </a>
+    </p>
+
+    <strong>Sign up</strong>
+    <form method="post" action="{% url 'index' %}">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        {% csrf_token %}
+        <input type="submit" value="submit">
+    </form>
+
+    <strong>Chat</strong>
+    <p>
+        <a href="https://t.me/joinchat/5HSd1uRcdE5kMGFk">Join</a>
+        our Telegram group.
+    </p>
+
+</article>
+{% endblock %}

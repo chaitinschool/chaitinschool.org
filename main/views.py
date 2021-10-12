@@ -51,3 +51,7 @@ def index(request):
 
         messages.success(request, "Thanks! Email saved—we’ll be in touch soon!")
         return render(request, "main/index.html")
+
+
+def workshops(request):
+    return render(request, "main/workshop.html")

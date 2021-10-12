@@ -233,6 +233,10 @@ aside {
     padding: 32px 0;
 }
 
+form {
+    margin: 16px 0;
+}
+
 label {
     display: block;
     margin-top: 16px;
