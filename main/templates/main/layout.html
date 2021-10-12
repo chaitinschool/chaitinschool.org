@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Software engineering school in London.">
+        <meta name="keywords" content="london, software engineering, school, learn, teach">
+        <title>Chaitin — London School of Software Engineering</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+
+    <body>
+        {% if messages %}
+        <aside>
+            {% for message in messages %}
+            <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>
+                {{ message|safe }}
+            </div>
+            {% endfor %}
+
+            {{ form.non_field_errors }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <span class="form-error">{{ error|escape }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </aside>
+        {% endif %}
+
+        <main>
+            <a href="{% url 'index' %}" class="title">
+                <h1>
+                    Chaitin
+                </h1>
+            </a>
+            <div class="subtitle">London School of Software&nbsp;Engineering</div>
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </body>
+</html>
