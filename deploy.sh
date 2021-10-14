@@ -5,6 +5,7 @@ set -x
 
 # push origin
 git push origin master
+git push github master
 
 # make sure tests pass
 source venv/bin/activate
