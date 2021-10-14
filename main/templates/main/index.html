@@ -1,110 +1,69 @@
-{% load static %}
+{% extends 'main/layout.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Software engineering school in London.">
-        <meta name="keywords" content="london, software engineering, school, learn, teach">
-        <title>Chaitin — London School of Software Engineering</title>
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-    </head>
+{% block content %}
+<article>
+    <strong>Workshops</strong>
+    <p>
+        Our first workshop is on Wed, Oct 27, 2021.
+    </p>
+    <p>
+        <a href="{% url 'workshops' %}">
+            » Fast and fun Django web app development
+        </a> @
+        <a href="https://space4.tech/">SPACE4</a>
+    </p>
+</article>
 
-    <body>
-        {% if messages %}
-        <aside>
-            {% for message in messages %}
-            <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>
-                {{ message|safe }}
-            </div>
-            {% endfor %}
+<article>
+    <strong>Mission</strong> <small>(the what)</small>
+    <p>
+        We teach and learn software engineering.
+    </p>
+</article>
 
-            {{ form.non_field_errors }}
-            {% if form.email.errors %}
-                {% for error in form.email.errors %}
-                    <span class="form-error">{{ error|escape }}</span><br>
-                {% endfor %}
-            {% endif %}
-        </aside>
-        {% endif %}
+<article>
+    <strong>About</strong>
+    <p>
+        We are a community of people that wants to get better at
+        creating reliable production-grade software for humans
+        to use.
+    </p>
+</article>
 
-        <main>
-            <a href="{% url 'index' %}" class="title">
-                <h1>
-                    Chaitin
-                </h1>
-            </a>
-            <div class="subtitle">London School of Software&nbsp;Engineering</div>
+<article>
+    <strong>Philosophy</strong> <small>(the why)</small>
+    <p>
+        school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
+        (skholḗ, “spare time, leisure”, later, “conversations and the
+        knowledge gained through them during free time; the places
+        where these conversations took place”).
+        <small>
+            (from <a href="https://en.wiktionary.org/wiki/school#Etymology_2">
+                Wiktionary</a>)
+        </small>
+    </p>
+    <p>
+        School used to mean leisure; then it came to be the things
+        one gained when on leisure. Now it means death. Let's
+        change that.
+    </p>
+</article>
 
-            <article>
-                <strong>Workshops</strong>
-                <p>
-                    Our first workshop is on Wed, Oct 27, 2021.
-                </p>
-                <p>
-                    <a href="{% url 'workshops' %}">
-                        » Fast and fun Django web app development
-                    </a> @
-                    <a href="https://space4.tech/">SPACE4</a>
-                </p>
-            </article>
+<article>
+    <strong>Subscribe</strong>
+    <form method="post" action="{% url 'index' %}">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        {% csrf_token %}
+        <input type="submit" value="submit">
+    </form>
+</article>
 
-            <article>
-                <strong>Mission</strong> <small>(the what)</small>
-                <p>
-                    We teach and learn software engineering.
-                </p>
-            </article>
-
-            <article>
-                <strong>About</strong>
-                <p>
-                    We are a community of people that wants to get better at
-                    creating reliable production-grade software for humans
-                    to use.
-                </p>
-            </article>
-
-            <article>
-                <strong>Philosophy</strong> <small>(the why)</small>
-                <p>
-                    school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
-                    (skholḗ, “spare time, leisure”, later, “conversations and the
-                    knowledge gained through them during free time; the places
-                    where these conversations took place”).
-                    <small>
-                        (from <a href="https://en.wiktionary.org/wiki/school#Etymology_2">
-                            Wiktionary</a>)
-                    </small>
-                </p>
-                <p>
-                    School used to mean leisure; then it came to be the things
-                    one gained when on leisure. Now it means death. Let's
-                    change that.
-                </p>
-            </article>
-
-            <article>
-                <strong>Subscribe</strong>
-                <form method="post" action="{% url 'index' %}">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
-                    {% csrf_token %}
-                    <input type="submit" value="submit">
-                </form>
-            </article>
-
-            <article>
-                <strong>Chat</strong>
-                <p>
-                    <a href="https://t.me/joinchat/5HSd1uRcdE5kMGFk">Join</a>
-                    our Telegram group.
-                </p>
-            </article>
-
-        </main>
-
-    </body>
-</html>
+<article>
+    <strong>Chat</strong>
+    <p>
+        <a href="https://t.me/joinchat/5HSd1uRcdE5kMGFk">Join</a>
+        our Telegram group.
+    </p>
+</article>
+{% endblock %}
