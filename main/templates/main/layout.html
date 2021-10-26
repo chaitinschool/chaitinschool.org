@@ -45,6 +45,11 @@
             </a>
             <div class="subtitle">London School of Software&nbsp;Engineering</div>
 
+            <nav>
+                <a href="{% url 'index' %}">Home</a>
+                | <a href="{% url 'blog' %}">Blog</a>
+            </nav>
+
             {% block content %}
             {% endblock %}
 
