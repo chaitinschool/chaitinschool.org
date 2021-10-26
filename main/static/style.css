@@ -269,6 +269,10 @@ textarea {
     width: 100%;
 }
 
+time {
+    color: var(--grey-color);
+}
+
 .title {
     text-align: center;
     font-variant: small-caps;
