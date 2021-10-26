@@ -9,7 +9,7 @@
     </time>
 
     <div itemprop="articleBody">
-        {{ object.body }}
+        {{ object.body_as_html|safe }}
     </div>
 </article>
 {% endblock %}

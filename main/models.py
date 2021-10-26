@@ -1,5 +1,6 @@
 import uuid
 
+import markdown
 from django.db import models
 
 
@@ -21,6 +22,17 @@ class Post(models.Model):
     slug = models.CharField(max_length=300)
     body = models.TextField()
     published_at = models.DateField()
+
+    @property
+    def body_as_html(self):
+        return markdown.markdown(
+            self.body,
+            extensions=[
+                "markdown.extensions.fenced_code",
+                "markdown.extensions.tables",
+                "markdown.extensions.footnotes",
+            ],
+        )
 
     def __str__(self):
         return self.title

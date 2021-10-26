@@ -15,7 +15,7 @@
     </time>
 
     <div itemprop="articleBody">
-        {{ post.body }}
+        {{ post.body_as_html|safe }}
     </div>
 
 </article>
