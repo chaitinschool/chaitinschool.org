@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.core.mail import mail_admins
 from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
-from main import forms
+from main import forms, models
 
 
 def index(request):
@@ -55,3 +56,13 @@ def index(request):
 
 def workshops(request):
     return render(request, "main/workshop.html")
+
+
+class BlogView(ListView):
+    model = models.Post
+    template_name = "main/blog.html"
+
+
+class PostView(DetailView):
+    model = models.Post
+    template_name = "main/post.html"

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.core import mail
 from django.test import TestCase
@@ -53,3 +55,34 @@ class SubscriptionTestCase(TestCase):
             mail.outbox[0].from_email,
             settings.SERVER_EMAIL,
         )
+
+
+class BlogTestCase(TestCase):
+    def test_blog_index(self):
+
+        models.Post.objects.create(
+            title="First post",
+            slug="first-post",
+            body="I am the body",
+            published_at=datetime(2020, 2, 18),
+        )
+        response = self.client.get(reverse("blog"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "First post")
+
+    def test_blog_index_empty(self):
+        response = self.client.get(reverse("blog"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "nothing published yet")
+
+    def test_post(self):
+        post = models.Post.objects.create(
+            title="First post",
+            slug="first-post",
+            body="I am the body",
+            published_at=datetime(2020, 2, 18),
+        )
+        response = self.client.get(reverse("post", args=(post.slug,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "First post")
+        self.assertContains(response, "I am the body")
