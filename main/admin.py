@@ -15,3 +15,17 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Subscription, SubscriptionAdmin)
+
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "title",
+        "slug",
+        "published_at",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.Post, PostAdmin)

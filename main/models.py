@@ -14,3 +14,13 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=300)
+    slug = models.CharField(max_length=300)
+    body = models.TextField()
+    published_at = models.DateField()
+
+    def __str__(self):
+        return self.title
