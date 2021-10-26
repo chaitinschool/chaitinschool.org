@@ -214,10 +214,10 @@ h1 {
 }
 
 main {
-    max-width: 520px;
+    max-width: 560px;
     margin: 0 auto;
 }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
     main {
         padding: 0 8px;
     }
