@@ -1,10 +1,15 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
-<article>
-    <h1>{{ object.title }}</h1>
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 itemprop="name headline">{{ object.title }}</h1>
 
-    {{ object.body }}
+    <time datetime="{{ object.published_at|date:'Y-m-d' }}" itemprop="datePublished">
+        {{ object.published_at|date:'F j, Y' }}
+    </time>
 
+    <div itemprop="articleBody">
+        {{ object.body }}
+    </div>
 </article>
 {% endblock %}

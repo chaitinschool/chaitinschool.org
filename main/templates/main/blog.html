@@ -3,8 +3,8 @@
 {% block content %}
 
 {% for post in post_list %}
-<article>
-    <h2>
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <h2 itemprop="name headline">
         <a href="{% url 'post' post.slug %}">
             {{ post.title }}
         </a>
@@ -14,7 +14,7 @@
         {{ post.published_at|date:'F j, Y' }}
     </time>
 
-    <div>
+    <div itemprop="articleBody">
         {{ post.body }}
     </div>
 
