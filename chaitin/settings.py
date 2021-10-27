@@ -34,6 +34,10 @@ ALLOWED_HOSTS = [
 
 ADMINS = [("Omega", "x@chaitinschool.org")]
 
+CANONICAL_HOST = "chaitinschool.org"
+if DEBUG:
+    CANONICAL_HOST = "localhost:8000"
+
 
 # Application definition
 

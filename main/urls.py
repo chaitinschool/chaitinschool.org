@@ -7,4 +7,9 @@ urlpatterns = [
     path("workshops/fast-and-fun-django-oct-2021/", views.workshops, name="workshops"),
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
+    path(
+        "unsubscribe/<uuid:key>/",
+        views.unsubscribe_key,
+        name="unsubscribe_key",
+    ),
 ]

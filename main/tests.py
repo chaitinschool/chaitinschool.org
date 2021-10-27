@@ -57,6 +57,24 @@ class SubscriptionTestCase(TestCase):
         )
 
 
+class UnsubscribeTestCase(TestCase):
+    def setUp(self):
+        self.subscription = models.Subscription.objects.create(
+            email="tester@example.com"
+        )
+
+    def test_unsubscribe_get(self):
+        response = self.client.get(
+            reverse("unsubscribe_key", args=(self.subscription.unsubscribe_key,)),
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "tester@example.com deleted from mailing list.")
+        self.assertFalse(
+            models.Subscription.objects.filter(id=self.subscription.id).exists()
+        )
+
+
 class BlogTestCase(TestCase):
     def test_blog_index(self):
 

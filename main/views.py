@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.core.mail import mail_admins
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
 
 from main import forms, models
@@ -66,3 +66,14 @@ class BlogView(ListView):
 class PostView(DetailView):
     model = models.Post
     template_name = "main/post.html"
+
+
+def unsubscribe_key(request, key):
+    if models.Subscription.objects.filter(unsubscribe_key=key).exists():
+        subscription = models.Subscription.objects.get(unsubscribe_key=key)
+        email = subscription.email
+        subscription.delete()
+        messages.success(request, f"{email} deleted from mailing list.")
+    else:
+        messages.info(request, "Invalid link.")
+    return redirect("index")
