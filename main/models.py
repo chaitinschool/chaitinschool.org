@@ -22,6 +22,7 @@ class Subscription(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=300)
     slug = models.CharField(max_length=300)
+    byline = models.CharField(max_length=300)
     body = models.TextField()
     published_at = models.DateField()
 
