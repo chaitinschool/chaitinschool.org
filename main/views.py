@@ -8,15 +8,19 @@ from main import forms, models
 
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
+        next_workshop = None
+        if models.Workshop.objects.exists():
+            next_workshop = (
+                models.Workshop.objects.all().order_by("-transpired_at").first()
+            )
         return render(
             request,
             "main/index.html",
             {
-                "next_workshop": models.Workshop.objects.all()
-                .order_by("-transpired_at")
-                .first(),
+                "next_workshop": next_workshop,
             },
         )
+
     elif request.method == "POST":
         form = forms.SubscriptionForm(request.POST)
 

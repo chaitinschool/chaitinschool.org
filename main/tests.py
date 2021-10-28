@@ -13,8 +13,20 @@ class StaticTestCase(TestCase):
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
 
+
+class WorkshopTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            transpired_at=datetime(2020, 2, 18),
+        )
+
     def test_workshops_get(self):
-        response = self.client.get(reverse("workshops"))
+        response = self.client.get(
+            reverse("workshop_detail", args=(self.workshop.slug,))
+        )
         self.assertEqual(response.status_code, 200)
 
 

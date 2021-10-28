@@ -1,6 +1,8 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
+
+{% if next_workshop %}
 <article>
     <strong>Workshops</strong>
     <p>
@@ -14,6 +16,7 @@
         @ <a href="https://space4.tech/">SPACE4</a>
     </p>
 </article>
+{% endif %}
 
 <article>
     <strong>Future Workshops</strong>
