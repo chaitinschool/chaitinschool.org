@@ -11,6 +11,11 @@ def index(request):
         return render(
             request,
             "main/index.html",
+            {
+                "next_workshop": models.Workshop.objects.all()
+                .order_by("-transpired_at")
+                .first(),
+            },
         )
     elif request.method == "POST":
         form = forms.SubscriptionForm(request.POST)
