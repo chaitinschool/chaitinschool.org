@@ -13,6 +13,18 @@ class StaticTestCase(TestCase):
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
 
+    def test_index_get_workshop(self):
+        models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            transpired_at=datetime(2020, 2, 18),
+        )
+        response = self.client.get(reverse("index"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Workshops")
+        self.assertContains(response, "Django")
+
 
 class WorkshopTestCase(TestCase):
     def setUp(self):
@@ -116,3 +128,111 @@ class BlogTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "First post")
         self.assertContains(response, "I am the body")
+
+
+class SubmissionTestCase(TestCase):
+    def test_submission_get(self):
+        response = self.client.get(
+            reverse("submit"),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Submit a workshop")
+
+    def test_submission_post(self):
+        response = self.client.post(
+            reverse("submit"),
+            {
+                "submitter": "Gregory",
+                "email": "gregory@example.com",
+                "links": "http://gregory.chaitin/",
+                "title": "Complexity",
+                "topic": "It's about Kolmogorov complexity",
+                "audience": "Everyone",
+                "outcome": "Fun",
+                "when": "Tomorrow",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Thank you! We’ll be in touch :)")
+
+        # verify model
+        self.assertEqual(models.Submission.objects.all().count(), 1)
+        self.assertEqual(models.Submission.objects.all()[0].submitter, "Gregory")
+        self.assertEqual(
+            models.Submission.objects.all()[0].email, "gregory@example.com"
+        )
+        self.assertEqual(
+            models.Submission.objects.all()[0].links, "http://gregory.chaitin/"
+        )
+        self.assertEqual(models.Submission.objects.all()[0].title, "Complexity")
+        self.assertEqual(
+            models.Submission.objects.all()[0].topic, "It's about Kolmogorov complexity"
+        )
+        self.assertEqual(models.Submission.objects.all()[0].audience, "Everyone")
+        self.assertEqual(models.Submission.objects.all()[0].outcome, "Fun")
+        self.assertEqual(models.Submission.objects.all()[0].when, "Tomorrow")
+
+        # verify email message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            "New submission: Gregory <gregory@example.com>", mail.outbox[0].subject
+        )
+        self.assertIn("Complexity", mail.outbox[0].body)
+        self.assertIn("It's about Kolmogorov complexity", mail.outbox[0].body)
+        self.assertIn("Everyone", mail.outbox[0].body)
+        self.assertIn("Fun", mail.outbox[0].body)
+        self.assertIn("Tomorrow", mail.outbox[0].body)
+        self.assertIn("http://gregory.chaitin/", mail.outbox[0].body)
+
+        # verify email headers
+        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
+        self.assertEqual(
+            mail.outbox[0].from_email,
+            settings.SERVER_EMAIL,
+        )
+
+
+class RequestTestCase(TestCase):
+    def test_request_get(self):
+        response = self.client.get(
+            reverse("request"),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Request a workshop")
+
+    def test_request_post(self):
+        response = self.client.post(
+            reverse("request"),
+            {
+                "email": "gregory@example.com",
+                "topic": "I want to know about Kolmogorov complexity",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Thanks—we might be in touch.")
+
+        # verify model
+        self.assertEqual(models.Request.objects.all().count(), 1)
+        self.assertEqual(models.Request.objects.all()[0].email, "gregory@example.com")
+        self.assertEqual(
+            models.Request.objects.all()[0].topic,
+            "I want to know about Kolmogorov complexity",
+        )
+
+        # verify email message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("New request: gregory@example.com", mail.outbox[0].subject)
+        self.assertIn("I want to know about Kolmogorov complexity", mail.outbox[0].body)
+
+        # verify email headers
+        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
+        self.assertEqual(
+            mail.outbox[0].from_email,
+            settings.SERVER_EMAIL,
+        )
