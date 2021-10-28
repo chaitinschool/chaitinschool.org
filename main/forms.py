@@ -29,3 +29,12 @@ class SubmissionForm(forms.ModelForm):
             "outcome": forms.Textarea(attrs={"rows": 4}),
             "when": forms.TextInput,
         }
+
+
+class RequestForm(forms.ModelForm):
+    class Meta:
+        model = models.Request
+        fields = [
+            "email",
+            "topic",
+        ]

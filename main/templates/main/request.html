@@ -1,0 +1,19 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <h1>Request a workshop you’d like to attend</h1>
+
+    <p>
+        We’re interested in what people are interested to learn.
+    </p>
+
+    <form method="post" action="{% url 'request' %}">
+        {{ form.as_p }}
+
+        {% csrf_token %}
+
+        <input type="submit" value="submit">
+    </form>
+</article>
+{% endblock %}

@@ -58,3 +58,16 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Submission, SubmissionAdmin)
+
+
+class RequestAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "email",
+        "topic",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.Request, RequestAdmin)

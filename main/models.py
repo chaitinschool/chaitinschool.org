@@ -85,4 +85,13 @@ class Submission(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Request(models.Model):
+    """Request for a workshop."""
+
+    email = models.EmailField(blank=True, null=True)
+    topic = models.TextField()
+
     def __str__(self):
+        return self.topic[:30] + "..."
