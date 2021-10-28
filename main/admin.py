@@ -42,3 +42,19 @@ class WorkshopAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Workshop, WorkshopAdmin)
+
+
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "submitter",
+        "email",
+        "links",
+        "title",
+        "when",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.Submission, SubmissionAdmin)

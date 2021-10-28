@@ -1,7 +1,10 @@
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import mail_admins
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import FormView
 
 from main import forms, models
 
@@ -86,3 +89,26 @@ def unsubscribe_key(request, key):
     else:
         messages.info(request, "Invalid link.")
     return redirect("index")
+
+
+class SubmissionView(SuccessMessageMixin, FormView):
+    form_class = forms.SubmissionForm
+    template_name = "main/submit.html"
+    success_url = reverse_lazy("index")
+    success_message = "Thank you! We’ll be in touch :)"
+
+    def form_valid(self, form):
+        obj = form.save()
+        mail_admins(
+            f"New submission: {obj.submitter} <{obj.email}>",
+            f"**Title**\n\n{obj.title}"
+            + f"\n\n**Topic**\n\n{obj.topic}"
+            + f"\n\n**Audience**\n\n{obj.audience}\n"
+            + f"\n\n**Outcome**\n\n{obj.outcome}\n"
+            + f"\n\n**When**\n\n{obj.when}\n"
+            + f"\n\n**Links**\n\n{obj.links}\n",
+        )
+        return super().form_valid(form)
+    def form_valid(self, form):
+        obj = form.save()
+        mail_admins(

@@ -59,3 +59,30 @@ class Workshop(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Submission(models.Model):
+    """Workshop submission."""
+
+    submitter = models.CharField(max_length=300, verbose_name="What’s your name?")
+    email = models.EmailField(verbose_name="What’s your email?")
+    links = models.TextField(
+        blank=True, null=True, verbose_name="Any of website, blog, twitter, github"
+    )
+    title = models.CharField(max_length=300, verbose_name="Title of your workshop")
+    topic = models.TextField(blank=True, null=True, verbose_name="What is it about?")
+    audience = models.TextField(blank=True, null=True, verbose_name="Who is it for?")
+    outcome = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="What will the attendees have learned at the end of your workshop?",
+    )
+    when = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="When approximately are you thinking of presenting this?",
+    )
+
+    def __str__(self):
+        return self.title
+    def __str__(self):

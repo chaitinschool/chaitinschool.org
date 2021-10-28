@@ -4,6 +4,7 @@ from main import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("submit/", views.SubmissionView.as_view(), name="submit"),
     path(
         "workshops/<slug:slug>/",
         views.WorkshopDetailView.as_view(),
