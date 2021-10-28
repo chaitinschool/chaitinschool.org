@@ -1,5 +1,11 @@
 {% extends 'main/layout.html' %}
 
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="{{ object.title }} — Chaitin School">
+<meta property="og:description" content="{{ object.body|truncatewords:16 }}">
+{% endblock %}
+
 {% block content %}
 <article itemscope itemtype="http://schema.org/BlogPosting">
     <h1 itemprop="name headline">{{ object.title }}</h1>
