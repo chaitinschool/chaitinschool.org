@@ -29,3 +29,16 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Post, PostAdmin)
+
+
+class WorkshopAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "title",
+        "slug",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.Workshop, WorkshopAdmin)

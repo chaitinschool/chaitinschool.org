@@ -38,3 +38,24 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Workshop(models.Model):
+    title = models.CharField(max_length=300)
+    slug = models.CharField(max_length=300)
+    body = models.TextField()
+    transpired_at = models.DateField()
+
+    @property
+    def body_as_html(self):
+        return markdown.markdown(
+            self.body,
+            extensions=[
+                "markdown.extensions.fenced_code",
+                "markdown.extensions.tables",
+                "markdown.extensions.footnotes",
+            ],
+        )
+
+    def __str__(self):
+        return self.title
