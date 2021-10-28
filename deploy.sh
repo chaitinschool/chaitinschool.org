@@ -7,9 +7,14 @@ set -x
 git push origin master
 git push github master
 
-# make sure tests pass
 source venv/bin/activate
+
+# make sure linting checks pass
+make lint
+
+# make sure tests pass
 python manage.py test
+
 deactivate
 
 # pull and reload on server
