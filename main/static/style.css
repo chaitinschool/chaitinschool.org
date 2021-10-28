@@ -267,6 +267,7 @@ input[type="submit"]:hover {
 
 textarea {
     width: 100%;
+    box-sizing: border-box;
 }
 
 time {
