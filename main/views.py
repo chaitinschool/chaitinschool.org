@@ -54,8 +54,8 @@ def index(request):
         return render(request, "main/index.html")
 
 
-def workshops(request):
-    return render(request, "main/workshop.html")
+class WorkshopDetailView(DetailView):
+    model = models.Workshop
 
 
 class BlogView(ListView):
