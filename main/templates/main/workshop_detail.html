@@ -1,5 +1,11 @@
 {% extends 'main/layout.html' %}
 
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="Workshop: {{ object.title }} — Chaitin School">
+<meta property="og:description" content="We're interested in getting better at building reliable production-grade software.">
+{% endblock %}
+
 {% block content %}
 <article>
     <h1 style="font-size: 30px; font-weight: 700;">Workshop: {{ object.title }}</h1>
