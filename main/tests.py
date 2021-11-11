@@ -195,17 +195,17 @@ class SubmissionTestCase(TestCase):
         )
 
 
-class RequestTestCase(TestCase):
-    def test_request_get(self):
+class ProposalTestCase(TestCase):
+    def test_proposal_get(self):
         response = self.client.get(
-            reverse("request"),
+            reverse("proposal"),
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Request a workshop")
+        self.assertContains(response, "Proposal")
 
-    def test_request_post(self):
+    def test_proposal_post(self):
         response = self.client.post(
-            reverse("request"),
+            reverse("proposal"),
             {
                 "email": "gregory@example.com",
                 "topic": "I want to know about Kolmogorov complexity",
@@ -218,16 +218,16 @@ class RequestTestCase(TestCase):
         self.assertContains(response, "Thanks—we might be in touch.")
 
         # verify model
-        self.assertEqual(models.Request.objects.all().count(), 1)
-        self.assertEqual(models.Request.objects.all()[0].email, "gregory@example.com")
+        self.assertEqual(models.Proposal.objects.all().count(), 1)
+        self.assertEqual(models.Proposal.objects.all()[0].email, "gregory@example.com")
         self.assertEqual(
-            models.Request.objects.all()[0].topic,
+            models.Proposal.objects.all()[0].topic,
             "I want to know about Kolmogorov complexity",
         )
 
         # verify email message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn("New request: gregory@example.com", mail.outbox[0].subject)
+        self.assertIn("New proposal: gregory@example.com", mail.outbox[0].subject)
         self.assertIn("I want to know about Kolmogorov complexity", mail.outbox[0].body)
 
         # verify email headers

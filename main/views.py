@@ -111,16 +111,16 @@ class SubmissionView(SuccessMessageMixin, FormView):
         return super().form_valid(form)
 
 
-class RequestView(SuccessMessageMixin, FormView):
-    form_class = forms.RequestForm
-    template_name = "main/request.html"
+class ProposalView(SuccessMessageMixin, FormView):
+    form_class = forms.ProposalForm
+    template_name = "main/proposal.html"
     success_url = reverse_lazy("index")
     success_message = "Thanks—we might be in touch."
 
     def form_valid(self, form):
         obj = form.save()
         mail_admins(
-            f"New request: {obj.email}",
+            f"New proposal: {obj.email}",
             f"**Topic**\n\n{obj.topic}",
         )
         return super().form_valid(form)

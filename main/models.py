@@ -88,8 +88,8 @@ class Submission(models.Model):
         return self.title
 
 
-class Request(models.Model):
-    """Request for a workshop."""
+class Proposal(models.Model):
+    """Proposal for a workshop/meetup."""
 
     email = models.EmailField(blank=True, null=True)
     topic = models.TextField()

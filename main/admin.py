@@ -60,7 +60,7 @@ class SubmissionAdmin(admin.ModelAdmin):
 admin.site.register(models.Submission, SubmissionAdmin)
 
 
-class RequestAdmin(admin.ModelAdmin):
+class ProposalAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "email",
@@ -70,4 +70,4 @@ class RequestAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Request, RequestAdmin)
+admin.site.register(models.Proposal, ProposalAdmin)

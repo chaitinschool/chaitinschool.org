@@ -31,9 +31,9 @@ class SubmissionForm(forms.ModelForm):
         }
 
 
-class RequestForm(forms.ModelForm):
+class ProposalForm(forms.ModelForm):
     class Meta:
-        model = models.Request
+        model = models.Proposal
         fields = [
             "email",
             "topic",
