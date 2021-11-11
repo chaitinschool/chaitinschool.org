@@ -11,16 +11,12 @@ from main import forms, models
 
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
-        next_workshop = None
-        if models.Workshop.objects.exists():
-            next_workshop = (
-                models.Workshop.objects.all().order_by("-transpired_at").first()
-            )
         return render(
             request,
             "main/index.html",
             {
-                "next_workshop": next_workshop,
+                "workshop_list": models.Workshop.objects.all(),
+                "post_list": models.Post.objects.all().order_by("-published_at"),
             },
         )
 
