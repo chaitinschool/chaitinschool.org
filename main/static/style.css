@@ -181,10 +181,23 @@ template {
 
 /* general */
 :root {
+    --serif-font: 'EB Garamond', serif;
     --link-color: #1175e2;
     --ascent-color: #006cdf;
-    --serif-font: 'EB Garamond', serif;
-    --grey-color: #8d8d8d;
+    --grey-1-color: #8d8d8d;
+    --grey-2-color: #646464;
+    --grey-3-color: #353535;
+}
+
+/* dark mode
+ * create and/or override colors */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dark-mode-color: #212529;
+        --link-color: #3395ff;
+        --grey-1-color: #bdbdbd;
+        --grey-2-color: #888;
+    }
 }
 
 html,
@@ -192,6 +205,12 @@ body {
     font-family: var(--serif-font);
     font-size: 20px;
     line-height: 1.5;
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #fff;
+        background: var(--dark-mode-color);
+    }
 }
 
 p {
@@ -233,7 +252,7 @@ article {
 }
 
 aside {
-    border: 3px dashed var(--grey-color);
+    border: 3px dashed var(--grey-1-color);
     text-align: center;
     padding: 32px 0;
 }
@@ -253,6 +272,14 @@ input[type="email"] {
     margin-bottom: 8px;
     box-sizing: border-box;
 }
+@media (prefers-color-scheme: dark) {
+    input[type="text"],
+    input[type="email"] {
+        color: #fff;
+        background: var(--grey-3-color);
+        border: 2px solid var(--grey-2-color);
+    }
+}
 
 input[type="submit"] {
     display: block;
@@ -269,15 +296,22 @@ textarea {
     width: 100%;
     box-sizing: border-box;
 }
+@media (prefers-color-scheme: dark) {
+    textarea {
+        color: #fff;
+        background: var(--grey-3-color);
+        border: 2px solid var(--grey-2-color);
+    }
+}
 
 time {
-    color: var(--grey-color);
+    color: var(--grey-1-color);
 }
 
 .title {
     text-align: center;
     font-variant: small-caps;
-    color: var(--grey-color);
+    color: var(--grey-1-color);
 }
 
 .title:hover {
@@ -287,5 +321,8 @@ time {
 .subtitle {
     text-align: center;
     font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--grey-2-color);
+}
     margin-bottom: 24px;
 }
