@@ -6,15 +6,15 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Chaitin — London School of Software Engineering</title>
+        <title>Chaitin School of Software Engineering — Finsbury Park, London</title>
         <link rel="stylesheet" href="{% static 'style.css' %}">
 
         {% block meta %}
         <meta name="keywords" content="london, software engineering, school, learn, teach">
         <meta name="twitter:card" content="summary">
         <meta property="og:url" content="https://chaitinschool.org/">
-        <meta property="og:title" content="Chaitin — London School of Software Engineering">
-        <meta property="og:description" content="We're interested in getting better at building reliable production-grade software.">
+        <meta property="og:title" content="Chaitin School of Software Engineering — Finsbury Park, London">
+        <meta property="og:description" content="We are a community of people interested in software engineering as a fun activity of leisure time as well as a craft to become skilled at.">
         {% endblock %}
     </head>
 
@@ -39,15 +39,16 @@
         <main>
             <a href="{% url 'index' %}" class="title">
                 <h1>
-                    Chaitin
+                    Chaitin School
                 </h1>
             </a>
-            <div class="subtitle">London School of Software&nbsp;Engineering</div>
+            <div class="subtitle">of Software&nbsp;Engineering<br></div>
+            <div class="subsubtitle">Finsbury Park, London</div>
 
-            <nav>
+            <!--<nav>
                 <a href="{% url 'index' %}">Home</a>
                 | <a href="{% url 'blog' %}">Blog</a>
-            </nav>
+            </nav>-->
 
             {% block content %}
             {% endblock %}

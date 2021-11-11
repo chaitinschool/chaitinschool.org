@@ -229,7 +229,7 @@ a:hover {
 h1 {
     font-size: 48px;
     font-weight: 400;
-    margin: 32px 0 16px;
+    margin: 32px 0 0;
 }
 
 main {
@@ -324,5 +324,10 @@ time {
     margin-bottom: 8px;
     color: var(--grey-2-color);
 }
+
+.subsubtitle {
+    text-align: center;
+    font-size: 20px;
     margin-bottom: 24px;
+    color: var(--grey-1-color);
 }
