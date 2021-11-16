@@ -11,14 +11,30 @@ from main import forms, models
 
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
+        post_list = models.Post.objects.all().order_by("-published_at")
+        workshop_list = models.Workshop.objects.filter(
+            transpired_at__isnull=False
+        ).order_by("-transpired_at")
+
+        # show unpublished workshops if user is logged in
+        if request.user.is_authenticated:
+            # merge querysets
+            workshop_list = (
+                models.Workshop.objects.filter(transpired_at__isnull=True).order_by(
+                    "-transpired_at"
+                )
+                | workshop_list
+            )
+
+            # need to re-order merged queryset to keep unpublished ones at the top
+            workshop_list = workshop_list.order_by("transpired_at")
+
         return render(
             request,
             "main/index.html",
             {
-                "workshop_list": models.Workshop.objects.all().order_by(
-                    "-transpired_at"
-                ),
-                "post_list": models.Post.objects.all().order_by("-published_at"),
+                "workshop_list": workshop_list,
+                "post_list": post_list,
             },
         )
 

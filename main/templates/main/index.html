@@ -19,7 +19,7 @@
                 {{ w.title }}
             </a>
             @ <a href="{{ w.location_url }}">{{ w.location }}</a>
-            — {{ w.transpired_at }}
+            — {{ w.transpired_at|default_if_none:"unpublished" }}
         </li>
         {% endfor %}
     </p>
