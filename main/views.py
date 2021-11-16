@@ -15,7 +15,9 @@ def index(request):
             request,
             "main/index.html",
             {
-                "workshop_list": models.Workshop.objects.all(),
+                "workshop_list": models.Workshop.objects.all().order_by(
+                    "-transpired_at"
+                ),
                 "post_list": models.Post.objects.all().order_by("-published_at"),
             },
         )
