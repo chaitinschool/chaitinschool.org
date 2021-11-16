@@ -45,7 +45,7 @@ class Workshop(models.Model):
     title = models.CharField(max_length=300)
     slug = models.CharField(max_length=300)
     body = models.TextField()
-    transpired_at = models.DateField()
+    transpired_at = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=300)
     location_url = models.URLField()
 
