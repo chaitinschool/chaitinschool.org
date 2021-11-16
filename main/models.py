@@ -46,6 +46,8 @@ class Workshop(models.Model):
     slug = models.CharField(max_length=300)
     body = models.TextField()
     transpired_at = models.DateField()
+    location = models.CharField(max_length=300)
+    location_url = models.URLField()
 
     @property
     def body_as_html(self):
