@@ -16,9 +16,9 @@
         {% for w in workshop_list %}
         <li>
             <a href="{% url 'workshop_detail' w.slug %}">
-                {{ w.title }}
+                {{ w.title }} — {{ w.transpired_at }}
             </a>
-            @ <a href="https://space4.tech/">SPACE4</a>
+            @ <a href="{{ w.location_url }}">{{ w.location }}</a>
         </li>
         {% endfor %}
     </p>
