@@ -1,12 +1,14 @@
 # python
 *.pyc
 venv/
+.direnv/
 
 # database
 db.sqlite3
 
 # environment
 .envrc
+default.nix
 
 # generated static
 static/
