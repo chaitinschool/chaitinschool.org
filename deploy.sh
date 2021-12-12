@@ -7,15 +7,14 @@ set -x
 git push origin master
 git push github master
 
-source venv/bin/activate
-
 # make sure linting checks pass
 make lint
 
+# static
+python manage.py collectstatic --noinput
+
 # make sure tests pass
 python manage.py test
-
-deactivate
 
 # pull and reload on server
 ssh root@95.217.223.96 'cd /opt/apps/chaitin \

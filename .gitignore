@@ -1,6 +1,5 @@
 # python
 *.pyc
-venv/
 .direnv/
 
 # database
