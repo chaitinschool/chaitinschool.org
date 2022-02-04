@@ -10,7 +10,7 @@ db.sqlite3
 default.nix
 
 # generated static
-static/
+/static/
 
 # testing
 .coverage
