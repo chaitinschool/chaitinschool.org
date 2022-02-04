@@ -27,7 +27,7 @@ def index(request):
             )
 
             # need to re-order merged queryset to keep unpublished ones at the top
-            workshop_list = workshop_list.order_by("transpired_at")
+            workshop_list = workshop_list.order_by("-transpired_at")
 
         return render(
             request,
