@@ -1,6 +1,6 @@
 # chaitinschool.org
 
-London School of Software Engineering.
+Chaitin School of Software Engineering.
 
 ## Development
 
