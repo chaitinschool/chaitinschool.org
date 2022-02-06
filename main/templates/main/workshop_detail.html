@@ -12,9 +12,11 @@
 {% block content %}
 <article>
     <h1 style="font-size: 30px; font-weight: 700;">{{ object.title }}</h1>
+    {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
         <a href="{% url 'admin:main_workshop_change' object.id %}">Edit workshop</a>
     </p>
+    {% endif %}
 
     <div>
         {{ object.body_as_html|safe }}
