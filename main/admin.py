@@ -71,3 +71,17 @@ class ProposalAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Proposal, ProposalAdmin)
+
+
+class EmailRecordAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "email",
+        "subscription",
+        "subject",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.EmailRecord, EmailRecordAdmin)
