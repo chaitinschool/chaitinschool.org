@@ -34,6 +34,9 @@ ALLOWED_HOSTS = [
 
 ADMINS = [("Omega", "x@chaitinschool.org")]
 
+PROJECT_NAME = "Chaitin School"
+PROJECT_NAME_SLUG = "chaitin-school"
+PROJECT_URL = "chaitinschool.org"
 CANONICAL_HOST = "chaitinschool.org"
 if DEBUG:
     CANONICAL_HOST = "localhost:8000"
@@ -144,6 +147,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.postmarkapp.com"
+EMAIL_HOST_BROADCASTS = "smtp-broadcasts.postmarkapp.com"  # not django native
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
@@ -152,3 +156,7 @@ DEFAULT_FROM_EMAIL = "Chaitin School <x@chaitinschool.org>"
 EMAIL_FROM_HOST = "chaitinschool.org"
 SERVER_EMAIL = "Gregory <server@chaitinschool.org>"
 EMAIL_SUBJECT_PREFIX = "[chaitin] "
+
+# extra options for broadcasts
+EMAIL_BROADCAST_PREVIEW = "zf@sirodoht.com"
+EMAIL_POSTMARK_HEADER = "broadcast"
