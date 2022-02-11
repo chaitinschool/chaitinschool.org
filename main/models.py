@@ -4,6 +4,7 @@ import markdown
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class Subscription(models.Model):
@@ -98,3 +99,20 @@ class Proposal(models.Model):
 
     def __str__(self):
         return self.topic[:30] + "..."
+
+
+class EmailRecord(models.Model):
+    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True)
+    subject = models.CharField(max_length=300)
+    body = models.TextField()
+    sent_at = models.DateTimeField(default=timezone.now, null=True)
+
+    # email literate field in case subscription foreign key
+    # is null which means user has unsubscribed
+    email = models.EmailField()
+
+    class Meta:
+        ordering = ["-sent_at"]
+
+    def __str__(self):
+        return f"Email record: {self.subject}"
