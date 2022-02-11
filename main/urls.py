@@ -14,6 +14,11 @@ urlpatterns = [
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
     path(
+        "broadcast/",
+        views.Broadcast.as_view(),
+        name="broadcast",
+    ),
+    path(
         "unsubscribe/<uuid:key>/",
         views.unsubscribe_key,
         name="unsubscribe_key",

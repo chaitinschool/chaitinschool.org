@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block content %}
+<article>
+    <h1>Broadcast</h1>
+    <form method="post">
+        {{ form.as_p }}
+
+        <p>
+            Preview dry run receipient:
+        </p>
+        <ul>
+            <li>{{ dry_run_email }}</li>
+        </ul>
+
+        <p>
+            List of receipients:
+        </p>
+        <ul>
+            {% for s in subscriptions_list %}
+            <li>{{ s.email }}</li>
+            {% endfor %}
+        </ul>
+
+        {% csrf_token %}
+        <input type="submit" value="Send {{ subscriptions_count }} emails now!">
+    </form>
+</article>
+{% endblock %}
