@@ -1,11 +1,15 @@
+import uuid
 from datetime import datetime
+from unittest.mock import patch
 
 from django.conf import settings
+from django.contrib.auth import models as auth_models
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
-from main import models
+from main import models, views
 
 
 class StaticTestCase(TestCase):
@@ -18,7 +22,7 @@ class StaticTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
@@ -32,7 +36,7 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
         )
 
     def test_workshops_get(self):
@@ -95,6 +99,25 @@ class UnsubscribeTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "tester@example.com deleted from mailing list.")
         self.assertFalse(
+            models.Subscription.objects.filter(id=self.subscription.id).exists()
+        )
+
+
+class UnsubscribeInvalidTestCase(TestCase):
+    def setUp(self):
+        self.subscription = models.Subscription.objects.create(
+            email="tester@example.com"
+        )
+
+    def test_unsubscribe_invalid_get(self):
+        random_uuid = str(uuid.uuid4())
+        response = self.client.get(
+            reverse("unsubscribe_key", args=(random_uuid,)),
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Invalid link")
+        self.assertTrue(
             models.Subscription.objects.filter(id=self.subscription.id).exists()
         )
 
@@ -236,3 +259,148 @@ class ProposalTestCase(TestCase):
             mail.outbox[0].from_email,
             settings.SERVER_EMAIL,
         )
+
+
+class BroadcastAnonymousTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            slug="workshop-1",
+            title="Django Workshop",
+            scheduled_at=timezone.now(),
+            location_name="Newspeak House",
+            location_address="E2",
+            location_url="https://g.co/",
+        )
+        self.subscription = models.Subscription.objects.create(
+            email="tester@example.com"
+        )
+
+    def test_broadcast_get_redir(self):
+        response = self.client.get(
+            reverse("broadcast"),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, "/accounts/login/?next=/broadcast/", target_status_code=404
+        )
+
+
+class BroadcastTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            slug="workshop-1",
+            title="Django Workshop",
+            scheduled_at=timezone.now(),
+            location_name="Newspeak House",
+            location_address="E2",
+            location_url="https://g.co/",
+        )
+        self.subscription = models.Subscription.objects.create(
+            email="tester@example.com"
+        )
+        self.user = auth_models.User.objects.create(username="alice")
+        self.client.force_login(self.user)
+
+    def test_broadcast_get(self):
+        response = self.client.get(
+            reverse("broadcast"),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Broadcast")
+
+    def test_broadcast_dry_run_post(self):
+        with patch.object(
+            # Django default test runner overrides SMTP EmailBackend with locmem,
+            # but because we re-import the SMTP backend in
+            # views.mail.get_connection, we need to mock it here too.
+            views.mail,
+            "get_connection",
+            return_value=mail.get_connection(
+                "django.core.mail.backends.locmem.EmailBackend"
+            ),
+        ):
+            response = self.client.post(
+                reverse("broadcast"),
+                {
+                    "subject": "Workshop Announcement",
+                    "body": "Hey! We're having a workshop :D",
+                    "dry_run": True,
+                    "ics_attachment": "workshop-1",
+                },
+                follow=True,
+            )
+
+            # verify request
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "1 emails sent.")
+
+            # verify model
+            self.assertEqual(models.EmailRecord.objects.all().count(), 1)
+            self.assertEqual(
+                models.EmailRecord.objects.all()[0].email,
+                settings.EMAIL_BROADCAST_PREVIEW,
+            )
+            self.assertEqual(
+                models.EmailRecord.objects.all()[0].subject,
+                "Workshop Announcement",
+            )
+            self.assertIn(
+                "Hey! We're having a workshop :D",
+                models.EmailRecord.objects.all()[0].body,
+            )
+            self.assertIsNone(
+                models.EmailRecord.objects.all()[0].subscription,
+            )
+            self.assertNotEqual(
+                models.EmailRecord.objects.all()[0].sent_at,
+                None,
+            )
+
+    def test_broadcast_post(self):
+        with patch.object(
+            # Django default test runner overrides SMTP EmailBackend with locmem,
+            # but because we re-import the SMTP backend in
+            # views.mail.get_connection, we need to mock it here too.
+            views.mail,
+            "get_connection",
+            return_value=mail.get_connection(
+                "django.core.mail.backends.locmem.EmailBackend"
+            ),
+        ):
+            response = self.client.post(
+                reverse("broadcast"),
+                {
+                    "subject": "Workshop Announcement",
+                    "body": "Hey! We're having a workshop :D",
+                    "dry_run": False,
+                    "ics_attachment": "workshop-1",
+                },
+                follow=True,
+            )
+
+            # verify request
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "1 emails sent.")
+
+            # verify model
+            self.assertEqual(models.EmailRecord.objects.all().count(), 1)
+            self.assertEqual(
+                models.EmailRecord.objects.all()[0].email,
+                "tester@example.com",
+            )
+            self.assertEqual(
+                models.EmailRecord.objects.all()[0].subject,
+                "Workshop Announcement",
+            )
+            self.assertIn(
+                "Hey! We're having a workshop :D",
+                models.EmailRecord.objects.all()[0].body,
+            )
+            self.assertEqual(
+                models.EmailRecord.objects.all()[0].subscription,
+                self.subscription,
+            )
+            self.assertNotEqual(
+                models.EmailRecord.objects.all()[0].sent_at,
+                None,
+            )
