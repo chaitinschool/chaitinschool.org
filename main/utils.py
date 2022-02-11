@@ -46,7 +46,7 @@ UID:{begin_timestamp}@{settings.PROJECT_URL}
 DTSTART;TZID=Europe/London:{begin_timestamp}
 DTEND;TZID=Europe/London:{finish_timestamp}
 SUMMARY:{settings.PROJECT_NAME}: {workshop.title}
-DESCRIPTION:{get_protocol()}//{settings.PROJECT_URL}/{workshop.slug}/
+DESCRIPTION:{get_protocol()}//{settings.PROJECT_URL}/workshops/{workshop.slug}/
 LOCATION:{workshop.location_name}\\, {location_address_escaped}
 URL;VALUE=URI:{workshop.location_url}
 LAST-MODIFIED:{begin_timestamp}Z
