@@ -18,7 +18,7 @@ class StaticTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            transpired_at=datetime(2020, 2, 18),
+            scheduled_at=datetime(2020, 2, 18),
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
@@ -32,7 +32,7 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            transpired_at=datetime(2020, 2, 18),
+            scheduled_at=datetime(2020, 2, 18),
         )
 
     def test_workshops_get(self):

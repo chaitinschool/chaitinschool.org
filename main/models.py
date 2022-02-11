@@ -46,8 +46,9 @@ class Workshop(models.Model):
     title = models.CharField(max_length=300)
     slug = models.CharField(max_length=300)
     body = models.TextField()
-    transpired_at = models.DateField(null=True, blank=True)
-    location = models.CharField(max_length=300)
+    scheduled_at = models.DateTimeField(null=True, blank=True)
+    location_name = models.CharField(max_length=300)
+    location_address = models.CharField(max_length=300)
     location_url = models.URLField()
 
     @property

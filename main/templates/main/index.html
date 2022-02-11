@@ -24,8 +24,8 @@
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
-            <br>@ <a href="{{ w.location_url }}">{{ w.location }}</a>
-            — {{ w.transpired_at|default_if_none:"unpublished" }}
+            <br>@ <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>
+            — {{ w.scheduled_at|default_if_none:"unpublished" }}
         </li>
         {% endfor %}
     </ul>
