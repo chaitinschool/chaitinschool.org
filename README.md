@@ -41,7 +41,7 @@ python manage.py runserver
 Using the Django test runner:
 
 ```sh
-python manage.py test
+make test
 ```
 
 For coverage, run:
