@@ -98,6 +98,10 @@ class PostView(DetailView):
     template_name = "main/post.html"
 
 
+def subscribe(request):
+    return render(request, "main/subscribe.html")
+
+
 def unsubscribe_key(request, key):
     if models.Subscription.objects.filter(unsubscribe_key=key).exists():
         subscription = models.Subscription.objects.get(unsubscribe_key=key)

@@ -1,0 +1,14 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <h1>Subscribe</h1>
+
+    <form method="post" action="{% url 'index' %}">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        {% csrf_token %}
+        <input type="submit" value="subscribe">
+    </form>
+</article>
+{% endblock %}

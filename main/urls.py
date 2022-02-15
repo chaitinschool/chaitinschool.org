@@ -7,6 +7,7 @@ urlpatterns = [
     path("submit/", views.SubmissionView.as_view(), name="submit"),
     path("feedback/", views.FeedbackView.as_view(), name="feedback"),
     path("proposal/", views.ProposalView.as_view(), name="proposal"),
+    path("subscribe/", views.subscribe, name="subscribe"),
     path(
         "workshops/<slug:slug>/",
         views.WorkshopDetailView.as_view(),
