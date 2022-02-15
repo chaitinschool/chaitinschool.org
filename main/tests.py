@@ -48,9 +48,7 @@ class WorkshopTestCase(TestCase):
 
 class SubscriptionTestCase(TestCase):
     def test_subscribe_get(self):
-        response = self.client.get(
-            reverse("index"),
-        )
+        response = self.client.get(reverse("subscribe"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Subscribe")
 
@@ -209,6 +207,47 @@ class SubmissionTestCase(TestCase):
         self.assertIn("Fun", mail.outbox[0].body)
         self.assertIn("Tomorrow", mail.outbox[0].body)
         self.assertIn("http://gregory.chaitin/", mail.outbox[0].body)
+
+        # verify email headers
+        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
+        self.assertEqual(
+            mail.outbox[0].from_email,
+            settings.SERVER_EMAIL,
+        )
+
+
+class FeedbackTestCase(TestCase):
+    def test_feedback_get(self):
+        response = self.client.get(
+            reverse("feedback"),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Feedback")
+
+    def test_feedback_post(self):
+        response = self.client.post(
+            reverse("feedback"),
+            {
+                "comment": "That was medium",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Thank")
+
+        # verify model
+        self.assertEqual(models.Feedback.objects.all().count(), 1)
+        self.assertEqual(
+            models.Feedback.objects.all()[0].comment,
+            "That was medium",
+        )
+
+        # verify email message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("New feedback", mail.outbox[0].subject)
+        self.assertIn("That was medium", mail.outbox[0].body)
 
         # verify email headers
         self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
