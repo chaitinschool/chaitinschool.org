@@ -60,6 +60,18 @@ class SubmissionAdmin(admin.ModelAdmin):
 admin.site.register(models.Submission, SubmissionAdmin)
 
 
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "comment",
+    )
+
+    ordering = ["-id"]
+
+
+admin.site.register(models.Feedback, FeedbackAdmin)
+
+
 class ProposalAdmin(admin.ModelAdmin):
     list_display = (
         "id",
