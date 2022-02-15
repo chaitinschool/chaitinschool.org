@@ -76,7 +76,7 @@ def index(request):
         submitter_email = form.cleaned_data["email"]
         mail_admins(
             f"New subscription: {submitter_email}",
-            "Someone new has subscribed to the {settings.PROJECT_NAME} list. Hooray!\n"
+            f"Someone new has subscribed to the {settings.PROJECT_NAME} list. Hooray!\n"
             + f"\nIt's {submitter_email}\n",
         )
 
