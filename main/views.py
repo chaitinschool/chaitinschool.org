@@ -76,7 +76,7 @@ def index(request):
         submitter_email = form.cleaned_data["email"]
         mail_admins(
             f"New subscription: {submitter_email}",
-            "Someone new has subscribed to the {settings.CANONICAL_PROJECT_NAME} list. Hooray!\n"
+            "Someone new has subscribed to the {settings.PROJECT_NAME} list. Hooray!\n"
             + f"\nIt's {submitter_email}\n",
         )
 
@@ -125,6 +125,21 @@ class SubmissionView(SuccessMessageMixin, FormView):
             + f"\n\n**Outcome**\n\n{obj.outcome}\n"
             + f"\n\n**When**\n\n{obj.when}\n"
             + f"\n\n**Links**\n\n{obj.links}\n",
+        )
+        return super().form_valid(form)
+
+
+class FeedbackView(SuccessMessageMixin, FormView):
+    form_class = forms.FeedbackForm
+    template_name = "main/feedback.html"
+    success_url = reverse_lazy("index")
+    success_message = "Thank you 🙏"
+
+    def form_valid(self, form):
+        obj = form.save()
+        mail_admins(
+            f"New feedback: {obj.id}",
+            f"**Comment**\n\n{obj.comment}",
         )
         return super().form_valid(form)
 

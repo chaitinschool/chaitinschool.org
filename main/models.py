@@ -92,6 +92,13 @@ class Submission(models.Model):
         return self.title
 
 
+class Feedback(models.Model):
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment[:30] + "..."
+
+
 class Proposal(models.Model):
     """Proposal for a workshop/meetup."""
 

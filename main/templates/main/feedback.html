@@ -1,0 +1,17 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <h1>Feedback</h1>
+
+    <p>
+        We are open to feedback. Feel free to voice any comments and/or reflections.
+    </p>
+
+    <form method="post" action="{% url 'feedback' %}">
+        <textarea name="comment" cols="40" rows="10" required id="id_comment"></textarea>
+        {% csrf_token %}
+        <input type="submit" value="submit">
+    </form>
+</article>
+{% endblock %}

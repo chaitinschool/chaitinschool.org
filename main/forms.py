@@ -31,6 +31,14 @@ class SubmissionForm(forms.ModelForm):
         }
 
 
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = models.Feedback
+        fields = [
+            "comment",
+        ]
+
+
 class ProposalForm(forms.ModelForm):
     class Meta:
         model = models.Proposal
