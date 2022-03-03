@@ -16,17 +16,54 @@
     </form>
 </article>
 
+{% if request.user.is_authenticated %}
 <article>
-    <strong>Workshops – Meetups</strong>
+    <strong>Draft Workshops</strong>
     <ul>
         {% for w in workshop_list %}
+        {% if w.scheduled_at is None %}
         <li>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
             <br>@ <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>
-            — {{ w.scheduled_at|default_if_none:"unpublished" }}
+            — unpublished
         </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+<article>
+    <strong>Upcoming Workshops – Meetups</strong>
+    {% for w in workshop_list %}
+    {% if w.is_future %}
+    <p>
+        <a href="{% url 'workshop_detail' w.slug %}">
+            {{ w.title }}
+        </a>
+        <br>
+        → {{ w.scheduled_at }}
+        at <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>:
+    </p>
+    {% endif %}
+    {% endfor %}
+</article>
+
+<article>
+    <strong>Past Events</strong>
+    <ul>
+        {% for w in workshop_list %}
+        {% if w.scheduled_at and not w.is_future %}
+        <li>
+            <a href="{% url 'workshop_detail' w.slug %}">
+                {{ w.title }}
+            </a>
+            <br>@ <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>
+            — {{ w.scheduled_at }}
+        </li>
+        {% endif %}
         {% endfor %}
     </ul>
 </article>

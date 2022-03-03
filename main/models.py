@@ -52,6 +52,12 @@ class Workshop(models.Model):
     location_url = models.URLField()
 
     @property
+    def is_future(self):
+        if not self.scheduled_at:
+            return False
+        return timezone.now().date() <= self.scheduled_at.date()
+
+    @property
     def body_as_html(self):
         return markdown.markdown(
             self.body,
