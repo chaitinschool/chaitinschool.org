@@ -1,7 +1,16 @@
 {% extends 'main/layout.html' %}
 
-{% block content %}
+{% load static %}
 
+{% block logo %}
+<div class="logo">
+    <a href="{% url 'index' %}">
+        <img src="{% static 'logo.svg' %}">
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
 <article>
     <strong>About</strong> <small>(in one sentence)</small>
     <p>

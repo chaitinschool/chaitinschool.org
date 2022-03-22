@@ -308,6 +308,21 @@ time {
     color: var(--grey-1-color);
 }
 
+.logo {
+    width: 128px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+}
+
+.logo a {
+    opacity: 0.8;
+}
+
+.logo a:hover {
+    opacity: 1;
+}
+
 .title {
     text-align: center;
     font-variant: small-caps;
@@ -316,6 +331,10 @@ time {
 
 .title:hover {
     text-decoration: none;
+}
+
+.title h1 {
+    margin: 16px 0 0;
 }
 
 .subtitle {
