@@ -233,10 +233,10 @@ h1 {
 }
 
 main {
-    max-width: 560px;
+    max-width: 640px;
     margin: 0 auto;
 }
-@media (max-width: 560px) {
+@media (max-width: 640px) {
     main {
         padding: 0 8px;
     }
@@ -349,4 +349,22 @@ time {
     font-size: 20px;
     margin-bottom: 24px;
     color: var(--grey-1-color);
+}
+
+.events {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.events li {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.events li:nth-child(odd) {
+    background: rgba(255, 0, 0, 0.075);
+}
+
+.events code {
+    font-size: 16px;
 }

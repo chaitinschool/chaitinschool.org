@@ -28,51 +28,47 @@
 {% if request.user.is_authenticated %}
 <article>
     <strong>Draft Workshops</strong>
-    <ul>
-        {% for w in workshop_list %}
-        {% if w.scheduled_at is None %}
+    | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
+
+    <ul class="events">
+        {% for w in draft_workshop_list %}
         <li>
+            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
-            <br>@ <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>
-            — unpublished
         </li>
-        {% endif %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+{% if future_workshop_list %}
+<article>
+    <strong>Upcoming Workshops – Meetups</strong>
+    <ul class="events">
+        {% for w in future_workshop_list %}
+        <li>
+            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
+            <a href="{% url 'workshop_detail' w.slug %}">
+                {{ w.title }}
+            </a>
+        </li>
         {% endfor %}
     </ul>
 </article>
 {% endif %}
 
 <article>
-    <strong>Upcoming Workshops – Meetups</strong>
-    {% for w in workshop_list %}
-    {% if w.is_future %}
-    <p>
-        <a href="{% url 'workshop_detail' w.slug %}">
-            {{ w.title }}
-        </a>
-        <br>
-        → {{ w.scheduled_at }}
-        at <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>:
-    </p>
-    {% endif %}
-    {% endfor %}
-</article>
-
-<article>
     <strong>Past Events</strong>
-    <ul>
-        {% for w in workshop_list %}
-        {% if w.scheduled_at and not w.is_future %}
+    <ul class="events">
+        {% for w in past_workshop_list %}
         <li>
+            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
-            <br>@ <a href="{{ w.location_url }}" title="{{ w.location_address }}">{{ w.location_name }}</a>
-            — {{ w.scheduled_at }}
         </li>
-        {% endif %}
         {% endfor %}
     </ul>
 </article>
@@ -123,17 +119,36 @@
     </form>
 </article>
 
+{% if request.user.is_authenticated %}
 <article>
     <strong>Blog</strong>
+    | <a href="{% url 'admin:main_post_add' %}">Add new</a>
+
     <ul>
-    {% for post in post_list %}
-    <li>
-        <a href="{% url 'post' post.slug %}">{{ post }}</a>
-        — {{ post.published_at|date:'F j, Y' }}
-    </li>
+        {% for post in post_list %}
+        <li>
+            <a href="{% url 'post' post.slug %}">{{ post }}</a>
+            {% if post.published_at %} — {{ post.published_at|date:'F j, Y' }} {% endif %}
+            | <a href="{% url 'admin:main_post_change' post.id %}">Edit</a>
+        </li>
     {% endfor %}
     </ul>
 </article>
+{% else %}
+<article>
+    <strong>Blog</strong>
+    <ul>
+        {% for post in post_list %}
+        {% if post.is_published %}
+        <li>
+            <a href="{% url 'post' post.slug %}">{{ post }}</a>
+            — {{ post.published_at|date:'F j, Y' }}
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
 
 <article>
     <strong>Chat</strong>
