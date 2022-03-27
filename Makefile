@@ -3,13 +3,15 @@
 all: format lint cov
 
 format:
-	black --exclude '/(\.git|\.direnv)/' .
+	@echo Formating Python code
+	black --exclude '/(\.direnv|\.pyenv)/' .
 	isort --profile black .
 
 lint:
-	flake8 --exclude=.git/,.direnv/ --ignore=E203,E501,W503
-	isort --check-only --profile black .
-	black --check --exclude '/(\.git|\.direnv)/' .
+	@echo Linting Python code
+	flake8 --exclude=.pyenv/,.direnv/ --ignore=E203,E501,W503
+	isort --check-only --skip-glob .pyenv --profile black .
+	black --check --exclude '/(\.direnv|\.pyenv)/' .
 
 test:
 	python -Wall manage.py test
