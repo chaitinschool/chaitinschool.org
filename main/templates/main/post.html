@@ -13,6 +13,7 @@
     <time datetime="{{ object.published_at|date:'Y-m-d' }}" itemprop="datePublished">
         {{ object.published_at|date:'F j, Y' }}
     </time>
+    | <a href="{% url 'admin:main_post_change' object.id %}">Edit post</a>
 
     <div itemprop="articleBody">
         {{ object.body_as_html|safe }}
