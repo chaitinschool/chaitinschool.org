@@ -26,7 +26,7 @@ class StaticTestCase(TestCase):
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Workshops")
+        self.assertContains(response, "About")
         self.assertContains(response, "Django")
 
 
