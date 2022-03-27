@@ -15,5 +15,5 @@ test:
 	python -Wall manage.py test
 
 cov:
-	coverage run --source='.' --omit '.direnv/*' manage.py test
+	coverage run --source='.' --omit '.pyenv/*' manage.py test
 	coverage report -m

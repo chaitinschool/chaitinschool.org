@@ -1,13 +1,13 @@
 # python
 *.pyc
-.direnv/
 
 # database
 db.sqlite3
 
 # environment
 .envrc
-default.nix
+.direnv/
+.pyenv/
 
 # generated static
 /static/
