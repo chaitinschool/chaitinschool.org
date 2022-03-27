@@ -8,6 +8,7 @@ db.sqlite3
 .envrc
 .direnv/
 .pyenv/
+venv/
 
 # generated static
 /static/
