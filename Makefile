@@ -5,7 +5,7 @@ all: format lint cov
 format:
 	@echo Formating Python code
 	black --exclude '/(\.direnv|\.pyenv)/' .
-	isort --profile black .
+	isort --skip-glob .pyenv --profile black .
 
 lint:
 	@echo Linting Python code
