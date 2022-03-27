@@ -25,7 +25,14 @@ class Post(models.Model):
     slug = models.CharField(max_length=300)
     byline = models.CharField(max_length=300)
     body = models.TextField()
-    published_at = models.DateField()
+    published_at = models.DateField(null=True, blank=True)
+
+    @property
+    def is_published(self):
+        today = timezone.now().date()
+        if self.published_at and self.published_at.date() <= today:
+            return True
+        return False
 
     @property
     def body_as_html(self):
