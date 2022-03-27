@@ -30,7 +30,7 @@ class Post(models.Model):
     @property
     def is_published(self):
         today = timezone.now().date()
-        if self.published_at and self.published_at.date() <= today:
+        if self.published_at and self.published_at <= today:
             return True
         return False
 
