@@ -16,28 +16,27 @@ from main import forms, models, utils
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
         post_list = models.Post.objects.all().order_by("-published_at")
-        workshop_list = models.Workshop.objects.filter(
-            scheduled_at__isnull=False
+
+        today = timezone.now().date()
+        past_workshop_list = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=False,
+            scheduled_at__date__lt=today,
         ).order_by("-scheduled_at")
-
-        # show unpublished workshops if user is logged in
-        if request.user.is_authenticated:
-            # merge querysets
-            workshop_list = (
-                models.Workshop.objects.filter(scheduled_at__isnull=True).order_by(
-                    "-scheduled_at"
-                )
-                | workshop_list
-            )
-
-            # need to re-order merged queryset to keep unpublished ones at the top
-            workshop_list = workshop_list.order_by("-scheduled_at")
+        future_workshop_list = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=False,
+            scheduled_at__date__gte=today,
+        ).order_by("-scheduled_at")
+        draft_workshop_list = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=True
+        ).order_by("-title")
 
         return render(
             request,
             "main/index.html",
             {
-                "workshop_list": workshop_list,
+                "past_workshop_list": past_workshop_list,
+                "future_workshop_list": future_workshop_list,
+                "draft_workshop_list": draft_workshop_list,
                 "post_list": post_list,
             },
         )
@@ -89,7 +88,7 @@ class WorkshopDetailView(DetailView):
 
 
 class BlogView(ListView):
-    model = models.Post
+    queryset = models.Post.objects.filter(published_at__isnull=False)
     template_name = "main/blog.html"
 
 
