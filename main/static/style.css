@@ -315,6 +315,10 @@ code {
     background: var(--light-grey-color);
 }
 
+pre {
+    background: var(--light-grey-color);
+}
+
 .logo {
     width: 128px;
     margin-left: auto;
