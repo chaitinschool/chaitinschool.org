@@ -184,6 +184,7 @@ template {
     --serif-font: 'EB Garamond', serif;
     --link-color: #1175e2;
     --ascent-color: #006cdf;
+    --light-grey-color: #f2f2f2;
     --grey-1-color: #8d8d8d;
     --grey-2-color: #646464;
     --grey-3-color: #353535;
@@ -195,6 +196,7 @@ template {
     :root {
         --dark-mode-color: #212529;
         --link-color: #3395ff;
+        --light-grey-color: #484848;
         --grey-1-color: #bdbdbd;
         --grey-2-color: #888;
     }
@@ -306,6 +308,11 @@ textarea {
 
 time {
     color: var(--grey-1-color);
+}
+
+code {
+    font-size: 16px;
+    background: var(--light-grey-color);
 }
 
 .logo {
