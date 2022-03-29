@@ -10,9 +10,14 @@
 <article itemscope itemtype="http://schema.org/BlogPosting">
     <h1 itemprop="name headline">{{ object.title }}</h1>
 
+    {% if post.is_published %}
     <time datetime="{{ object.published_at|date:'Y-m-d' }}" itemprop="datePublished">
         {{ object.published_at|date:'F j, Y' }}
     </time>
+    {% else %}
+    <small style="color: grey; font-family: sans-serif;">NOT PUBLISHED</small>
+    {% endif %}
+
     {% if request.user.is_authenticated %}
     | <a href="{% url 'admin:main_post_change' object.id %}">Edit post</a>
     {% endif %}
