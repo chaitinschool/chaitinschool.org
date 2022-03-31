@@ -319,6 +319,12 @@ pre {
     background: var(--light-grey-color);
 }
 
+blockquote {
+    border-left: 12px solid var(--light-grey-color);
+    padding-left: 8px;
+    margin-left: 0;
+}
+
 .logo {
     width: 128px;
     margin-left: auto;
