@@ -58,6 +58,7 @@ class SubscriptionTestCase(TestCase):
             {
                 "email": "tester@example.com",
             },
+            follow=True,
         )
 
         # verify request

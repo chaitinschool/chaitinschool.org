@@ -44,24 +44,17 @@ def index(request):
     elif request.method == "POST":
         form = forms.SubscriptionForm(request.POST)
 
-        # if not valid
+        # if post data not valid
         if not form.is_valid():
             if "email" in form.errors and form.errors["email"] == [
                 "Subscription with this Email already exists."
             ]:
                 # if case of already subscribed
                 messages.info(request, "Email already subscribed :)")
-                return render(
-                    request,
-                    "main/index.html",
-                )
-
+                return redirect("index")
             else:
                 # all other cases
-                messages.error(
-                    request,
-                    "Well, that didn't work :/",
-                )
+                messages.error(request, "Something is wrong.")
                 return render(
                     request,
                     "main/index.html",
@@ -80,7 +73,7 @@ def index(request):
         )
 
         messages.success(request, "Thanks! Email saved—we’ll be in touch soon!")
-        return render(request, "main/index.html")
+        return redirect("index")
 
 
 class WorkshopDetailView(DetailView):

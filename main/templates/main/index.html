@@ -19,7 +19,7 @@
     </p>
     <form method="post" action="{% url 'index' %}">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" required>
         {% csrf_token %}
         <input type="submit" value="subscribe">
     </form>
@@ -113,7 +113,7 @@
     <strong>Subscribe</strong>
     <form method="post" action="{% url 'index' %}">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" required>
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
