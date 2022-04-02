@@ -75,6 +75,10 @@ class Workshop(models.Model):
             ],
         )
 
+    def get_absolute_url(self):
+        path = reverse("workshop", kwargs={"slug": self.slug})
+        return f"//{settings.CANONICAL_HOST}{path}"
+
     def __str__(self):
         return self.title
 
@@ -128,7 +132,7 @@ class EmailRecord(models.Model):
     body = models.TextField()
     sent_at = models.DateTimeField(default=timezone.now, null=True)
 
-    # email literate field in case subscription foreign key
+    # email literal field in case subscription foreign key
     # is null which means user has unsubscribed
     email = models.EmailField()
 
@@ -137,3 +141,17 @@ class EmailRecord(models.Model):
 
     def __str__(self):
         return f"Email record: {self.subject}"
+
+
+class Attendance(models.Model):
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
+    email = models.EmailField()
+    created_at = models.DateTimeField(default=timezone.now)
+    rsvp = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["-workshop"]
+        unique_together = [["workshop", "email"]]
+
+    def __str__(self):
+        return f"RSVP: {self.email} for {self.workshop.title}"

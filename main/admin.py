@@ -3,6 +3,7 @@ from django.contrib import admin
 from main import models
 
 
+@admin.register(models.Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -14,9 +15,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Subscription, SubscriptionAdmin)
-
-
+@admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -28,9 +27,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Post, PostAdmin)
-
-
+@admin.register(models.Workshop)
 class WorkshopAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -41,9 +38,7 @@ class WorkshopAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Workshop, WorkshopAdmin)
-
-
+@admin.register(models.Submission)
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -57,9 +52,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Submission, SubmissionAdmin)
-
-
+@admin.register(models.Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -69,9 +62,7 @@ class FeedbackAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Feedback, FeedbackAdmin)
-
-
+@admin.register(models.Proposal)
 class ProposalAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -82,9 +73,7 @@ class ProposalAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.Proposal, ProposalAdmin)
-
-
+@admin.register(models.EmailRecord)
 class EmailRecordAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -96,4 +85,14 @@ class EmailRecordAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-admin.site.register(models.EmailRecord, EmailRecordAdmin)
+@admin.register(models.Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "workshop",
+        "email",
+        "rsvp",
+        "created_at",
+    )
+
+    ordering = ["-workshop", "id"]
