@@ -233,6 +233,12 @@ h1 {
     font-weight: 400;
     margin: 32px 0 0;
 }
+@media (max-width: 640px) {
+    h1 {
+        font-size: 42px;
+        line-height: 1.2;
+    }
+}
 
 main {
     max-width: 640px;
@@ -355,6 +361,11 @@ blockquote {
     margin: 16px 0 0;
 }
 
+.title div {
+    font-size: 42px;
+    margin: 16px 0 0;
+}
+
 .subtitle {
     text-align: center;
     font-size: 24px;
@@ -386,4 +397,10 @@ blockquote {
 .events code {
     font-size: 16px;
     background: transparent;
+}
+
+@media (max-width: 640px) {
+    .post-date {
+        margin-top: 16px;
+    }
 }
