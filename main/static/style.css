@@ -328,7 +328,7 @@ pre {
 
 blockquote {
     border-left: 12px solid var(--light-grey-color);
-    padding-left: 8px;
+    padding-left: 16px;
     margin-left: 0;
 }
 
@@ -394,8 +394,10 @@ blockquote {
     background: rgba(255, 0, 0, 0.075);
 }
 
-.events code {
+.events time {
+    font-family: monospace;
     font-size: 16px;
+    color: #000;
     background: transparent;
 }
 

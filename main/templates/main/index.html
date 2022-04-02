@@ -36,7 +36,6 @@
     <ul class="events">
         {% for w in draft_workshop_list %}
         <li>
-            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
@@ -52,7 +51,9 @@
     <ul class="events">
         {% for w in future_workshop_list %}
         <li>
-            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
+            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
+                {{ w.scheduled_at|date:'Y-m-d' }}
+            </time>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
@@ -67,7 +68,9 @@
     <ul class="events">
         {% for w in past_workshop_list %}
         <li>
-            <code>{{ w.scheduled_at|date:'Y-m-d' }}</code>
+            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
+                {{ w.scheduled_at|date:'Y-m-d' }}
+            </time>
             <a href="{% url 'workshop_detail' w.slug %}">
                 {{ w.title }}
             </a>
@@ -131,7 +134,12 @@
         {% for post in post_list %}
         <li>
             <a href="{% url 'post' post.slug %}">{{ post }}</a>
-            {% if post.published_at %} — {{ post.published_at|date:'F j, Y' }} {% endif %}
+            {% if post.published_at %}
+            —
+            <time datetime="{{ post.published_at|date:'Y-m-d' }}">
+                {{ post.published_at|date:'F j, Y' }}
+            </time>
+            {% endif %}
             | <a href="{% url 'admin:main_post_change' post.id %}">Edit</a>
         </li>
     {% endfor %}
@@ -145,7 +153,10 @@
         {% if post.is_published %}
         <li>
             <a href="{% url 'post' post.slug %}">{{ post }}</a>
-            — {{ post.published_at|date:'F j, Y' }}
+            —
+            <time datetime="{{ post.published_at|date:'Y-m-d' }}">
+                {{ post.published_at|date:'F j, Y' }}
+            </time>
         </li>
         {% endif %}
         {% endfor %}
