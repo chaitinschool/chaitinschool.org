@@ -4,8 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core import mail
 from django.core.mail import mail_admins
+from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import FormView
@@ -82,11 +83,14 @@ class AttendanceView(SuccessMessageMixin, FormView):
     success_message = "Excitement! See you there."
 
     def get_success_url(self):
-        return reverse("workshop", args=(self.kwargs["slug"],))
+        return reverse_lazy("workshop", args=(self.kwargs["slug"],))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["workshop"] = models.Workshop.objects.get(slug=self.kwargs["slug"])
+        workshops = models.Workshop.objects.filter(slug=self.kwargs["slug"])
+        if not workshops:
+            raise Http404()
+        context["workshop"] = workshops.first()
         return context
 
     def form_valid(self, form):
