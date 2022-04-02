@@ -46,7 +46,7 @@ UID:{begin_timestamp}@{settings.PROJECT_URL}
 DTSTART;TZID=Europe/London:{begin_timestamp}
 DTEND;TZID=Europe/London:{finish_timestamp}
 SUMMARY:{settings.PROJECT_NAME}: {workshop.title}
-DESCRIPTION:{get_protocol()}//{settings.PROJECT_URL}/workshops/{workshop.slug}/
+DESCRIPTION:{get_protocol()}//{settings.CANONICAL_HOST}/workshops/{workshop.slug}/
 LOCATION:{workshop.location_name}\\, {location_address_escaped}
 URL;VALUE=URI:{workshop.location_url}
 LAST-MODIFIED:{begin_timestamp}Z
@@ -78,3 +78,21 @@ def get_email_attachments(workshop_slug):
             ),
         )
     return attachments
+
+
+def get_workshop_for_email(workshop):
+    """Get string of body of email for a workshop."""
+    date_str = workshop.scheduled_at.strftime("%a, %B %-d, %Y at %H:%M")
+    workshop_url = get_protocol() + workshop.get_absolute_url()
+    return (
+        "You are attending:\n\n"
+        + f"**{workshop.title}**\n"
+        + f"{workshop_url}\n\n"
+        + f"Location:\n{workshop.location_name}\n"
+        + f"{workshop.location_address}\n"
+        + f"{workshop.location_url}\n\n"
+        + f"On {date_str}\n\n"
+        + "See you there!\n\n"
+        + "Chatin School\n"
+        + f"{get_protocol()}//{settings.CANONICAL_HOST}\n"
+    )

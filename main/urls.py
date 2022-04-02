@@ -10,8 +10,8 @@ urlpatterns = [
     path("subscribe/", views.subscribe, name="subscribe"),
     path(
         "workshops/<slug:slug>/",
-        views.WorkshopDetailView.as_view(),
-        name="workshop_detail",
+        views.AttendanceView.as_view(),
+        name="workshop",
     ),
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),

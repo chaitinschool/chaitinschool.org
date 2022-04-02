@@ -40,9 +40,7 @@ class WorkshopTestCase(TestCase):
         )
 
     def test_workshops_get(self):
-        response = self.client.get(
-            reverse("workshop_detail", args=(self.workshop.slug,))
-        )
+        response = self.client.get(reverse("workshop", args=(self.workshop.slug,)))
         self.assertEqual(response.status_code, 200)
 
 
@@ -444,3 +442,111 @@ class BroadcastTestCase(TestCase):
                 models.EmailRecord.objects.all()[0].sent_at,
                 None,
             )
+
+
+class AttendanceTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+        )
+
+    def test_rsvp(self):
+        response = self.client.post(
+            reverse("workshop", args=(self.workshop.slug,)),
+            {
+                "email": "attendee@example.com",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "See you there")
+
+        # verify model
+        self.assertEqual(models.Attendance.objects.all().count(), 1)
+        self.assertEqual(
+            models.Attendance.objects.all()[0].email, "attendee@example.com"
+        )
+
+        self.assertEqual(len(mail.outbox), 2)
+        # verify email subjects
+        subjects = [record.subject for record in mail.outbox]
+        self.assertIn(f"See you at: {self.workshop.title}", subjects)
+        self.assertIn(
+            f"[chaitin] RSVP <attendee@example.com> for {self.workshop.title}", subjects
+        )
+
+        # verify email bodies
+        bodies = [record.body for record in mail.outbox]
+        self.assertTrue(
+            any(
+                [
+                    "attendee@example.com" in bodies[0],
+                    "attendee@example.com" in bodies[1],
+                ]
+            )
+        )
+        self.assertTrue(
+            all([self.workshop.title in bodies[0], self.workshop.title in bodies[1]])
+        )
+
+        # verify email recipients
+        recipients = [record.to[0] for record in mail.outbox]
+        self.assertIn("attendee@example.com", recipients)
+        self.assertIn(settings.ADMINS[0][1], recipients)
+
+        # verify email senders
+        senders = [record.from_email for record in mail.outbox]
+        self.assertIn(settings.DEFAULT_FROM_EMAIL, senders)
+        self.assertIn(settings.SERVER_EMAIL, senders)
+
+        # verify email attachments
+        attachments = [record.attachments for record in mail.outbox]
+        attachments = [att for att in attachments if len(att) > 0]
+        attachment_ics = attachments[0][0]
+        self.assertEqual(attachment_ics[0], "chaitin-school-django.ics")
+        self.assertIn("BEGIN:VCALENDAR", attachment_ics[1])
+        self.assertIn("PRODID:chaitin-school/ics", attachment_ics[1])
+        self.assertEqual(attachment_ics[2], "application/octet-stream")
+
+
+class AttendanceTwiceTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+        )
+        self.attendance = models.Attendance.objects.create(
+            workshop=self.workshop,
+            email="attendee@example.com",
+        )
+
+    def test_rsvp_twice(self):
+        response = self.client.post(
+            reverse("workshop", args=(self.workshop.slug,)),
+            {
+                "email": "attendee@example.com",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Already RSVPed.")
+
+        # verify model
+        self.assertEqual(models.Attendance.objects.all().count(), 1)
+
+        self.assertEqual(len(mail.outbox), 2)
+        # verify email subjects
+        subjects = [record.subject for record in mail.outbox]
+        self.assertIn(f"See you at: {self.workshop.title}", subjects)
+        self.assertIn(
+            f"[chaitin] RSVP <attendee@example.com> for {self.workshop.title}", subjects
+        )

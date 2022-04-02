@@ -22,8 +22,8 @@
         {{ object.body_as_html|safe }}
     </div>
 
-    <strong>Sign up for future events</strong>
-    <form method="post" action="{% url 'index' %}">
+    <strong>RSVP</strong>
+    <form method="post" action="{% url 'attendance' object.slug %}">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         {% csrf_token %}

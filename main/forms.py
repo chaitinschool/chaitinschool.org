@@ -65,3 +65,9 @@ class BroadcastForm(forms.Form):
         choices=get_workshops_as_choices,
         label="Include ICS attachment",
     )
+
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = models.Attendance
+        fields = ["email"]

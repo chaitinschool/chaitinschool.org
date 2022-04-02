@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core import mail
 from django.core.mail import mail_admins
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import FormView
@@ -76,8 +76,46 @@ def index(request):
         return redirect("index")
 
 
-class WorkshopDetailView(DetailView):
-    model = models.Workshop
+class AttendanceView(SuccessMessageMixin, FormView):
+    form_class = forms.AttendanceForm
+    template_name = "main/workshop.html"
+    success_message = "Excitement! See you there."
+
+    def get_success_url(self):
+        return reverse("workshop", args=(self.kwargs["slug"],))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["workshop"] = models.Workshop.objects.get(slug=self.kwargs["slug"])
+        return context
+
+    def form_valid(self, form):
+        workshop = models.Workshop.objects.get(slug=self.kwargs["slug"])
+        attendances = models.Attendance.objects.filter(
+            email=form.cleaned_data["email"], workshop=workshop
+        )
+        if attendances:
+            # RSVP for email + workshop already exists
+            form.add_error("email", "Email already RSVPed for this workshop.")
+            self.success_message = "Already RSVPed. Reminder sent!"
+            obj = attendances.first()
+        else:
+            obj = form.save(commit=False)
+            obj.workshop = workshop
+            obj.save()
+
+        mail.EmailMessage(
+            subject=f"See you at: {obj.workshop.title}",
+            body=utils.get_workshop_for_email(obj.workshop),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[obj.email],
+            attachments=utils.get_email_attachments(obj.workshop.slug),
+        ).send()
+        mail_admins(
+            f"RSVP <{obj.email}> for {obj.workshop.title}",
+            f"**RSVP**\n\n<{obj.email}>" + f"\n\n**Workshop**\n\n{obj.workshop.title}",
+        )
+        return super().form_valid(form)
 
 
 class BlogView(ListView):
