@@ -80,7 +80,7 @@ def index(request):
 class AttendanceView(SuccessMessageMixin, FormView):
     form_class = forms.AttendanceForm
     template_name = "main/workshop.html"
-    success_message = "Excitement! See you there."
+    success_message = "See you there!"
 
     def get_success_url(self):
         return reverse_lazy("workshop", args=(self.kwargs["slug"],))
