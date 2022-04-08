@@ -17,6 +17,10 @@ class StaticTestCase(TestCase):
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
 
+    def test_index_coc(self):
+        response = self.client.get(reverse("coc"))
+        self.assertEqual(response.status_code, 200)
+
     def test_index_get_workshop(self):
         models.Workshop.objects.create(
             title="Django",

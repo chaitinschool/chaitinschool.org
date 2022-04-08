@@ -132,6 +132,10 @@ class PostView(DetailView):
     template_name = "main/post.html"
 
 
+def coc(request):
+    return render(request, "main/codeofconduct.html")
+
+
 def subscribe(request):
     return render(request, "main/subscribe.html")
 
