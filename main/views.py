@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core import mail
 from django.core.mail import mail_admins
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -120,6 +120,16 @@ class AttendanceView(SuccessMessageMixin, FormView):
             f"**RSVP**\n\n<{obj.email}>" + f"\n\n**Workshop**\n\n{obj.workshop.title}",
         )
         return super().form_valid(form)
+
+
+def workshop_ics(request, slug):
+    workshop = models.Workshop.objects.get(slug=slug)
+    ics_content = utils.get_ics(workshop)
+    response = HttpResponse(ics_content, content_type="application/octet-stream")
+    response[
+        "Content-Disposition"
+    ] = f"attachment; filename={settings.PROJECT_NAME_SLUG}-{workshop.slug}.ics"
+    return response
 
 
 class BlogView(ListView):

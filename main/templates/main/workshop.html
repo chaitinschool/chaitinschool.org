@@ -23,12 +23,19 @@
     </div>
 
     {% if workshop.is_future %}
-    <strong>RSVP</strong>
+    <h2>RSVP</h2>
     <form method="post" action="{% url 'workshop' workshop.slug %}">
         {{ form }}
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
+    <p>
+        Add to your calendar:
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ workshop.title }} // Chaitin School&dates={{ workshop.scheduled_at|date:"omdHi" }}&details=&location={{ workshop.location_name }}, {{ workshop.location_address }}&sf=true&output=xml" target="_blank">
+            Google
+        </a>
+        / <a href="{% url 'workshop_ics' workshop.slug %}">Apple (ics)</a>
+    </p>
     {% endif %}
 </article>
 {% endblock %}

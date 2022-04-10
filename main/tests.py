@@ -47,6 +47,10 @@ class WorkshopTestCase(TestCase):
         response = self.client.get(reverse("workshop", args=(self.workshop.slug,)))
         self.assertEqual(response.status_code, 200)
 
+    def test_workshops_ics_get(self):
+        response = self.client.get(reverse("workshop_ics", args=(self.workshop.slug,)))
+        self.assertEqual(response.status_code, 200)
+
 
 class SubscriptionTestCase(TestCase):
     def test_subscribe_get(self):
