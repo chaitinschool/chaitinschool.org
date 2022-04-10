@@ -380,6 +380,10 @@ blockquote {
     color: var(--grey-1-color);
 }
 
+article img {
+    width: 100%;
+}
+
 .events {
     list-style-type: none;
     padding-left: 0;
