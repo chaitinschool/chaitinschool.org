@@ -11,7 +11,7 @@
 
 {% block content %}
 <article>
-    <h1 style="font-size: 30px; font-weight: 700;">{{ workshop.title }}</h1>
+    <h1>{{ workshop.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
@@ -20,6 +20,12 @@
         {% endif %}
     </p>
     {% endif %}
+
+    <div>
+        <div class="workshop-datetime">
+            {{ workshop.scheduled_at }}
+        </div>
+    </div>
 
     <div>
         {{ workshop.body_as_html|safe }}

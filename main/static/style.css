@@ -188,6 +188,7 @@ template {
     --grey-1-color: #8d8d8d;
     --grey-2-color: #646464;
     --grey-3-color: #353535;
+    --highlight-color: rgba(255, 0, 0, 0.075);
 }
 
 /* dark mode
@@ -229,15 +230,10 @@ a:hover {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 38px;
     font-weight: 400;
     margin: 32px 0 0;
-}
-@media (max-width: 640px) {
-    h1 {
-        font-size: 42px;
-        line-height: 1.2;
-    }
+    line-height: 1.2;
 }
 
 main {
@@ -358,7 +354,9 @@ blockquote {
 }
 
 .title h1 {
+    font-size: 48px;
     margin: 16px 0 0;
+    line-height: 1.5;
 }
 
 .title div {
@@ -395,7 +393,7 @@ article img {
 }
 
 .events li:nth-child(odd) {
-    background: rgba(255, 0, 0, 0.075);
+    background: var(--highlight-color);
 }
 
 .events time {
@@ -409,4 +407,10 @@ article img {
     .post-date {
         margin-top: 16px;
     }
+}
+
+.workshop-datetime {
+    display: inline-block;
+    background: var(--highlight-color);
+    margin-top: 8px;
 }
