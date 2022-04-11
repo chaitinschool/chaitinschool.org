@@ -19,6 +19,11 @@ urlpatterns = [
         views.workshop_ics,
         name="workshop_ics",
     ),
+    path(
+        "workshops/<slug:slug>/announce/",
+        views.AnnounceView.as_view(),
+        name="announce",
+    ),
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
     path(

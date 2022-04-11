@@ -52,7 +52,7 @@ class BroadcastForm(forms.Form):
     subject = forms.CharField()
     body = forms.CharField(widget=forms.Textarea)
     dry_run = forms.BooleanField(
-        required=False, help_text="Send email only to preview user for testing."
+        required=False, help_text="Send email only to preview users for testing."
     )
 
     def get_workshops_as_choices():
@@ -71,3 +71,11 @@ class AttendanceForm(forms.ModelForm):
     class Meta:
         model = models.Attendance
         fields = ["email"]
+
+
+class AnnounceForm(forms.Form):
+    subject = forms.CharField()
+    body = forms.CharField(widget=forms.Textarea)
+    dry_run = forms.BooleanField(
+        required=False, help_text="Send email only to preview users for testing."
+    )

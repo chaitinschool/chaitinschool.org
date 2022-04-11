@@ -15,6 +15,9 @@
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
+        {% if workshop.is_future %}
+        | <a href="{% url 'announce' workshop.slug %}">Announce</a>
+        {% endif %}
     </p>
     {% endif %}
 

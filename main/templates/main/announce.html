@@ -1,0 +1,29 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <h1>Announce {{ workshop.title }}</h1>
+    <form method="post" onsubmit="return confirm('Confirm sending?');">
+        {{ form.as_p }}
+
+        <p>
+            Preview dry run receipient:
+        </p>
+        <ul>
+            <li>{{ dry_run_email }}</li>
+        </ul>
+
+        <p>
+            List of receipients:
+        </p>
+        <ul>
+            {% for s in subscriptions_list %}
+            <li>{{ s.email }}</li>
+            {% endfor %}
+        </ul>
+
+        {% csrf_token %}
+        <input type="submit" value="Send {{ subscriptions_count }} emails">
+    </form>
+</article>
+{% endblock %}
