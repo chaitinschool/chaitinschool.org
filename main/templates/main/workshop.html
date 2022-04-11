@@ -23,7 +23,7 @@
 
     <div>
         <div class="workshop-datetime">
-            {{ workshop.scheduled_at }}
+            {{ workshop.scheduled_at|default:"NOT PUBLISHED" }}
         </div>
     </div>
 
