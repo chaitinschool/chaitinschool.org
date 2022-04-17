@@ -47,10 +47,14 @@
             <div class="subtitle">of Software&nbsp;Engineering<br></div>
             <div class="subsubtitle">an in-person community in london, uk</div>
 
-            <!--<nav>
+            {% if request.user.is_authenticated %}
+            <nav>
                 <a href="{% url 'index' %}">Home</a>
+                | <a href="{% url 'index' %}">Events</a>
                 | <a href="{% url 'blog' %}">Blog</a>
-            </nav>-->
+                | <a href="{% url 'admin:index' %}">Admin</a>
+            </nav>
+            {% endif %}
 
             {% block content %}
             {% endblock %}

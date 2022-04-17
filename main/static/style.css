@@ -184,10 +184,11 @@ template {
     --serif-font: 'EB Garamond', serif;
     --link-color: #1175e2;
     --ascent-color: #006cdf;
-    --light-grey-color: #f2f2f2;
-    --grey-1-color: #8d8d8d;
+    --grey-1-color: #353535;
     --grey-2-color: #646464;
-    --grey-3-color: #353535;
+    --grey-3-color: #8d8d8d;
+    --grey-4-color: #bfbfbf;
+    --grey-5-color: #f2f2f2;
     --highlight-color: rgba(255, 0, 0, 0.075);
 }
 
@@ -197,8 +198,8 @@ template {
     :root {
         --dark-mode-color: #212529;
         --link-color: #3395ff;
-        --light-grey-color: #484848;
-        --grey-1-color: #bdbdbd;
+        --grey-5-color: #484848;
+        --grey-3-color: #bdbdbd;
         --grey-2-color: #888;
     }
 }
@@ -248,7 +249,17 @@ main {
 
 nav {
     text-align: center;
-    margin-bottom: 64px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    border-top: 1px solid var(--grey-4-color);
+    border-bottom: 1px solid var(--grey-4-color);
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+nav a {
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 article {
@@ -256,7 +267,7 @@ article {
 }
 
 aside {
-    border: 3px dashed var(--grey-1-color);
+    border: 3px dashed var(--grey-3-color);
     text-align: center;
     padding: 32px 0;
 }
@@ -280,7 +291,7 @@ input[type="email"] {
     input[type="text"],
     input[type="email"] {
         color: #fff;
-        background: var(--grey-3-color);
+        background: var(--grey-1-color);
         border: 2px solid var(--grey-2-color);
     }
 }
@@ -303,27 +314,27 @@ textarea {
 @media (prefers-color-scheme: dark) {
     textarea {
         color: #fff;
-        background: var(--grey-3-color);
+        background: var(--grey-1-color);
         border: 2px solid var(--grey-2-color);
     }
 }
 
 time {
-    color: var(--grey-1-color);
+    color: var(--grey-3-color);
 }
 
 code {
     font-size: 16px;
-    background: var(--light-grey-color);
+    background: var(--grey-5-color);
 }
 
 pre {
-    background: var(--light-grey-color);
+    background: var(--grey-5-color);
     overflow: scroll;
 }
 
 blockquote {
-    border-left: 12px solid var(--light-grey-color);
+    border-left: 12px solid var(--grey-5-color);
     padding-left: 16px;
     margin-left: 0;
 }
@@ -346,7 +357,7 @@ blockquote {
 .title {
     text-align: center;
     font-variant: small-caps;
-    color: var(--grey-1-color);
+    color: var(--grey-3-color);
 }
 
 .title:hover {
@@ -375,7 +386,7 @@ blockquote {
     text-align: center;
     font-size: 20px;
     margin-bottom: 24px;
-    color: var(--grey-1-color);
+    color: var(--grey-3-color);
 }
 
 article img {
