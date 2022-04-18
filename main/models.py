@@ -2,9 +2,23 @@ import uuid
 
 import markdown
 from django.conf import settings
+
+# from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+
+# class User(AbstractUser):
+#    username = None
+#    first_name = None
+#    last_name = None
+#    email = models.EmailField(unique=True)
+#    about = models.TextField(blank=True, null=True)
+#    avatar = models.BinaryField()
+#    avatar_ext = models.CharField(max_length=4)
+#
+#    def __str__(self):
+#        return self.email
 
 
 class Subscription(models.Model):
