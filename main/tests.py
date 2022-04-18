@@ -22,7 +22,7 @@ class StaticTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_index_get_workshop(self):
-        models.Workshop.objects.create(
+        workshop = models.Workshop.objects.create(
             title="Django",
             slug="django",
             body="details about django",
@@ -32,6 +32,19 @@ class StaticTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "About")
         self.assertContains(response, "Django")
+        workshop.delete()
+
+    def test_workshop_list(self):
+        workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+        )
+        response = self.client.get(reverse("workshop_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Django")
+        workshop.delete()
 
 
 class WorkshopTestCase(TestCase):

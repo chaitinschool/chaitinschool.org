@@ -1,0 +1,18 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<article>
+    <strong>All Events & Workshops</strong>
+    <ul class="events">
+        {% for w in workshop_list %}
+        <li>
+            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
+                {{ w.scheduled_at|date:'Y-m-d' }}</time>
+            <a href="{% url 'workshop' w.slug %}">
+                {{ w.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</article>
+{% endblock %}

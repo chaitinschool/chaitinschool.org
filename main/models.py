@@ -82,6 +82,9 @@ class Workshop(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ["-scheduled_at"]
+
 
 class Submission(models.Model):
     """Workshop submission."""

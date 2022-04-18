@@ -76,6 +76,10 @@ def index(request):
         return redirect("index")
 
 
+class WorkshopList(ListView):
+    queryset = models.Workshop.objects.filter(scheduled_at__isnull=False)
+
+
 class AttendanceView(SuccessMessageMixin, FormView):
     form_class = forms.AttendanceForm
     template_name = "main/workshop.html"
