@@ -5,6 +5,8 @@
 {% block meta %}
 <meta name="twitter:card" content="summary">
 <meta property="og:title" content="{{ object.displayname }} — Chaitin School">
+<meta property="og:description" content="{{ object.about_as_html|truncatewords:17 }}">
+<meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
 {% endblock %}
 
 {% block content %}
