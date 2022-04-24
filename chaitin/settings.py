@@ -84,6 +84,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "chaitin.wsgi.application"
 
+AUTH_USER_MODEL = "main.User"
+
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
+
+SESSION_COOKIE_AGE = 31449600  # 60 * 60 * 24 * 7 * 52 = 1 year in seconds
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
