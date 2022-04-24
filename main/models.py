@@ -1,24 +1,69 @@
 import uuid
+from base64 import b64encode
 
+import bleach
 import markdown
 from django.conf import settings
-
-# from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-# class User(AbstractUser):
-#    username = None
-#    first_name = None
-#    last_name = None
-#    email = models.EmailField(unique=True)
-#    about = models.TextField(blank=True, null=True)
-#    avatar = models.BinaryField()
-#    avatar_ext = models.CharField(max_length=4)
-#
-#    def __str__(self):
-#        return self.email
+from main import denylist, validators
+
+
+class User(AbstractUser):
+    username = models.CharField(
+        max_length=64,
+        unique=True,
+        help_text="Letters, digits, hyphens only.",
+        validators=[
+            validators.AlphanumericHyphenValidator(),
+            validators.HyphenOnlyValidator(),
+        ],
+        error_messages={"unique": "A user with that username already exists."},
+    )
+    first_name = None
+    last_name = None
+    full_name = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(unique=True)
+    about = models.TextField(blank=True)
+    avatar_data = models.BinaryField()
+    avatar_ext = models.CharField(max_length=4)
+    is_public = models.BooleanField(
+        default=False,
+        help_text="Enable to make profile available to non-logged-in users.",
+    )
+
+    @property
+    def displayname(self):
+        return "~" + self.username
+
+    @property
+    def avatar_base64(self):
+        if not self.avatar_data:
+            # 1x1 PNG with #f2f2f2 fill
+            return "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP89B8AAukB8/71MdcAAAAASUVORK5CYII="
+        return b64encode(self.avatar_data).decode("utf-8")
+
+    @property
+    def about_as_html(self):
+        dirty_html = markdown.markdown(
+            self.about,
+            extensions=[
+                "markdown.extensions.fenced_code",
+                "markdown.extensions.tables",
+                "markdown.extensions.footnotes",
+            ],
+        )
+        return bleach.clean(
+            dirty_html,
+            tags=denylist.ALLOWED_HTML_ELEMENTS,
+            attributes=denylist.ALLOWED_HTML_ATTRS,
+        )
+
+    def __str__(self):
+        return self.username
 
 
 class Subscription(models.Model):
@@ -100,47 +145,11 @@ class Workshop(models.Model):
         ordering = ["-scheduled_at"]
 
 
-class Submission(models.Model):
-    """Workshop submission."""
-
-    submitter = models.CharField(max_length=300, verbose_name="What’s your name?")
-    email = models.EmailField(verbose_name="What’s your email?")
-    links = models.TextField(
-        blank=True, null=True, verbose_name="Any of website, blog, twitter, github"
-    )
-    title = models.CharField(max_length=300, verbose_name="Title of your workshop")
-    topic = models.TextField(blank=True, null=True, verbose_name="What is it about?")
-    audience = models.TextField(blank=True, null=True, verbose_name="Who is it for?")
-    outcome = models.TextField(
-        blank=True,
-        null=True,
-        verbose_name="What will the attendees have learned at the end of your workshop?",
-    )
-    when = models.TextField(
-        blank=True,
-        null=True,
-        verbose_name="When approximately are you thinking of presenting this?",
-    )
-
-    def __str__(self):
-        return self.title
-
-
 class Feedback(models.Model):
     comment = models.TextField()
 
     def __str__(self):
         return self.comment[:30] + "..."
-
-
-class Proposal(models.Model):
-    """Proposal for a workshop/meetup."""
-
-    email = models.EmailField(blank=True, null=True)
-    topic = models.TextField()
-
-    def __str__(self):
-        return self.topic[:30] + "..."
 
 
 class EmailRecord(models.Model):
