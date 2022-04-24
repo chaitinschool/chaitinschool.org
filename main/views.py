@@ -164,26 +164,6 @@ def unsubscribe_key(request, key):
     return redirect("index")
 
 
-class SubmissionView(SuccessMessageMixin, FormView):
-    form_class = forms.SubmissionForm
-    template_name = "main/submit.html"
-    success_url = reverse_lazy("index")
-    success_message = "Thank you! We’ll be in touch :)"
-
-    def form_valid(self, form):
-        obj = form.save()
-        mail_admins(
-            f"New submission: {obj.submitter} <{obj.email}>",
-            f"**Title**\n\n{obj.title}"
-            + f"\n\n**Topic**\n\n{obj.topic}"
-            + f"\n\n**Audience**\n\n{obj.audience}\n"
-            + f"\n\n**Outcome**\n\n{obj.outcome}\n"
-            + f"\n\n**When**\n\n{obj.when}\n"
-            + f"\n\n**Links**\n\n{obj.links}\n",
-        )
-        return super().form_valid(form)
-
-
 class FeedbackView(SuccessMessageMixin, FormView):
     form_class = forms.FeedbackForm
     template_name = "main/feedback.html"
@@ -195,21 +175,6 @@ class FeedbackView(SuccessMessageMixin, FormView):
         mail_admins(
             f"New feedback: {obj.id}",
             f"**Comment**\n\n{obj.comment}",
-        )
-        return super().form_valid(form)
-
-
-class ProposalView(SuccessMessageMixin, FormView):
-    form_class = forms.ProposalForm
-    template_name = "main/proposal.html"
-    success_url = reverse_lazy("index")
-    success_message = "Thanks—we might be in touch."
-
-    def form_valid(self, form):
-        obj = form.save()
-        mail_admins(
-            f"New proposal: {obj.email}",
-            f"**Topic**\n\n{obj.topic}",
         )
         return super().form_valid(form)
 
