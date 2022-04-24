@@ -1,16 +1,68 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView as DjLogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core import mail
+from django.core.exceptions import PermissionDenied
 from django.core.mail import mail_admins
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 
 from main import forms, mixins, models, utils
+
+
+class UserCreate(CreateView):
+    form_class = forms.UserCreationForm
+    success_url = reverse_lazy("index")
+    template_name = "main/user_create.html"
+    success_message = "welcome to Chaitin School :)"
+
+    def form_valid(self, form):
+        self.object = form.save()
+        user = authenticate(
+            username=form.cleaned_data.get("username"),
+            password=form.cleaned_data.get("password1"),
+        )
+        login(self.request, user)
+        messages.success(self.request, self.success_message)
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class UserUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = models.User
+    fields = [
+        "username",
+        "email",
+        "full_name",
+        "about",
+        "is_public",
+    ]
+    template_name = "main/user_update.html"
+    success_message = "profile updated"
+    success_url = reverse_lazy("user_update")
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserDelete(LoginRequiredMixin, DeleteView):
+    model = models.User
+    success_url = reverse_lazy("index")
+
+    def get_object(self):
+        return self.request.user
+
+
+class Logout(DjLogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        messages.add_message(request, messages.INFO, "logged out")
+        return super().dispatch(request, *args, **kwargs)
 
 
 def index(request):

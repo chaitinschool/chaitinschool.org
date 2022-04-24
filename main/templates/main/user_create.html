@@ -1,0 +1,19 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Join Chaitin School</h1>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="join">
+    </form>
+
+    <p>
+        Please be aware that we maintain a
+        <a href="{% url 'coc' %}">Code of Conduct</a>.
+    </p>
+</section>
+{% endblock %}

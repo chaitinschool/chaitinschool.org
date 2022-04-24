@@ -1,0 +1,30 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Settings — Chaitin School{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Settings</h1>
+    <p>
+        {% if request.user.avatar_data %}
+        <a href="{% url 'user_avatar' %}">Change profile picture »</a>
+        {% else %}
+        <a href="{% url 'user_avatar' %}">Add a profile picture »</a>
+        {% endif %}
+    </p>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="save">
+    </form>
+
+    <p>
+        <br>
+        <br><a href="{% url 'logout' %}">Log out »</a>
+    </p>
+    <p>
+        <br>
+        <a href="{% url 'user_delete' %}" style="color: #f00;">Delete account »</a>
+    </p>
+</section>
+{% endblock %}

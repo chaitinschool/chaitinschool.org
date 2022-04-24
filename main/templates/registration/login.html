@@ -1,0 +1,27 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<section>
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="alert">
+                Your account doesn't have access to this page.
+                To proceed please login with an account that has access.
+            </p>
+        {% endif %}
+    {% endif %}
+
+    <h1>Log in</h1>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="login">
+    </form>
+
+    <p>
+        <a href="{% url 'password_reset' %}">forgot password?</a>
+    </p>
+</section>
+{% endblock %}

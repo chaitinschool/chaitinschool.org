@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Delete everything?{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Delete {{ user.displayname }} forever?</h1>
+    <p>
+        No soft deletes here—we delete everything and forever.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Affirmative, delete at once!">
+    </form>
+</section>
+{% endblock %}
