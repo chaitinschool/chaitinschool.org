@@ -113,6 +113,22 @@
     </p>
 </article>
 
+{% if request.user.is_authenticated %}
+<article class="landing-members">
+    <strong>Members</strong>
+    <div class="landing-members-grid">
+        {% for user in member_list %}
+        <a href="{% url 'user_detail' user.username %}">
+            <img src="data:image;base64,{{ user.avatar_base64 }}">
+            <div>
+                {{ user.full_name|default:user.displayname }}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</article>
+{% endif %}
+
 <article>
     <strong>Subscribe</strong>
     <form method="post" action="{% url 'index' %}">
