@@ -34,6 +34,24 @@ class UserCreate(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class UserDetail(DetailView):
+    slug_url_kwarg = "username"
+    slug_field = "username"
+
+    def get_queryset(self):
+        username = self.kwargs["username"]
+        queryset = models.User.objects.filter(username=username)
+        return queryset
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.get_object()
+        if request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
+        if user.is_public:
+            return super().dispatch(request, *args, **kwargs)
+        raise PermissionDenied()
+
+
 class UserUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = models.User
     fields = [
@@ -65,9 +83,41 @@ class Logout(DjLogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 
+class UserAvatar(LoginRequiredMixin, FormView):
+    form_class = forms.UserAvatarForm
+    template_name = "main/user_avatar.html"
+    success_url = reverse_lazy("user_avatar")
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        file = request.FILES["file"]
+        if form.is_valid():
+            name_ext_parts = file.name.rsplit(".", 1)
+            self.extension = name_ext_parts[1].casefold()
+            if self.extension == "jpg":
+                self.extension = "jpeg"
+
+            data = file.read()
+            # file limit ~1MB
+            if len(data) > 1.2 * 1000 * 1000:
+                form.add_error("file", "Photo too big. Limit is 1MB.")
+                return self.form_invalid(form)
+
+            request.user.avatar_data = data
+            request.user.avatar_ext = self.extension
+            request.user.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
         post_list = models.Post.objects.all().order_by("-published_at")
+        member_list = models.User.objects.all().order_by("?")
+        if not request.user.is_authenticated:
+            member_list = member_list.filter(is_public=True)
 
         today = timezone.now().date()
         past_workshop_list = models.Workshop.objects.filter(
@@ -90,6 +140,7 @@ def index(request):
                 "future_workshop_list": future_workshop_list,
                 "draft_workshop_list": draft_workshop_list,
                 "post_list": post_list,
+                "member_list": member_list,
             },
         )
 
@@ -188,7 +239,9 @@ def workshop_ics(request, slug):
 
 
 class BlogView(ListView):
-    queryset = models.Post.objects.filter(published_at__isnull=False)
+    queryset = models.Post.objects.filter(published_at__isnull=False).order_by(
+        "-published_at"
+    )
     template_name = "main/blog.html"
 
 

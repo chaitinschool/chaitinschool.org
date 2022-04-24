@@ -36,10 +36,14 @@ urlpatterns = [
         name="unsubscribe_key",
     ),
 ]
+
 # user system
 urlpatterns += [
+    path("~<slug:username>/", views.UserDetail.as_view(), name="user_detail"),
     path("accounts/logout/", views.Logout.as_view(), name="logout"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/create/", views.UserCreate.as_view(), name="user_create"),
     path("accounts/edit/", views.UserUpdate.as_view(), name="user_update"),
+    path("accounts/edit/photo/", views.UserAvatar.as_view(), name="user_avatar"),
     path("accounts/delete/", views.UserDelete.as_view(), name="user_delete"),
+]

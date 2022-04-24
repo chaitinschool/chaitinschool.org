@@ -1,0 +1,33 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}{{ object.displayname }} — Chaitin School{% endblock %}
+
+{% block content %}
+<section class="profile">
+    {% if object.avatar_data %}
+    <div class="profile-grid">
+        <a href="{% url 'user_avatar' %}">
+            <img src="data:image;base64,{{ object.avatar_base64 }}" class="avatar">
+        </a>
+        <div class="profile-grid-text">
+            <h1>{{ object.displayname }}</h1>
+        </div>
+    </div>
+    {% else %}
+    <h1>{{ object.displayname }}</h1>
+    {% endif %}
+
+    <h2>{{ object.full_name|default:"About" }}</h2>
+    <div>{{ object.about_as_html|safe }}</div>
+    <p>
+        {{ object.displayname }} is reachable at
+        <a href="mailto:{{ object.email }}">{{ object.email }}</a>
+    </p>
+
+    {% if object == request.user %}
+    <p>
+        <a href="{% url 'user_update' %}">Settings »</a>
+    </p>
+    {% endif %}
+</section>
+{% endblock %}

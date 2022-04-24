@@ -1,0 +1,29 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Change profile picture — Chaitin School{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Change profile picture</h1>
+    <img src="data:image;base64,{{ request.user.avatar_base64 }}" class="avatar">
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form.non_field_errors }}
+        <p>
+            <input type="file" name="file" id="id_file" required>
+            {% if form.file.errors %}
+                {% for error in form.file.errors %}
+                    <span class="form-error">{{ error|escape }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </p>
+        {% csrf_token %}
+        <input type="submit" value="upload">
+    </form>
+
+    <p>
+        <br>
+        <a href="{% url 'user_update' %}">« Settings</a>
+    </p>
+</section>
+{% endblock %}
