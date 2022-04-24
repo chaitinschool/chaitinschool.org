@@ -2,25 +2,23 @@
 
 {% block content %}
 
-{% for post in post_list %}
-<article itemscope itemtype="http://schema.org/BlogPosting">
-    <h2 itemprop="name headline">
-        <a href="{% url 'post' post.slug %}">
-            {{ post.title }}
-        </a>
-    </h2>
+<section>
+    {% for post in post_list %}
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h2 itemprop="name headline">
+            <a href="{% url 'post' post.slug %}">
+                {{ post.title }}
+            </a>
+        </h2>
 
-    <time datetime="{{ post.published_at|date:'Y-m-d' }}" itemprop="datePublished">
-        {{ post.published_at|date:'F j, Y' }}
-    </time>
+        <time datetime="{{ post.published_at|date:'Y-m-d' }}" itemprop="datePublished">
+            {{ post.published_at|date:'F j, Y' }}
+        </time>
 
-    <div itemprop="articleBody">
-        {{ post.body_as_html|safe }}
-    </div>
-
-</article>
-{% empty %}
-<em>nothing published yet</em>
-{% endfor %}
+    </article>
+    {% empty %}
+    <em>nothing published yet</em>
+    {% endfor %}
+</section>
 
 {% endblock %}
