@@ -2,6 +2,11 @@
 
 {% block title %}{{ object.displayname }} — Chaitin School{% endblock %}
 
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="{{ object.displayname }} — Chaitin School">
+{% endblock %}
+
 {% block content %}
 <section class="profile">
     {% if object.avatar_data %}
