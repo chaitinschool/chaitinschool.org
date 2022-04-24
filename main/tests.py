@@ -3,13 +3,175 @@ from datetime import datetime
 from unittest.mock import patch
 
 from django.conf import settings
-from django.contrib.auth import models as auth_models
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from main import models, views
+
+
+class UserCreationTestCase(TestCase):
+    def test_create(self):
+        data = {
+            "username": "alice",
+            "email": "alice@example.com",
+            "password1": "abcdef123456",
+            "password2": "abcdef123456",
+        }
+        response = self.client.post(reverse("user_create"), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(models.User.objects.get(username=data["username"]))
+        models.User.objects.filter(username="alice").delete()
+
+    def test_create_invalid(self):
+        data = {
+            "username": "alicewith$symbol",
+            "email": "alice@example.com",
+            "password1": "abcdef123456",
+            "password2": "abcdef123456",
+        }
+        response = self.client.post(reverse("user_create"), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Invalid value. Should include only lowercase letters, numbers, and -",
+        )
+        self.assertEqual(models.User.objects.all().count(), 0)
+
+
+class UserDeletionTestCase(TestCase):
+    def setUp(self):
+        data = {
+            "username": "alice",
+            "email": "alice@example.com",
+        }
+        self.user = models.User.objects.create(**data)
+
+    def test_delete(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse("user_delete"))
+        self.assertEqual(models.User.objects.filter(username="alice").count(), 0)
+
+    def test_delete_anon(self):
+        response = self.client.post(reverse("user_delete"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login/", response.url)
+        self.assertEqual(models.User.objects.filter(username="alice").count(), 1)
+
+
+class UserUpdateTestCase(TestCase):
+    def setUp(self):
+        data = {
+            "username": "alice",
+            "email": "alice@example.com",
+        }
+        self.user = models.User.objects.create(**data)
+
+    def test_update(self):
+        self.client.force_login(self.user)
+        data = {
+            "username": "bob",
+            "email": "bob@example.com",
+            "full_name": "Bob ex-Alice",
+            "about": "Hey",
+            "is_public": True,
+        }
+        response = self.client.post(reverse("user_update"), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(models.User.objects.filter(username="alice").exists())
+        self.assertEqual(
+            models.User.objects.get(username="bob").email, "bob@example.com"
+        )
+        self.assertEqual(
+            models.User.objects.get(username="bob").full_name, "Bob ex-Alice"
+        )
+        self.assertEqual(models.User.objects.get(username="bob").about, "Hey")
+        self.assertEqual(models.User.objects.get(username="bob").is_public, True)
+
+    def test_update_anon(self):
+        data = {
+            "email": "bob@example.com",
+        }
+        response = self.client.post(reverse("user_update"), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login/", response.url)
+        self.assertEqual(
+            models.User.objects.get(username="alice").email, "alice@example.com"
+        )
+
+
+class UserDetailTestCase(TestCase):
+    def setUp(self):
+        data = {
+            "username": "alice",
+            "email": "alice@example.com",
+        }
+        self.user = models.User.objects.create(**data)
+
+    def test_detail(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("user_detail", args=(self.user.username,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user.username)
+
+    def test_detail_anon(self):
+        response = self.client.get(reverse("user_detail", args=(self.user.username,)))
+        self.assertEqual(response.status_code, 403)
+
+    def test_detail_anon_public(self):
+        data = {
+            "username": "bob",
+            "email": "bob@example.com",
+            "is_public": True,
+        }
+        self.user_b = models.User.objects.create(**data)
+        response = self.client.get(reverse("user_detail", args=(self.user_b.username,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user_b.username)
+
+
+class UserLoginTestCase(TestCase):
+    def setUp(self):
+        user = models.User.objects.create(username="alice")
+        user.set_password("abcdef123456")
+        user.save()
+
+    def test_login(self):
+        data = {
+            "username": "alice",
+            "password": "abcdef123456",
+        }
+        response_login = self.client.post(reverse("login"), data)
+        self.assertEqual(response_login.status_code, 302)
+        response_index = self.client.get(reverse("index"))
+        user = response_index.context.get("user")
+        self.assertTrue(user.is_authenticated)
+
+    def test_login_invalid(self):
+        data = {
+            "username": "alice",
+            "password": "wrong_password",
+        }
+        response_login = self.client.post(reverse("login"), data)
+        self.assertEqual(response_login.status_code, 200)
+        response_index = self.client.get(reverse("index"))
+        self.assertEqual(response_index.status_code, 200)
+        user = response_index.context.get("user")
+        self.assertFalse(user.is_authenticated)
+
+
+class LogoutTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice")
+        self.client.force_login(self.user)
+
+    def test_logout(self):
+        response_logout = self.client.get(reverse("logout"))
+        self.assertEqual(response_logout.status_code, 302)
+        response_index = self.client.get(reverse("index"))
+        user = response_index.context.get("user")
+        self.assertFalse(user.is_authenticated)
 
 
 class StaticTestCase(TestCase):
@@ -171,71 +333,6 @@ class BlogTestCase(TestCase):
         self.assertContains(response, "I am the body")
 
 
-class SubmissionTestCase(TestCase):
-    def test_submission_get(self):
-        response = self.client.get(
-            reverse("submit"),
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Submit a workshop")
-
-    def test_submission_post(self):
-        response = self.client.post(
-            reverse("submit"),
-            {
-                "submitter": "Gregory",
-                "email": "gregory@example.com",
-                "links": "http://gregory.chaitin/",
-                "title": "Complexity",
-                "topic": "It's about Kolmogorov complexity",
-                "audience": "Everyone",
-                "outcome": "Fun",
-                "when": "Tomorrow",
-            },
-            follow=True,
-        )
-
-        # verify request
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Thank you! We’ll be in touch :)")
-
-        # verify model
-        self.assertEqual(models.Submission.objects.all().count(), 1)
-        self.assertEqual(models.Submission.objects.all()[0].submitter, "Gregory")
-        self.assertEqual(
-            models.Submission.objects.all()[0].email, "gregory@example.com"
-        )
-        self.assertEqual(
-            models.Submission.objects.all()[0].links, "http://gregory.chaitin/"
-        )
-        self.assertEqual(models.Submission.objects.all()[0].title, "Complexity")
-        self.assertEqual(
-            models.Submission.objects.all()[0].topic, "It's about Kolmogorov complexity"
-        )
-        self.assertEqual(models.Submission.objects.all()[0].audience, "Everyone")
-        self.assertEqual(models.Submission.objects.all()[0].outcome, "Fun")
-        self.assertEqual(models.Submission.objects.all()[0].when, "Tomorrow")
-
-        # verify email message
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(
-            "New submission: Gregory <gregory@example.com>", mail.outbox[0].subject
-        )
-        self.assertIn("Complexity", mail.outbox[0].body)
-        self.assertIn("It's about Kolmogorov complexity", mail.outbox[0].body)
-        self.assertIn("Everyone", mail.outbox[0].body)
-        self.assertIn("Fun", mail.outbox[0].body)
-        self.assertIn("Tomorrow", mail.outbox[0].body)
-        self.assertIn("http://gregory.chaitin/", mail.outbox[0].body)
-
-        # verify email headers
-        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
-        self.assertEqual(
-            mail.outbox[0].from_email,
-            settings.SERVER_EMAIL,
-        )
-
-
 class FeedbackTestCase(TestCase):
     def test_feedback_get(self):
         response = self.client.get(
@@ -268,49 +365,6 @@ class FeedbackTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("New feedback", mail.outbox[0].subject)
         self.assertIn("That was medium", mail.outbox[0].body)
-
-        # verify email headers
-        self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
-        self.assertEqual(
-            mail.outbox[0].from_email,
-            settings.SERVER_EMAIL,
-        )
-
-
-class ProposalTestCase(TestCase):
-    def test_proposal_get(self):
-        response = self.client.get(
-            reverse("proposal"),
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Proposal")
-
-    def test_proposal_post(self):
-        response = self.client.post(
-            reverse("proposal"),
-            {
-                "email": "gregory@example.com",
-                "topic": "I want to know about Kolmogorov complexity",
-            },
-            follow=True,
-        )
-
-        # verify request
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Thanks—we might be in touch.")
-
-        # verify model
-        self.assertEqual(models.Proposal.objects.all().count(), 1)
-        self.assertEqual(models.Proposal.objects.all()[0].email, "gregory@example.com")
-        self.assertEqual(
-            models.Proposal.objects.all()[0].topic,
-            "I want to know about Kolmogorov complexity",
-        )
-
-        # verify email message
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertIn("New proposal: gregory@example.com", mail.outbox[0].subject)
-        self.assertIn("I want to know about Kolmogorov complexity", mail.outbox[0].body)
 
         # verify email headers
         self.assertEqual(mail.outbox[0].to, [settings.ADMINS[0][1]])
@@ -354,7 +408,7 @@ class BroadcastUserTestCase(TestCase):
         self.subscription = models.Subscription.objects.create(
             email="tester@example.com"
         )
-        self.user = auth_models.User.objects.create(username="alice")
+        self.user = models.User.objects.create(username="alice")
         self.client.force_login(self.user)
 
     def test_broadcast_get(self):
@@ -377,7 +431,7 @@ class BroadcastTestCase(TestCase):
         self.subscription = models.Subscription.objects.create(
             email="tester@example.com"
         )
-        self.user = auth_models.User.objects.create(username="alice", is_superuser=True)
+        self.user = models.User.objects.create(username="alice", is_superuser=True)
         self.client.force_login(self.user)
 
     def test_broadcast_get(self):
@@ -615,7 +669,7 @@ class AnnounceUserTestCase(TestCase):
             body="details about django",
             scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
         )
-        self.user = auth_models.User.objects.create(username="alice")
+        self.user = models.User.objects.create(username="alice")
         self.client.force_login(self.user)
 
     def test_announce_get(self):
@@ -636,7 +690,7 @@ class AnnounceSuperuserTestCase(TestCase):
         self.subscription = models.Subscription.objects.create(
             email="tester@example.com"
         )
-        self.user = auth_models.User.objects.create(username="alice", is_superuser=True)
+        self.user = models.User.objects.create(username="alice", is_superuser=True)
         self.client.force_login(self.user)
 
     def test_announce_get(self):
