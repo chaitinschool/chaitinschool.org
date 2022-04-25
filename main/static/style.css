@@ -461,7 +461,19 @@ blockquote {
     margin-top: 8px;
 }
 
-.avatar {
+.avatar > img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-top: 16px;
+}
+
+.avatar-remove {
+    background: var(--highlight-color);
+}
+
+.profile-grid-avatar {
     object-fit: cover;
     width: 200px;
     height: 200px;

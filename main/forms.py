@@ -19,6 +19,10 @@ class UserAvatarForm(forms.Form):
     )
 
 
+class UserAvatarRemoveForm(forms.Form):
+    """Remove user's avatar fields."""
+
+
 class SubscriptionForm(forms.ModelForm):
     class Meta:
         model = models.Subscription

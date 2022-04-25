@@ -3,9 +3,9 @@
 {% block title %}Change profile picture — Chaitin School{% endblock %}
 
 {% block content %}
-<section>
+<section class="avatar">
     <h1>Change profile picture</h1>
-    <img src="data:image;base64,{{ request.user.avatar_base64 }}" class="avatar">
+    <img src="data:image;base64,{{ request.user.avatar_base64 }}">
 
     <form method="post" enctype="multipart/form-data">
         {{ form.non_field_errors }}
@@ -19,6 +19,12 @@
         </p>
         {% csrf_token %}
         <input type="submit" value="upload">
+    </form>
+
+    <br>
+    <form method="post" action="{% url 'user_avatar_remove' %}">
+        {% csrf_token %}
+        <input type="submit" value="remove profile photo" class="avatar-remove">
     </form>
 
     <p>

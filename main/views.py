@@ -112,6 +112,18 @@ class UserAvatar(LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
 
+class UserAvatarRemove(LoginRequiredMixin, FormView):
+    form_class = forms.UserAvatarRemoveForm
+    success_url = reverse_lazy("user_avatar")
+
+    def form_valid(self, form):
+        super().form_valid(form)
+        self.request.user.avatar_data = b""
+        self.request.user.avatar_ext = ""
+        self.request.user.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
         post_list = models.Post.objects.all().order_by("-published_at")

@@ -7,7 +7,7 @@
 {% block meta %}
 <meta name="twitter:card" content="summary">
 <meta property="og:title" content="{{ object.displayname }} — Chaitin School">
-<meta property="og:description" content="{{ object.full_name|default:object.username }}, member of Chaitin School">
+<meta property="og:description" content="{{ object.full_name|default:object.username }}, member of Chaitin School.">
 <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
 {% endblock %}
 
@@ -15,9 +15,15 @@
 <section class="profile">
     {% if object.avatar_data %}
     <div class="profile-grid">
+
+        {% if object == request.user %}
         <a href="{% url 'user_avatar' %}">
-            <img src="data:image;base64,{{ object.avatar_base64 }}" class="avatar">
+            <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-grid-avatar">
         </a>
+        {% else %}
+        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-grid-avatar">
+        {% endif %}
+
         <div class="profile-grid-text">
             <h1>{{ object.displayname }}</h1>
         </div>

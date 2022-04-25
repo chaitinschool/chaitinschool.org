@@ -45,5 +45,10 @@ urlpatterns += [
     path("accounts/create/", views.UserCreate.as_view(), name="user_create"),
     path("accounts/edit/", views.UserUpdate.as_view(), name="user_update"),
     path("accounts/edit/photo/", views.UserAvatar.as_view(), name="user_avatar"),
+    path(
+        "accounts/edit/photo/remove/",
+        views.UserAvatarRemove.as_view(),
+        name="user_avatar_remove",
+    ),
     path("accounts/delete/", views.UserDelete.as_view(), name="user_delete"),
 ]
