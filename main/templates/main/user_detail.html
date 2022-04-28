@@ -13,7 +13,6 @@
 
 {% block content %}
 <section class="profile">
-    {% if object.avatar_data %}
     <div class="profile-grid">
 
         {% if object == request.user %}
@@ -28,9 +27,6 @@
             <h1>{{ object.displayname }}</h1>
         </div>
     </div>
-    {% else %}
-    <h1>{{ object.displayname }}</h1>
-    {% endif %}
 
     <h2>{{ object.full_name|default:"About" }}</h2>
     <div>{{ object.about_as_html|safe }}</div>

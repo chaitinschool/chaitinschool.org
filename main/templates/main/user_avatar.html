@@ -4,7 +4,11 @@
 
 {% block content %}
 <section class="avatar">
+    {% if request.user.avatar_data %}
     <h1>Change profile picture</h1>
+    {% else %}
+    <h1>Add profile picture</h1>
+    {% endif %}
     <img src="data:image;base64,{{ request.user.avatar_base64 }}">
 
     <form method="post" enctype="multipart/form-data">
@@ -21,11 +25,13 @@
         <input type="submit" value="upload">
     </form>
 
+    {% if request.user.avatar_data %}
     <br>
     <form method="post" action="{% url 'user_avatar_remove' %}">
         {% csrf_token %}
         <input type="submit" value="remove profile photo" class="avatar-remove">
     </form>
+    {% endif %}
 
     <p>
         <br>
