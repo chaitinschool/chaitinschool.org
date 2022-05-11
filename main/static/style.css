@@ -233,7 +233,6 @@ a:hover {
 h1 {
     font-size: 38px;
     font-weight: 400;
-    margin: 32px 0 0;
     line-height: 1.2;
 }
 
@@ -449,10 +448,18 @@ blockquote {
     background: transparent;
 }
 
+.blogpost h1 {
+    margin: 32px 0 0;
+}
+
 @media (max-width: 664px) {
-    .post-date {
+    .blogpost-date {
         margin-top: 16px;
     }
+}
+
+.workshop h1 {
+    margin: 32px 0 0;
 }
 
 .workshop-datetime {

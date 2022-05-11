@@ -7,10 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<article itemscope itemtype="http://schema.org/BlogPosting">
+<article itemscope itemtype="http://schema.org/BlogPosting" class="blogpost">
     <h1 itemprop="name headline">{{ object.title }}</h1>
 
-    <div class="post-date">
+    <div class="blogpost-date">
         {% if post.is_published %}
         <time datetime="{{ object.published_at|date:'Y-m-d' }}" itemprop="datePublished">
             {{ object.published_at|date:'F j, Y' }}
