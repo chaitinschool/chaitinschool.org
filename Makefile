@@ -4,14 +4,14 @@ all: format lint cov
 
 format:
 	@echo Format Python code
-	black --exclude '/(\.direnv|\.pyenv)/' .
-	isort --skip-glob .pyenv --profile black .
+	black --exclude '/(\.direnv|\.pyenv|venv)/' .
+	isort --skip-glob .pyenv,venv --profile black .
 
 lint:
 	@echo Lint Python code
-	flake8 --exclude=.pyenv/,.direnv/ --ignore=E203,E501,W503
-	isort --check-only --skip-glob .pyenv --profile black .
-	black --check --exclude '/(\.direnv|\.pyenv)/' .
+	flake8 --exclude=.pyenv/,.direnv/,venv/ --ignore=E203,E501,W503
+	isort --check-only --skip-glob .pyenv,venv --profile black .
+	black --check --exclude '/(\.direnv|\.pyenv|venv)/' .
 
 test:
 	python -Wall manage.py test
