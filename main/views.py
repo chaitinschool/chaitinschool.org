@@ -213,6 +213,20 @@ class WorkshopList(ListView):
         return context
 
 
+class WorkshopListICS(ListView):
+    template_name = "main/workshop_list_ics.html"
+    content_type = "text/calendar"
+    queryset = models.Workshop.objects.filter(scheduled_at__isnull=False)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["workshop_list"] = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=False,
+        ).order_by("-scheduled_at")
+
+        return context
+
+
 class AttendanceView(SuccessMessageMixin, FormView):
     form_class = forms.AttendanceForm
     template_name = "main/workshop.html"

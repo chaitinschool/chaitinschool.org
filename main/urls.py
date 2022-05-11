@@ -8,6 +8,7 @@ urlpatterns = [
     path("subscribe/", views.subscribe, name="subscribe"),
     path("code-of-conduct/", views.coc, name="coc"),
     path("events/", views.WorkshopList.as_view(), name="workshop_list"),
+    path("events.ics", views.WorkshopListICS.as_view(), name="workshop_list_ics"),
     path(
         "workshops/<slug:slug>/",
         views.AttendanceView.as_view(),
