@@ -194,6 +194,24 @@ def index(request):
 class WorkshopList(ListView):
     queryset = models.Workshop.objects.filter(scheduled_at__isnull=False)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        today = timezone.now().date()
+        context["past_workshop_list"] = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=False,
+            scheduled_at__date__lt=today,
+        ).order_by("-scheduled_at")
+        context["future_workshop_list"] = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=False,
+            scheduled_at__date__gte=today,
+        ).order_by("-scheduled_at")
+        context["draft_workshop_list"] = models.Workshop.objects.filter(
+            scheduled_at__date__isnull=True
+        ).order_by("-title")
+
+        return context
+
 
 class AttendanceView(SuccessMessageMixin, FormView):
     form_class = forms.AttendanceForm

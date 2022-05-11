@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<article>
+<article class="workshop">
     <h1>{{ workshop.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>

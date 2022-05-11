@@ -3,8 +3,24 @@
 {% block content %}
 <article>
     <h1>All Events & Workshops</h1>
+    {% if future_workshop_list %}
+    <strong>Upcoming</strong>
     <ul class="events">
-        {% for w in workshop_list %}
+        {% for w in future_workshop_list %}
+        <li>
+            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
+                {{ w.scheduled_at|date:'Y-m-d' }}</time>
+            <a href="{% url 'workshop' w.slug %}">
+                {{ w.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <strong>Past</strong>
+    <ul class="events">
+        {% for w in past_workshop_list %}
         <li>
             <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
                 {{ w.scheduled_at|date:'Y-m-d' }}</time>
