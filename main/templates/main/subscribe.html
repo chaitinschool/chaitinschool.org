@@ -1,11 +1,13 @@
 {% extends 'main/layout.html' %}
 
+{% block title %}Subscribe for upcoming events — Chaitin School{% endblock %}
+
 {% block content %}
 <article>
-    <h1>Subscribe</h1>
+    <h1>Subscribe for upcoming events</h1>
 
     <form method="post" action="{% url 'index' %}">
-        <label for="email">Email:</label>
+        <label for="email">Email (private, never shared):</label>
         <input type="email" id="email" name="email">
         {% csrf_token %}
         <input type="submit" value="subscribe">

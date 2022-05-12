@@ -20,15 +20,10 @@
         We are a community of people interested in software engineering as a
         fun activity of leisure time as well as a craft to become skilled at.
     </p>
-    <form method="post" action="{% url 'index' %}">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        {% csrf_token %}
-        <input type="submit" value="subscribe">
-    </form>
 </article>
 
 {% if request.user.is_authenticated %}
+{% if draft_workshop_list %}
 <article>
     <strong>Draft Workshops</strong>
     | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
@@ -43,6 +38,11 @@
         {% endfor %}
     </ul>
 </article>
+{% else %}
+<article>
+    <a href="{% url 'admin:main_workshop_add' %}">Add new workshop</a>
+</article>
+{% endif %}
 {% endif %}
 
 {% if future_workshop_list %}
@@ -130,9 +130,9 @@
 {% endif %}
 
 <article>
-    <strong>Subscribe</strong>
+    <strong>Subscribe for upcoming events</strong>
     <form method="post" action="{% url 'index' %}">
-        <label for="email">Email:</label>
+        <label for="email">Email (private, never shared):</label>
         <input type="email" id="email" name="email" required>
         {% csrf_token %}
         <input type="submit" value="submit">
@@ -181,7 +181,8 @@
 <article>
     <strong>Chat</strong>
     <p>
-        We’re on <a href="https://discord.gg/bzjKNG4bUU">Discord</a>.
+        We’re on Discord. Invite link:
+        <a href="https://discord.gg/bzjKNG4bUU">https://discord.gg/bzjKNG4bUU</a>
     </p>
 </article>
 
