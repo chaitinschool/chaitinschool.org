@@ -153,6 +153,7 @@ def index(request):
                 "draft_workshop_list": draft_workshop_list,
                 "post_list": post_list,
                 "member_list": member_list,
+                "canonical_host": settings.CANONICAL_HOST,
             },
         )
 

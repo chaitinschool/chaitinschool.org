@@ -208,6 +208,18 @@ class StaticTestCase(TestCase):
         self.assertContains(response, "Django")
         workshop.delete()
 
+    def test_workshop_list_ics(self):
+        workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+        )
+        response = self.client.get(reverse("workshop_list_ics"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Django")
+        workshop.delete()
+
 
 class WorkshopTestCase(TestCase):
     def setUp(self):

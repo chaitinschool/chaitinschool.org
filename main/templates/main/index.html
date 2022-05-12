@@ -47,7 +47,12 @@
 
 {% if future_workshop_list %}
 <article>
-    <strong>Upcoming Workshops – Meetups</strong>
+    <strong>
+        Upcoming Events
+        <small>
+            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ICS feed</a>)
+        </small>
+    </strong>
     <ul class="events">
         {% for w in future_workshop_list %}
         <li>

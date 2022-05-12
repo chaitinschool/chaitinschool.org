@@ -3,6 +3,12 @@
 {% block content %}
 <article>
     <h1>All Events & Workshops</h1>
+
+    <p>
+        One can subscibe to the ICS calendar feed
+        <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">here</a>.
+    </p>
+
     {% if future_workshop_list %}
     <strong>Upcoming</strong>
     <ul class="events">
