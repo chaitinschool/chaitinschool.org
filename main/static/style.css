@@ -265,6 +265,11 @@ nav a {
     margin-right: 4px;
 }
 
+ul,
+ol {
+    padding-left: 20px;
+}
+
 article {
     margin-top: 32px;
 }
