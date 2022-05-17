@@ -176,6 +176,7 @@ class Attendance(models.Model):
     rsvp = models.BooleanField(default=True)
 
     class Meta:
+        ordering = ["-id"]
         unique_together = [["workshop", "email"]]
 
     def __str__(self):
