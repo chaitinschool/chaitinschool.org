@@ -290,6 +290,11 @@ class BlogView(ListView):
     )
     template_name = "main/blog.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["draft_list"] = models.Post.objects.filter(published_at__isnull=True)
+        return context
+
 
 class PostView(DetailView):
     model = models.Post

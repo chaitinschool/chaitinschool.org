@@ -3,6 +3,23 @@
 {% block content %}
 
 <section>
+    {% if request.user.is_authenticated %}
+    {% for post in draft_list %}
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h2 itemprop="name headline">
+            <a href="{% url 'post' post.slug %}">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <span style="color: #8d8d8d;">
+            DRAFT
+        </span>
+        | <a href="{% url 'admin:main_post_change' post.id %}">Edit post</a>
+    </article>
+    {% endfor %}
+    {% endif %}
+
     {% for post in post_list %}
     <article itemscope itemtype="http://schema.org/BlogPosting">
         <h2 itemprop="name headline">
@@ -14,7 +31,9 @@
         <time datetime="{{ post.published_at|date:'Y-m-d' }}" itemprop="datePublished">
             {{ post.published_at|date:'F j, Y' }}
         </time>
-
+        {% if request.user.is_authenticated %}
+        | <a href="{% url 'admin:main_post_change' post.id %}">Edit post</a>
+        {% endif %}
     </article>
     {% empty %}
     <em>nothing published yet</em>
