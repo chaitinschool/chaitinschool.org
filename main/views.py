@@ -305,6 +305,22 @@ def coc(request):
     return render(request, "main/codeofconduct.html")
 
 
+def vision(request):
+    return render(request, "main/vision.html")
+
+
+def processes(request):
+    return render(request, "main/processes.html")
+
+
+def funding(request):
+    return render(request, "main/funding.html")
+
+
+def values(request):
+    return render(request, "main/values.html")
+
+
 def subscribe(request):
     return render(request, "main/subscribe.html")
 
