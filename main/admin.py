@@ -104,5 +104,3 @@ class AttendanceAdmin(admin.ModelAdmin):
         "rsvp",
         "created_at",
     )
-
-    ordering = ["-workshop", "id"]
