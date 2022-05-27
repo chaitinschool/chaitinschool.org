@@ -1,0 +1,37 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Philosophy — Chaitin School{% endblock %}
+
+{% block content %}
+<article>
+    <h1>Philosophy</h1>
+
+    <blockquote>
+        <em>
+            Life can only be understood backwards; but it must be lived
+            forwards.
+        </em>
+        <br> — Søren Kierkegaard
+    </blockquote>
+
+    {% include "partials/philosophy_nav.html" %}
+
+    <p>
+        school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
+        (skholḗ, “spare time, leisure”, later, “conversations and the
+        knowledge gained through them during free time; the places
+        where these conversations took place”) —
+        <small>
+            (from <a href="https://en.wiktionary.org/wiki/school#Etymology_2">Wiktionary</a>)
+        </small>
+    </p>
+    <p>
+        School used to mean leisure; then it came to be the things
+        one gained when on leisure. Now it means death.
+    </p>
+    <p>
+        Let’s reclaim it.
+    </p>
+
+</article>
+{% endblock %}

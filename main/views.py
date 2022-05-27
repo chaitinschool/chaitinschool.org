@@ -309,6 +309,10 @@ def vision(request):
     return render(request, "main/vision.html")
 
 
+def philosophy(request):
+    return render(request, "main/philosophy.html")
+
+
 def processes(request):
     return render(request, "main/processes.html")
 
