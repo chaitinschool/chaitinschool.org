@@ -518,9 +518,3 @@ blockquote {
         padding: 0;
     }
 }
-
-footer {
-    max-width: 664px;
-    margin: 8px auto;
-    text-align: center;
-}
