@@ -21,7 +21,7 @@
         <small style="color: grey; font-family: sans-serif;">NOT PUBLISHED</small>
         {% endif %}
 
-        {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated and request.user.is_superuser %}
         | <a href="{% url 'admin:main_post_change' object.id %}">Edit post</a>
         {% endif %}
     </div>

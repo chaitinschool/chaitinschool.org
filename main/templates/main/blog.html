@@ -3,7 +3,7 @@
 {% block content %}
 
 <section>
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and request.user.is_superuser %}
     {% for post in draft_list %}
     <article itemscope itemtype="http://schema.org/BlogPosting">
         <h2 itemprop="name headline">
@@ -31,7 +31,7 @@
         <time datetime="{{ post.published_at|date:'Y-m-d' }}" itemprop="datePublished">
             {{ post.published_at|date:'F j, Y' }}
         </time>
-        {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated and request.user.is_superuser %}
         | <a href="{% url 'admin:main_post_change' post.id %}">Edit post</a>
         {% endif %}
     </article>

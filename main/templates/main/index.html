@@ -25,8 +25,7 @@
     </p>
 </article>
 
-{% if request.user.is_authenticated %}
-{% if draft_workshop_list %}
+{% if request.user.is_authenticated and request.user.is_superuser and draft_workshop_list %}
 <article>
     <strong>Draft Workshops</strong>
     | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
@@ -41,11 +40,6 @@
         {% endfor %}
     </ul>
 </article>
-{% else %}
-<article>
-    <a href="{% url 'admin:main_workshop_add' %}">Add new workshop</a>
-</article>
-{% endif %}
 {% endif %}
 
 {% if future_workshop_list %}
@@ -72,6 +66,9 @@
 
 <article>
     <strong>Past Events</strong>
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    | <a href="{% url 'admin:main_post_add' %}">Add new</a>
+    {% endif %}
     <ul class="events">
         {% for w in past_workshop_list %}
         <li>
@@ -164,7 +161,7 @@
     </p>
 </article>
 
-{% if request.user.is_authenticated %}
+{% if request.user.is_authenticated and request.user.is_superuser %}
 <article>
     <strong>Blog</strong>
     | <a href="{% url 'admin:main_post_add' %}">Add new</a>
