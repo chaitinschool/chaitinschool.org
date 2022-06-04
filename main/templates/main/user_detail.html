@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}{{ object.displayname }} — Chaitin School{% endblock %}
+{% block title %}{{ object.displayname }} at Chaitin School{% endblock %}
 
 {% block meta %}
 <meta name="twitter:card" content="summary">
@@ -28,14 +28,17 @@
         </div>
     </div>
 
+    {% if object.about %}
     <h2>{{ object.full_name|default:"About" }}</h2>
     <div>{{ object.about_as_html|safe }}</div>
-    <p>
-        {{ object.displayname }} is reachable at
-        <a href="mailto:{{ object.email }}">{{ object.email }}</a>
-    </p>
+    {% endif %}
 
     {% if object == request.user %}
+    {% if not request.user.avatar_data %}
+    <p>
+        <a href="{% url 'user_avatar' %}">Add profile picture »</a>
+    </p>
+    {% endif %}
     <p>
         <a href="{% url 'user_update' %}">Settings »</a>
     </p>
