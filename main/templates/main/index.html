@@ -20,6 +20,9 @@
         We are a community of people interested in software engineering as a
         fun activity of leisure time as well as a craft to become skilled at.
     </p>
+    <p>
+        <a href="{% url 'whatwedo' %}">What we do »</a>
+    </p>
 </article>
 
 {% if request.user.is_authenticated %}
@@ -96,6 +99,9 @@
         <li>not based on a teacher-student model</li>
         <li>not transaction-based</li>
     </ul>
+    <p>
+        <a href="{% url 'values' %}">What we value »</a>
+    </p>
 </article>
 
 <article>
@@ -115,6 +121,9 @@
     </p>
     <p>
         Let’s reclaim it.
+    </p>
+    <p>
+        <a href="{% url 'vision' %}">More on vision »</a>
     </p>
 </article>
 
@@ -142,6 +151,9 @@
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
+    <p>
+        <a href="{% url 'coc' %}">Code of Conduct »</a>
+    </p>
 </article>
 
 <article>
@@ -209,12 +221,11 @@
 
     <p>
         – How do you organise?
-        <br>– There is some information on our
-        <a href="{% url 'processes' %}">processes</a>.
+        <br>– Check out our <a href="{% url 'processes' %}">processes</a>.
     </p>
 
     <p>
-        – Is this open source?
+        – Is this website open source?
         <br>– Yes, on
         <a href="https://git.sr.ht/~sirodoht/chaitinschool.org">sr.ht</a>
         and
