@@ -325,6 +325,10 @@ def values(request):
     return render(request, "main/values.html")
 
 
+def whatwedo(request):
+    return render(request, "main/whatwedo.html")
+
+
 def subscribe(request):
     return render(request, "main/subscribe.html")
 
