@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "nonrandom_secret")
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("DEBUG") == "1" else False
@@ -162,6 +162,6 @@ EMAIL_FROM_HOST = "chaitinschool.org"
 SERVER_EMAIL = "Gregory <server@chaitinschool.org>"
 EMAIL_SUBJECT_PREFIX = "[chaitin] "
 
-# extra options for broadcasts
+# Email extra options for broadcasts
 EMAIL_BROADCAST_PREVIEW = "zf@sirodoht.com"
 EMAIL_POSTMARK_HEADER = "broadcast"
