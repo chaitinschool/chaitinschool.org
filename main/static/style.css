@@ -165,9 +165,9 @@ summary {
     :root {
         --dark-mode-color: #212529;
         --link-color: #3395ff;
-        --grey-5-color: #484848;
-        --grey-3-color: #bdbdbd;
         --grey-2-color: #888;
+        --grey-3-color: #bdbdbd;
+        --grey-5-color: #484848;
     }
 }
 
