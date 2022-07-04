@@ -4,6 +4,9 @@
 
 <section>
     {% if request.user.is_authenticated and request.user.is_superuser %}
+    <p>
+        <a href="{% url 'admin:main_post_add' %}">Add new post</a>
+    </p>
     {% for post in draft_list %}
     <article itemscope itemtype="http://schema.org/BlogPosting">
         <h2 itemprop="name headline">
