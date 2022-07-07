@@ -12,8 +12,14 @@
 <article itemscope itemtype="http://schema.org/BlogPosting" class="blogpost">
     <h1 itemprop="name headline">{{ object.title }}</h1>
 
-    <div class="blogpost-date">
+    <div class="blogpost-metadata">
         {% if post.is_published %}
+        {% if object.author.username %}
+        <a href="{% url 'user_detail' object.author.username %}">~{{ object.author.username }}</a>
+        published at
+        {% else %}
+        Published at
+        {% endif %}
         <time datetime="{{ object.published_at|date:'Y-m-d' }}" itemprop="datePublished">
             {{ object.published_at|date:'F j, Y' }}
         </time>

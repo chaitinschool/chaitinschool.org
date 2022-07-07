@@ -85,6 +85,7 @@ class Post(models.Model):
     byline = models.CharField(max_length=300)
     body = models.TextField()
     published_at = models.DateField(null=True, blank=True)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     @property
     def is_published(self):

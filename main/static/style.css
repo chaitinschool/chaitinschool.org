@@ -429,10 +429,17 @@ hr {
     margin: 32px 0 0;
 }
 
+.blogpost-metadata {
+    color: var(--grey-3-color);
+}
 @media (max-width: 664px) {
-    .blogpost-date {
+    .blogpost-metadata {
         margin-top: 16px;
     }
+}
+
+.blogpost-metadata a {
+    color: var(--grey-3-color);
 }
 
 .workshop h1 {
