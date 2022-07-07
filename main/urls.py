@@ -6,6 +6,32 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("feedback/", views.FeedbackView.as_view(), name="feedback"),
     path("subscribe/", views.subscribe, name="subscribe"),
+    path("blog/", views.BlogView.as_view(), name="blog"),
+    path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
+    path(
+        "broadcast/",
+        views.Broadcast.as_view(),
+        name="broadcast",
+    ),
+    path(
+        "unsubscribe/<uuid:key>/",
+        views.unsubscribe_key,
+        name="unsubscribe_key",
+    ),
+]
+
+# mentorships
+urlpatterns += [
+    path("mentorships/", views.MentorshipList.as_view(), name="mentorship_list"),
+    path(
+        "mentorships/<slug:slug>/",
+        views.MentorshipDetail.as_view(),
+        name="mentorship_detail",
+    ),
+]
+
+# workshops / event pages
+urlpatterns += [
     path("events/", views.WorkshopList.as_view(), name="workshop_list"),
     path("events.ics", views.WorkshopListICS.as_view(), name="workshop_list_ics"),
     path(
@@ -22,18 +48,6 @@ urlpatterns = [
         "workshops/<slug:slug>/announce/",
         views.AnnounceView.as_view(),
         name="announce",
-    ),
-    path("blog/", views.BlogView.as_view(), name="blog"),
-    path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
-    path(
-        "broadcast/",
-        views.Broadcast.as_view(),
-        name="broadcast",
-    ),
-    path(
-        "unsubscribe/<uuid:key>/",
-        views.unsubscribe_key,
-        name="unsubscribe_key",
     ),
 ]
 

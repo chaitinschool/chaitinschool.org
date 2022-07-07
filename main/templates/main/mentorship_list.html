@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Mentorships — Chaitin School{% endblock %}
+
+{% block content %}
+<section class="mentorships">
+    <h1>Mentorships</h1>
+
+    <p>
+        Members of Chaitin School offer 1-1 mentorships, for people
+        interested in learning, improving, getting familiar, exploring,
+        researching computer science and software engineering topics.
+    </p>
+    <p>
+        All Chaitin School mentorships are free of charge. There are no
+        certificates offered. Read more about how and why we do this on our
+        <a href="{% url 'values' %}">Values</a>.
+    </p>
+
+    <p>
+        Available mentorships:
+    </p>
+    <ul>
+    {% for mentorship in mentorship_list %}
+        <li>
+            <a href="{% url 'mentorship_detail' mentorship.slug %}">{{ mentorship.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock %}

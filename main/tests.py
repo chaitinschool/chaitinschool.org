@@ -803,3 +803,26 @@ class AnnounceSuperuserTestCase(TestCase):
                 models.EmailRecord.objects.all()[0].sent_at,
                 None,
             )
+
+
+class MentorshipTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice")
+        self.mentorship = models.Mentorship.objects.create(
+            mentor=self.user,
+            title="Django Mentorship",
+            slug="django",
+            body="details about django",
+        )
+
+    def test_mentorship_list(self):
+        response = self.client.get(reverse("mentorship_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Django Mentorship")
+
+    def test_mentorship_detail(self):
+        response = self.client.get(
+            reverse("mentorship_detail", args=(self.mentorship.slug,))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Django Mentorship")

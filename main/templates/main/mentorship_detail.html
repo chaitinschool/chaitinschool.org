@@ -1,0 +1,55 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block title %}{{ object.title }} — Chaitin School{% endblock %}
+
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="{{ object.title }} — Chaitin School">
+<meta property="og:description" content="{{ object.body|truncatewords:17 }}">
+<meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
+{% endblock %}
+
+{% block content %}
+<article class="mentorships">
+    <h1>{{ object.title }}</h1>
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <p>
+        <a href="{% url 'admin:main_mentorship_change' object.id %}">Edit mentorship</a>
+    </p>
+    {% endif %}
+
+    <div>
+        {{ object.body_as_html|safe }}
+    </div>
+
+    <h2>Mentor</h2>
+    <div class="mentorships-profile-grid">
+        <a href="{% url 'user_detail' mentorship.mentor.username %}">
+            <img src="data:image;base64,{{ mentorship.mentor.avatar_base64 }}" class="mentorships-profile-grid-avatar">
+        </a>
+        <div class="mentorships-profile-grid-text">
+            <a href="{% url 'user_detail' mentorship.mentor.username %}">
+                {{ mentorship.mentor.displayname }}
+            </a>
+        </div>
+    </div>
+
+    <h2>Apply</h2>
+    <p>
+        To apply, send an email to
+        <a href="mailto:{{ mentorship.mentor.email }}">{{ mentorship.mentor.email }}</a>,
+        with subject “Mentorship {{ mentorship.title }}” and empty body.
+    </p>
+
+    <h2>About mentorships</h2>
+    <p>
+        Members of Chaitin School
+        <a href="{% url 'mentorship_list' %}">offer 1-1 mentorships</a>,
+        for people
+        interested in learning, improving, getting familiar, exploring,
+        researching computer science and software engineering topics.
+    </p>
+</article>
+{% endblock %}

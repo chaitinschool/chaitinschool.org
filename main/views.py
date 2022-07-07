@@ -542,3 +542,11 @@ class AnnounceView(SuccessMessageMixin, mixins.SuperuserRequiredMixin, FormView)
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class MentorshipList(ListView):
+    queryset = models.Mentorship.objects.all().order_by("slug")
+
+
+class MentorshipDetail(DetailView):
+    model = models.Mentorship
