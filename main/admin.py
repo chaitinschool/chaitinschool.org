@@ -104,3 +104,15 @@ class AttendanceAdmin(admin.ModelAdmin):
         "rsvp",
         "created_at",
     )
+
+
+@admin.register(models.Mentorship)
+class MentorshipAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "mentor",
+        "title",
+        "slug",
+    )
+
+    ordering = ["-id"]
