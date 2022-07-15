@@ -40,7 +40,11 @@
     <p>
         To apply, send an email to
         <a href="mailto:{{ mentorship.mentor.email }}">{{ mentorship.mentor.email }}</a>,
-        with subject “Mentorship {{ mentorship.title }}” and empty body.
+        with subject “Mentorship {{ mentorship.title }}” and empty body. 
+        <a href="{% url 'user_detail' mentorship.mentor.username %}">
+            {{ mentorship.mentor.displayname }}
+        </a>
+        will get back to you.
     </p>
 
     <h2>About mentorships</h2>
