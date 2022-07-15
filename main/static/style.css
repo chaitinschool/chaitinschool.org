@@ -235,6 +235,7 @@ nav a {
 ul,
 ol {
     padding-left: 20px;
+    margin: 16px 0;
 }
 
 article {
