@@ -49,6 +49,7 @@
             <nav>
                 <a href="{% url 'index' %}">home</a>
                 | <a href="{% url 'workshop_list' %}">events</a>
+                | <a href="{% url 'mentorship_list' %}">mentorships</a>
                 | <a href="{% url 'philosophy' %}">philosophy</a>
                 | <a href="{% url 'blog' %}">blog</a>
                 {% if request.user.is_authenticated %}
