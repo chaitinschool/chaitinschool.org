@@ -1,5 +1,20 @@
 {% extends 'main/layout.html' %}
 
+{% load static %}
+
+{% block title %}{{ workshop.title }} — Chaitin School{% endblock %}
+
+{% block meta %}
+<meta name="twitter:card" content="summary">
+<meta property="og:title" content="{{ workshop.title }} — Chaitin School">
+{% if search_param %}
+<meta property="og:description" content='"{{ search_param }}" events & workshops — Chaitin School'>
+{% else %}
+<meta property="og:description" content="All Events & Workshops — Chaitin School">
+{% endif %}
+<meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
+{% endblock %}
+
 {% block content %}
 <article>
     {% if search_param %}
