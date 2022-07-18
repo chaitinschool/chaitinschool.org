@@ -197,6 +197,7 @@ class WorkshopList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["canonical_host"] = settings.CANONICAL_HOST
         today = timezone.now().date()
 
         if "/events/upcoming/" == self.request.path:
