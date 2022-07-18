@@ -2,7 +2,13 @@
 
 {% load static %}
 
-{% block title %}{{ workshop.title }} — Chaitin School{% endblock %}
+{% block title %}
+    {% if search_param %}
+    "{{ search_param }}" events & workshops — Chaitin School
+    {% else %}
+    All Events & Workshops — Chaitin School
+    {% endif %}
+{% endblock %}
 
 {% block meta %}
 <meta name="twitter:card" content="summary">
