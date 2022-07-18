@@ -55,8 +55,7 @@ All Events & Workshops — Chaitin School
     {% if upcoming_only or not upcoming_only and not past_only %}
     {% if future_workshop_list %}
     <a href="{% url 'workshop_list_upcoming' %}" style="color: #000;">
-        <strong>Upcoming</strong>
-    </a>
+        <strong>Upcoming</strong></a>
     <ul class="events">
         {% for w in future_workshop_list %}
         <li>
@@ -73,8 +72,7 @@ All Events & Workshops — Chaitin School
 
     {% if past_only or not upcoming_only and not past_only %}
     <a href="{% url 'workshop_list_past' %}" style="color: #000;">
-        <strong>Past</strong>
-    </a>
+        <strong>Past</strong></a>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
     {% endif %}
