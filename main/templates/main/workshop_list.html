@@ -37,7 +37,9 @@ All Events & Workshops — Chaitin School
         {% elif past_only %}
         Past
         {% else %}
+        {% if not search_param %}
         All
+        {% endif %}
         {% endif %}
 
         {% if search_param %}
