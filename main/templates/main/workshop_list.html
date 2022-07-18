@@ -2,7 +2,11 @@
 
 {% block content %}
 <article>
+    {% if search_param %}
+    <h1>"{{ search_param }}" events & workshops</h1>
+    {% else %}
     <h1>All Events & Workshops</h1>
+    {% endif %}
 
     <p>
         One can subscibe to the ICS calendar feed
@@ -36,5 +40,11 @@
         </li>
         {% endfor %}
     </ul>
+
+    {% if search_param %}
+    <p style="text-align: center; margin-top: 32px;">
+        <a href="{% url 'workshop_list' %}">See all events</a>
+    </p>
+    {% endif %}
 </article>
 {% endblock %}

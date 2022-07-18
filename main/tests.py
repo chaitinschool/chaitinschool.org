@@ -7,6 +7,7 @@ from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 
 from main import models, views
 
@@ -196,6 +197,24 @@ class StaticTestCase(TestCase):
         self.assertContains(response, "Django")
         workshop.delete()
 
+
+class WorkshopTestCase(TestCase):
+    def setUp(self):
+        self.workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+        )
+
+    def test_workshop_get(self):
+        response = self.client.get(reverse("workshop", args=(self.workshop.slug,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_workshop_ics_get(self):
+        response = self.client.get(reverse("workshop_ics", args=(self.workshop.slug,)))
+        self.assertEqual(response.status_code, 200)
+
     def test_workshop_list(self):
         workshop = models.Workshop.objects.create(
             title="Django",
@@ -220,23 +239,26 @@ class StaticTestCase(TestCase):
         self.assertContains(response, "Django")
         workshop.delete()
 
-
-class WorkshopTestCase(TestCase):
-    def setUp(self):
-        self.workshop = models.Workshop.objects.create(
+    def test_workshop_list_search(self):
+        workshop_a = models.Workshop.objects.create(
             title="Django",
             slug="django",
             body="details about django",
             scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
         )
-
-    def test_workshops_get(self):
-        response = self.client.get(reverse("workshop", args=(self.workshop.slug,)))
+        workshop_b = models.Workshop.objects.create(
+            title="Ruby",
+            slug="ruby",
+            body="details about ruby",
+            scheduled_at=datetime(2020, 2, 20, 13, 15, 0, tzinfo=timezone.utc),
+        )
+        url = reverse("workshop_list") + "?" + urlencode({"s": "django"})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    def test_workshops_ics_get(self):
-        response = self.client.get(reverse("workshop_ics", args=(self.workshop.slug,)))
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Django")
+        self.assertNotContains(response, "Ruby")
+        workshop_a.delete()
+        workshop_b.delete()
 
 
 class SubscriptionTestCase(TestCase):

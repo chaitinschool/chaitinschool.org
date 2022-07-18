@@ -197,8 +197,27 @@ class WorkshopList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         today = timezone.now().date()
+
+        search_param = self.request.GET.get("s")
+        if search_param:
+            context["search_param"] = search_param
+            context["past_workshop_list"] = models.Workshop.objects.filter(
+                scheduled_at__date__isnull=False,
+                scheduled_at__date__lt=today,
+                title__icontains=search_param,
+            ).order_by("-scheduled_at")
+            context["future_workshop_list"] = models.Workshop.objects.filter(
+                scheduled_at__date__isnull=False,
+                scheduled_at__date__gte=today,
+                title__icontains=search_param,
+            ).order_by("-scheduled_at")
+            context["draft_workshop_list"] = models.Workshop.objects.filter(
+                scheduled_at__date__isnull=True,
+                title__icontains=search_param,
+            ).order_by("-title")
+            return context
+
         context["past_workshop_list"] = models.Workshop.objects.filter(
             scheduled_at__date__isnull=False,
             scheduled_at__date__lt=today,
