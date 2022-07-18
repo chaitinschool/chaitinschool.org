@@ -33,6 +33,10 @@ urlpatterns += [
 # workshops / event pages
 urlpatterns += [
     path("events/", views.WorkshopList.as_view(), name="workshop_list"),
+    path(
+        "events/upcoming/", views.WorkshopList.as_view(), name="workshop_list_upcoming"
+    ),
+    path("events/past/", views.WorkshopList.as_view(), name="workshop_list_past"),
     path("events.ics", views.WorkshopListICS.as_view(), name="workshop_list_ics"),
     path(
         "workshops/<slug:slug>/",

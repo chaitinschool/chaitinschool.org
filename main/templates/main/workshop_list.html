@@ -3,11 +3,19 @@
 {% load static %}
 
 {% block title %}
-    {% if search_param %}
-    "{{ search_param }}" events & workshops — Chaitin School
-    {% else %}
-    All Events & Workshops — Chaitin School
-    {% endif %}
+{% if search_param %}
+"{{ search_param }}" events & workshops — Chaitin School
+{% else %}
+
+{% if upcoming_only %}
+Upcoming Events & Workshops — Chaitin School
+{% elif past_only %}
+Past Events & Workshops — Chaitin School
+{% else %}
+All Events & Workshops — Chaitin School
+{% endif %}
+
+{% endif %}
 {% endblock %}
 
 {% block meta %}
@@ -23,19 +31,32 @@
 
 {% block content %}
 <article>
-    {% if search_param %}
-    <h1>"{{ search_param }}" events & workshops</h1>
-    {% else %}
-    <h1>All Events & Workshops</h1>
-    {% endif %}
+    <h1>
+        {% if upcoming_only %}
+        Upcoming
+        {% elif past_only %}
+        Past
+        {% else %}
+        All
+        {% endif %}
+
+        {% if search_param %}
+        "{{ search_param }}" events & workshops
+        {% else %}
+        Events & Workshops
+        {% endif %}
+    </h1>
 
     <p>
         One can subscibe to the ICS calendar feed
         <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">here</a>.
     </p>
 
+    {% if upcoming_only or not upcoming_only and not past_only %}
     {% if future_workshop_list %}
-    <strong>Upcoming</strong>
+    <a href="{% url 'workshop_list_upcoming' %}" style="color: #000;">
+        <strong>Upcoming</strong>
+    </a>
     <ul class="events">
         {% for w in future_workshop_list %}
         <li>
@@ -48,8 +69,12 @@
         {% endfor %}
     </ul>
     {% endif %}
+    {% endif %}
 
-    <strong>Past</strong>
+    {% if past_only or not upcoming_only and not past_only %}
+    <a href="{% url 'workshop_list_past' %}" style="color: #000;">
+        <strong>Past</strong>
+    </a>
     <ul class="events">
         {% for w in past_workshop_list %}
         <li>
@@ -61,8 +86,9 @@
         </li>
         {% endfor %}
     </ul>
+    {% endif %}
 
-    {% if search_param %}
+    {% if search_param or upcoming_only or past_only %}
     <p style="text-align: center; margin-top: 32px;">
         <a href="{% url 'workshop_list' %}">See all events</a>
     </p>

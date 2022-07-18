@@ -199,6 +199,11 @@ class WorkshopList(ListView):
         context = super().get_context_data(**kwargs)
         today = timezone.now().date()
 
+        if "/events/upcoming/" == self.request.path:
+            context["upcoming_only"] = True
+        elif "/events/past/" == self.request.path:
+            context["past_only"] = True
+
         search_param = self.request.GET.get("s")
         if search_param:
             context["search_param"] = search_param
