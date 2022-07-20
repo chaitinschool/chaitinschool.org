@@ -14,6 +14,26 @@ The Django project is `chaitin`. There is one Django app, `main`, with all
 business logic. Application CLI commands are generally divided into two
 categories, those under `python manage.py` and those under `make`.
 
+```
+├── ...
+├── Makefile
+├── manage.py
+├── chaitin
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── main
+    ├── ...
+    ├── migrations/
+    ├── templates/
+    ├── static/
+    ├── apps.py
+    ├── urls.py
+    ├── models.py
+    └── views.py
+```
+
 ### Dependencies
 
 Using [venv](https://docs.python.org/3/library/venv.html):
