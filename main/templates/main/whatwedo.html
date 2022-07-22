@@ -3,25 +3,29 @@
 {% block title %}What we do — Chaitin School{% endblock %}
 
 {% block content %}
+<section id="primarydetails">
+    <article>
+        <h1>What we do</h1>
 
+        <p>
+            We set up events to get better at programming. Currently, we organise a
+            reading group and an open source hack night every ~2 weeks.
+        </p>
+        <p>
+            Find all events in our
+            <a href="{% url 'workshop_list' %}">events page</a>.
+        </p>
+        <p>
+            We plan to do more workshops in the future with coding-oriented
+            content. We are not interested in lecture-style presentations or
+            invited talks. Our aim is to explore a topic all together. Having
+            <a href="{% url 'values' %}#expertise">expertise is something we welcome</a>
+            but it’s not a requirement.
+        </p>
+    </article>
+</section>
+{% endblock %}
+
+{% block sidedetails %}
 {% include "partials/philosophy_nav.html" %}
-
-<article>
-    <h1>What we do</h1>
-
-    <p>
-        We set up events to get better at programming. Currently, we organise a
-        reading group and an open source hack night every ~2 weeks.
-    </p>
-    <p>
-        Find all events in our
-        <a href="{% url 'workshop_list' %}">events page</a>.
-    </p>
-    <p>
-        We plan to do more workshops in the future with coding-oriented
-        content. We are not interested in lecture-style presentations or
-        invited talks. Our aim is to explore a topic all together. Having
-        expertise is something we welcome but it’s not a requirement.
-    </p>
-</article>
 {% endblock %}

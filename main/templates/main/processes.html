@@ -3,126 +3,129 @@
 {% block title %}Processes — Chaitin School{% endblock %}
 
 {% block content %}
+<section id="primarydetails">
+    <article>
+        <h1>Processes</h1>
 
+        <blockquote>
+            <em>
+                It’s only us and it’s only now and it’s only here.
+            </em>
+            <br> — Maynard James Keenan
+        </blockquote>
+
+        <h2>Becoming a member</h2>
+        <p>
+            We welcome anyone—however knowledgeable, not knowledgeable,
+            old, young, from Earth, not from Earth—who wants to be part of our
+            community.
+        </p>
+        <p>
+            Feel free to attend
+            <a href="{% url 'workshop_list' %}">our events</a>, join our
+            <a href="https://discord.gg/bzjKNG4bUU">group on Discord</a>,
+            suggest ideas, take part and/or create initiatives.
+        </p>
+        <p>
+            We operate on a strict
+            <a href="{% url 'coc' %}">Code of Conduct</a> to maintain a friendly
+            space.
+        </p>
+
+        <h2>Starting new projects</h2>
+        <p>
+            We want to operate in a do-ocratic fashion. Anyone who wants to start
+            a new project or initiative, feel free to pitch the idea
+            <a href="https://discord.gg/bzjKNG4bUU">on Discord</a> and then
+            implement it. We’ll try to help as much as we can!
+        </p>
+
+        <h2>Making decisions</h2>
+        <p>
+            How groups of people make decisions is a fundamentally difficult problem.
+            Until now, given our small size, we didn’t have to make many. The ones
+            we did were easy to make. For example, an event can happen when the
+            organiser for it can do it in the first place.
+        </p>
+        <p>
+            As more people take part, more ideas will be on the table and more
+            decisions will need to be made. In principle and in practice, we aspire
+            to make decisions democratically and consensually.
+        </p>
+
+        <h2>Holding the keys</h2>
+        <p>
+            There is no physical space for Chaitin School to give the keys to.
+            However, shared ownership and trust are fundamental to the community
+            of the kind we want to have. Thus, sharing admin access to our online
+            assets (website, Discord) is standard practice for all members.
+        </p>
+
+        <h2 id="incident-response">Incident response</h2>
+        <p>
+            We have a strict
+            <a href="{% url 'coc' %}">Code of Conduct</a>
+            to create an open space where everybody feels welcomed. However, if
+            there is someone not following our Code of Conduct, it might be hard
+            to identify and respond to it. We recommend:
+        </p>
+        <ol>
+            <li>
+                Take some space. We recommend to first create some distance between
+                you and the person who’s engaging at potentially unacceptable
+                behaviour. This will hopefully help one see the incident more clearly.
+            </li>
+            <li>
+                Notify someone else. Hopefully there is someone in this event you
+                find trustworthy. Share your concern with them, see what they think.
+            </li>
+            <li>
+                Identify the issue. It’s a good idea to acquire a clear understanding
+                of the problematic behavior so that it can be communicated
+                clearly and effectively.
+            </li>
+            <li>
+                Assess response. Various levels of response are valid. In addition
+                to one’s current actions, it’s worth taking into consideration past
+                actions as well as their response. Did they become aware of their
+                problematic behaviour? Have they repeatedly ignored signs of their
+                behaviour causing stress? Has anyone talked to them about this
+                before?
+            </li>
+            <li>
+                Act. This can be either talking to them direcly, talking to someone
+                else, or even bringing the problem forward as a group discussion.
+                Eventually, the community can decide how to handle the matter
+                together.
+            </li>
+        </ol>
+        <p>
+            The above lack strict structure as well as defined outcomes. We are a
+            small and new community and, as we learn more, we can make this process
+            more detailed.
+        </p>
+
+        <h2>Handling disagreements</h2>
+        <p>
+            Inevitably, there will be disagreements. How we handle them is one more
+            indication of our skills and the quality of our community. We don’t
+            want to have rigid rules for such matters, so two points to follow are:
+        </p>
+        <ul>
+            <li>
+                Let’s try that our solutions include everyone’s needs. This is in
+                contrast to assuming everyone will fend for themselves.
+            </li>
+            <li>
+                Chaitin School wants to be a space that will allow something
+                different to exist. With this in mind, let’s try to reconcile
+                differences in a way that multiple ideas can flourish.
+            </li>
+        </ul>
+    </article>
+</section>
+{% endblock %}
+
+{% block sidedetails %}
 {% include "partials/philosophy_nav.html" %}
-
-<article>
-    <h1>Processes</h1>
-
-    <blockquote>
-        <em>
-            It’s only us and it’s only now and it’s only here.
-        </em>
-        <br> — Maynard James Keenan
-    </blockquote>
-
-    <h2>Becoming a member</h2>
-    <p>
-        We welcome anyone—however knowledgeable, not knowledgeable,
-        old, young, from Earth, not from Earth—who wants to be part of our
-        community.
-    </p>
-    <p>
-        Feel free to attend
-        <a href="{% url 'workshop_list' %}">our events</a>, join our
-        <a href="https://discord.gg/bzjKNG4bUU">group on Discord</a>,
-        suggest ideas, take part and/or create initiatives.
-    </p>
-    <p>
-        We operate on a strict
-        <a href="{% url 'coc' %}">Code of Conduct</a> to maintain a friendly
-        space.
-    </p>
-
-    <h2>Starting new projects</h2>
-    <p>
-        We want to operate in a do-ocratic fashion. Anyone who wants to start
-        a new project or initiative, feel free to pitch the idea
-        <a href="https://discord.gg/bzjKNG4bUU">on Discord</a> and then
-        implement it. We’ll try to help as much as we can!
-    </p>
-
-    <h2>Making decisions</h2>
-    <p>
-        How groups of people make decisions is a fundamentally difficult problem.
-        Until now, given our small size, we didn’t have to make many. The ones
-        we did were easy to make. For example, an event can happen when the
-        organiser for it can do it in the first place.
-    </p>
-    <p>
-        As more people take part, more ideas will be on the table and more
-        decisions will need to be made. In principle and in practice, we aspire
-        to make decisions democratically and consensually.
-    </p>
-
-    <h2>Holding the keys</h2>
-    <p>
-        There is no physical space for Chaitin School to give the keys to.
-        However, shared ownership and trust are fundamental to the community
-        of the kind we want to have. Thus, sharing admin access to our online
-        assets (website, Discord) is standard practice for all members.
-    </p>
-
-    <h2 id="incident-response">Incident response</h2>
-    <p>
-        We have a strict
-        <a href="{% url 'coc' %}">Code of Conduct</a>
-        to create an open space where everybody feels welcomed. However, if
-        there is someone not following our Code of Conduct, it might be hard
-        to identify and respond to it. We recommend:
-    </p>
-    <ol>
-        <li>
-            Take some space. We recommend to first create some distance between
-            you and the person who’s engaging at potentially unacceptable
-            behaviour. This will hopefully help one see the incident more clearly.
-        </li>
-        <li>
-            Notify someone else. Hopefully there is someone in this event you
-            find trustworthy. Share your concern with them, see what they think.
-        </li>
-        <li>
-            Identify the issue. It’s a good idea to acquire a clear understanding
-            of the problematic behavior so that it can be communicated
-            clearly and effectively.
-        </li>
-        <li>
-            Assess response. Various levels of response are valid. In addition
-            to one’s current actions, it’s worth taking into consideration past
-            actions as well as their response. Did they become aware of their
-            problematic behaviour? Have they repeatedly ignored signs of their
-            behaviour causing stress? Has anyone talked to them about this
-            before?
-        </li>
-        <li>
-            Act. This can be either talking to them direcly, talking to someone
-            else, or even bringing the problem forward as a group discussion.
-            Eventually, the community can decide how to handle the matter
-            together.
-        </li>
-    </ol>
-    <p>
-        The above lack strict structure as well as defined outcomes. We are a
-        small and new community and, as we learn more, we can make this process
-        more detailed.
-    </p>
-
-    <h2>Handling disagreements</h2>
-    <p>
-        Inevitably, there will be disagreements. How we handle them is one more
-        indication of our skills and the quality of our community. We don’t
-        want to have rigid rules for such matters, so two points to follow are:
-    </p>
-    <ul>
-        <li>
-            Let’s try that our solutions include everyone’s needs. This is in
-            contrast to assuming everyone will fend for themselves.
-        </li>
-        <li>
-            Chaitin School wants to be a space that will allow something
-            different to exist. With this in mind, let’s try to reconcile
-            differences in a way that multiple ideas can flourish.
-        </li>
-    </ul>
-</article>
 {% endblock %}

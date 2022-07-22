@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<article class="mentorships">
+<article class="mentorships-single">
     <h1>{{ object.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>

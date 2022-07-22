@@ -1,8 +1,9 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
-
 <section>
+    <h1>Blog</h1>
+
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
         <a href="{% url 'admin:main_post_add' %}">Add new post</a>
@@ -42,5 +43,4 @@
     <em>nothing published yet</em>
     {% endfor %}
 </section>
-
 {% endblock %}

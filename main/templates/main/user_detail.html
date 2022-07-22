@@ -13,25 +13,16 @@
 
 {% block content %}
 <section class="profile">
-    <div class="profile-grid">
-
-        {% if object == request.user %}
-        <a href="{% url 'user_avatar' %}">
-            <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-grid-avatar">
-        </a>
+    <h1>
+        About
+        {% if object.full_name %}
+        {{ object.full_name }}
         {% else %}
-        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-grid-avatar">
+        {{ object.displayname }}
         {% endif %}
+    </h1>
 
-        <div class="profile-grid-text">
-            <h1>{{ object.displayname }}</h1>
-        </div>
-    </div>
-
-    {% if object.about %}
-    <h2>{{ object.full_name|default:"About" }}</h2>
     <div>{{ object.about_as_html|safe }}</div>
-    {% endif %}
 
     {% if object == request.user %}
     {% if not request.user.avatar_data %}
@@ -44,4 +35,19 @@
     </p>
     {% endif %}
 </section>
+{% endblock %}
+
+{% block sidedetails %}
+<div style="text-align: center;">
+    {% if object == request.user %}
+    <a href="{% url 'user_avatar' %}">
+        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
+    </a>
+    {% else %}
+    <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
+    {% endif %}
+    <div class="profile-text">
+        {{ object.displayname }}
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,8 @@
+<li>
+    <a href="{% url 'workshop' w.slug %}">
+        {{ w.title }}</a>
+    <time datetime="{{ w.scheduled_at|date:'c' }}">
+        {{ w.scheduled_at|date:'Y-m-d D' }}
+        {{ w.scheduled_at|date:'g:iA'|lower }}
+    </time>
+</li>

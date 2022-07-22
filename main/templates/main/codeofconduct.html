@@ -1,119 +1,122 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
+<section id="primarydetails">
+    <article>
+        <h1>Code of Conduct</h1>
 
+        <blockquote>
+            <em>
+                But then one day, I was driving my little boy to school and I saw
+                this quote by Walt Whitman and it was painted on the wall there.
+                It said, “Be curious, not judgmental”. I like that.
+            </em>
+            <br> — Ted Lasso
+        </blockquote>
+
+        <h2>Purpose</h2>
+        <p>
+            We aim to be inclusive to the largest number of contributors, with
+            the most varied and diverse backgrounds possible. We are committed to
+            providing a friendly, safe, welcoming environment for everyone,
+            regardless of gender, sexual orientation, ability, ethnicity,
+            socioeconomic status, religion, age.
+        </p>
+        <p>
+            We want to do considerably better than the average group of
+            software-industry people in creating a very friendly space. We
+            especially want to cater to the needs of people that are members of
+            software-industry minorities.
+        </p>
+        <p>
+            We aim to create a safe space in terms of it being completely free of
+            bias and prejudice, however, we want to be open to radical ideas and
+            different cultures.
+        </p>
+        <p>
+            We want to adopt a collective approach to create a safe and comfortable
+            environment for everyone. Let’s all assume an active role to help
+            foster this.
+        </p>
+
+        <h2>OK behaviour</h2>
+        <p>Let’s:</p>
+        <ul>
+            <li>Participate in an honest and authentic way.</li>
+            <li>Exercise consideration and respect in our speech and actions.</li>
+            <li>Attempt collaboration before conflict.</li>
+            <li>Be mindful of surroundings and of fellow participants.</li>
+            <li>Alert fellow community members if you notice someone in distress.</li>
+        </ul>
+
+        <h2>Not OK behaviour</h2>
+        <p>
+            Not OK behaviours includes intimidating, harassing, abusive,
+            discriminatory, derogatory, demeaning speech or actions by any
+            participant, regardless of their popularity and prominence.
+        </p>
+        <p>
+            We do not welcome semi-unfriendly responses and social cues.
+            For example, it’s quite an uncomfortable feeling that one experiences
+            when they ask something along the lines of “what is X” or “who is Y”
+            and someone else responds with “What?! I can’t believe you don’t know
+            what X is!” or "Wow! You don’t know who Y is?!”. Let’s all refrain
+            from these. Asking about things one does not know is something we want
+            to enable and augment as much as possible—not the opposite.
+        </p>
+        <p>
+            Not OK behaviour is absolutely not acceptable and will not be tolerated.
+            Anyone asked to stop not OK behaviour is expected to comply immediately.
+        </p>
+
+        <h2>Notify and/or Act</h2>
+        <p>
+            If you are subject to or witness unacceptable behaviour we have an
+            <a href="{% url 'processes' %}#incident-response">Incident response</a>
+            process that one can follow. One can also notify someone else, even if
+            not sure of the acceptability or unacceptibility of the behaviour. We
+            have a list of community members to contact at the
+            <a href="#contact-list">bottom of this page</a>.
+        </p>
+        <p>
+            Even if there is behaviour not outlined as unacceptable by this text,
+            yet it causes uncomfortableness, please do follow the above.
+        </p>
+        <p>
+            We take this part very seriously while at the same time we want to
+            act with kindness and understanding for all community members.
+        </p>
+
+        <h2>Scope</h2>
+        <p>
+            We expect all community participants to abide by this Code of Conduct
+            in all community venues—online and in-person—as well as in all
+            one-on-one communications pertaining to community business.
+        </p>
+
+        <h2>Thanks</h2>
+        <p>
+            We want to thank the authors of the
+            <a href="https://berlincodeofconduct.org/">Berlin Code of Conduct</a>
+            and the <a href="https://pdxruby.org/CONDUCT">Portland Ruby Brigade</a>
+            and the
+            <a href="https://www.recurse.com/code-of-conduct">Recurse Center Code of Conduct</a>,
+            who indirectly helped us define this text.
+        </p>
+
+        <h2 id="contact-list">Contact list</h2>
+        <ul>
+            <li>
+                Theodore Keloglou
+                / <a href="https://t.me/sirodoht">Telegram</a>
+                / <a href="https://twitter.com/sirodoht">Twitter</a>
+                / <a href="mailto:zf+urgent@sirodoht.com">zf@sirodoht.com</a>
+            </li>
+        </ul>
+    </article>
+</section>
+{% endblock %}
+
+{% block sidedetails %}
 {% include "partials/philosophy_nav.html" %}
-
-<article>
-    <h1>Code of Conduct</h1>
-
-    <blockquote>
-        <em>
-            But then one day, I was driving my little boy to school and I saw
-            this quote by Walt Whitman and it was painted on the wall there.
-            It said, “Be curious, not judgmental”. I like that.
-        </em>
-        <br> — Ted Lasso
-    </blockquote>
-
-    <h2>Purpose</h2>
-    <p>
-        We aim to be inclusive to the largest number of contributors, with
-        the most varied and diverse backgrounds possible. We are committed to
-        providing a friendly, safe, welcoming environment for everyone,
-        regardless of gender, sexual orientation, ability, ethnicity,
-        socioeconomic status, religion, age.
-    </p>
-    <p>
-        We want to do considerably better than the average group of
-        software-industry people in creating a very friendly space. We
-        especially want to cater to the needs of people that are members of
-        software-industry minorities.
-    </p>
-    <p>
-        We aim to create a safe space in terms of it being completely free of
-        bias and prejudice, however, we want to be open to radical ideas and
-        different cultures.
-    </p>
-    <p>
-        We want to adopt a collective approach to create a safe and comfortable
-        environment for everyone. Let’s all assume an active role to help
-        foster this.
-    </p>
-
-    <h2>OK behaviour</h2>
-    <p>Let’s:</p>
-    <ul>
-        <li>Participate in an honest and authentic way.</li>
-        <li>Exercise consideration and respect in our speech and actions.</li>
-        <li>Attempt collaboration before conflict.</li>
-        <li>Be mindful of surroundings and of fellow participants.</li>
-        <li>Alert fellow community members if you notice someone in distress.</li>
-    </ul>
-
-    <h2>Not OK behaviour</h2>
-    <p>
-        Not OK behaviours includes intimidating, harassing, abusive,
-        discriminatory, derogatory, demeaning speech or actions by any
-        participant, regardless of their popularity and prominence.
-    </p>
-    <p>
-        We do not welcome semi-unfriendly responses and social cues.
-        For example, it’s quite an uncomfortable feeling that one experiences
-        when they ask something along the lines of “what is X” or “who is Y”
-        and someone else responds with “What?! I can’t believe you don’t know
-        what X is!” or "Wow! You don’t know who Y is?!”. Let’s all refrain
-        from these. Asking about things one does not know is something we want
-        to enable and augment as much as possible—not the opposite.
-    </p>
-    <p>
-        Not OK behaviour is absolutely not acceptable and will not be tolerated.
-        Anyone asked to stop not OK behaviour is expected to comply immediately.
-    </p>
-
-    <h2>Notify and/or Act</h2>
-    <p>
-        If you are subject to or witness unacceptable behaviour we have an
-        <a href="{% url 'processes' %}#incident-response">Incident response</a>
-        process that one can follow. One can also notify someone else, even if
-        not sure of the acceptability or unacceptibility of the behaviour. We
-        have a list of community members to contact at the
-        <a href="#contact-list">bottom of this page</a>.
-    </p>
-    <p>
-        Even if there is behaviour not outlined as unacceptable by this text,
-        yet it causes uncomfortableness, please do follow the above.
-    </p>
-    <p>
-        We take this part very seriously while at the same time we want to
-        act with kindness and understanding for all community members.
-    </p>
-
-    <h2>Scope</h2>
-    <p>
-        We expect all community participants to abide by this Code of Conduct
-        in all community venues—online and in-person—as well as in all
-        one-on-one communications pertaining to community business.
-    </p>
-
-    <h2>Thanks</h2>
-    <p>
-        We want to thank the authors of the
-        <a href="https://berlincodeofconduct.org/">Berlin Code of Conduct</a>
-        and the <a href="https://pdxruby.org/CONDUCT">Portland Ruby Brigade</a>
-        and the
-        <a href="https://www.recurse.com/code-of-conduct">Recurse Center Code of Conduct</a>,
-        who indirectly helped us define this text.
-    </p>
-
-    <h2 id="contact-list">Contact list</h2>
-    <ul>
-        <li>
-            Theodore Keloglou
-            / <a href="https://t.me/sirodoht">Telegram</a>
-            / <a href="https://twitter.com/sirodoht">Twitter</a>
-            / <a href="mailto:zf+urgent@sirodoht.com">zf@sirodoht.com</a>
-        </li>
-    </ul>
-</article>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block title %}
+
 {% if search_param %}
 "{{ search_param }}" events & workshops — Chaitin School
 {% else %}
@@ -27,6 +28,7 @@ All Events & Workshops — Chaitin School
 {% endif %}
 <meta property="og:description" content="IRL events on software engineering in London, England">
 <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -54,39 +56,30 @@ All Events & Workshops — Chaitin School
         <a href="webcal://{{ canonical_host }}{% url 'workshop_list_ics' %}">here</a>.
     </p>
 
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <p>
+        <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
+    </p>
+    {% endif %}
+
     {% if upcoming_only or not upcoming_only and not past_only %}
     {% if future_workshop_list %}
-    <a href="{% url 'workshop_list_upcoming' %}" style="color: #000;">
-        <strong>Upcoming</strong></a>
+    <a href="{% url 'workshop_list_upcoming' %}" class="muted-link">
+        <h2>Upcoming</h2></a>
     <ul class="events">
         {% for w in future_workshop_list %}
-        <li>
-            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
-                {{ w.scheduled_at|date:'Y-m-d' }}</time>
-            <a href="{% url 'workshop' w.slug %}">
-                {{ w.title }}
-            </a>
-        </li>
+        {% include "partials/event_item.html" with w=w %}
         {% endfor %}
     </ul>
     {% endif %}
     {% endif %}
 
     {% if past_only or not upcoming_only and not past_only %}
-    <a href="{% url 'workshop_list_past' %}" style="color: #000;">
-        <strong>Past</strong></a>
-    {% if request.user.is_authenticated and request.user.is_superuser %}
-    | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
-    {% endif %}
+    <a href="{% url 'workshop_list_past' %}" class="muted-link">
+        <h2>Past</h2></a>
     <ul class="events">
         {% for w in past_workshop_list %}
-        <li>
-            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
-                {{ w.scheduled_at|date:'Y-m-d' }}</time>
-            <a href="{% url 'workshop' w.slug %}">
-                {{ w.title }}
-            </a>
-        </li>
+        {% include "partials/event_item.html" with w=w %}
         {% endfor %}
     </ul>
     {% endif %}

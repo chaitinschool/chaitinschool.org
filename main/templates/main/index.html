@@ -2,29 +2,175 @@
 
 {% load static %}
 
-{% block logo %}
-<div class="logo">
-    <a href="{% url 'index' %}">
-        <img src="{% static 'logo.svg' %}">
-    </a>
-</div>
-<a href="{% url 'index' %}" class="title">
-    <h1>Chaitin School</h1>
-</a>
+{% block content %}
+<section id="introduction">
+    <article>
+        <strong>About</strong> <small>(in one sentence)</small>
+        <p>
+            We are a community of people interested in software engineering as a
+            fun activity of leisure time as well as a craft to become skilled at.
+        </p>
+        <p>
+            <a href="{% url 'whatwedo' %}">What we do »</a>
+        </p>
+    </article>
+</section>
+
+<section id="primarydetails">
+    <article>
+        <strong>About</strong> <small>(in one paragraph)</small>
+        <p>
+            Programming is a fun skill we want to become better at. We value
+            learning together rather than alone. We are a school because the
+            etymological definition of school is “leisure time”. We are a
+            school that is:
+        </p>
+        <ul>
+            <li>not only for beginners</li>
+            <li>not online</li>
+            <li>not based on a teacher-student model</li>
+            <li>not transaction-based</li>
+        </ul>
+        <p>
+            <a href="{% url 'values' %}">What we value »</a>
+        </p>
+    </article>
+
+    <article>
+        <strong>
+            <a href="{% url 'philosophy' %}" class="muted-link">Philosophy</a>
+        </strong>
+        <p>
+            school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
+            (skholḗ, “spare time, leisure”, later, “conversations and the
+            knowledge gained through them during free time; the places
+            where these conversations took place”) —
+            <small>
+                (from <a href="https://en.wiktionary.org/wiki/school#Etymology_2">Wiktionary</a>)
+            </small>
+        </p>
+        <p>
+            School used to mean leisure; then it came to be the things
+            one gained when on leisure. Now it means death.
+        </p>
+        <p>
+            Let’s reclaim it.
+        </p>
+        <p>
+            <a href="{% url 'vision' %}">More on vision »</a>
+        </p>
+    </article>
+
+    <article>
+        <strong>
+            <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
+        </strong>
+        <form method="post" action="{% url 'index' %}">
+            <label for="email">Email (private, never shared):</label>
+            <input type="email" id="email" name="email" required>
+            {% csrf_token %}
+            <input type="submit" value="submit">
+        </form>
+        <p>
+            <a href="{% url 'coc' %}">Code of Conduct »</a>
+        </p>
+    </article>
+
+    <article>
+        <strong>Chat</strong>
+        <p>
+            We’re on Discord:
+            <a href="https://discord.gg/bzjKNG4bUU">https://discord.gg/bzjKNG4bUU</a>
+        </p>
+    </article>
+
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <article>
+        <strong>
+            <a href="{% url 'blog' %}" class="muted-link">Blog</a>
+        </strong>
+        | <a href="{% url 'admin:main_post_add' %}">Add new</a>
+
+        <ul>
+            {% for post in post_list %}
+            <li>
+                <a href="{% url 'post' post.slug %}">{{ post }}</a>
+                {% if post.published_at %}
+                —
+                <time datetime="{{ post.published_at|date:'c' }}">
+                    {{ post.published_at|date:'F j, Y' }}
+                </time>
+                {% endif %}
+                | <a href="{% url 'admin:main_post_change' post.id %}">Edit</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </article>
+    {% else %}
+    <article>
+        <strong>Blog</strong>
+        <ul>
+            {% for post in post_list %}
+            {% if post.is_published %}
+            <li>
+                <a href="{% url 'post' post.slug %}">{{ post }}</a>
+                —
+                <time datetime="{{ post.published_at|date:'c' }}">
+                    {{ post.published_at|date:'F j, Y' }}
+                </time>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </article>
+    {% endif %}
+
+    <article>
+        <strong>FAQ</strong>
+        <p>
+            – What does Chaitin mean?
+            <br>–
+            <a href="https://en.wikipedia.org/wiki/Gregory_Chaitin">Gregory Chaitin</a>
+            is a computer scientist—among others—known for his
+            <a href="https://en.wikipedia.org/wiki/Chaitin%27s_constant">constant</a>.
+        </p>
+
+        <p>
+            – Can I do whatever I want?
+            <br>– Yes, as long as you follow our
+            <a href="{% url 'coc' %}">Code of Conduct</a>.
+        </p>
+
+        <p>
+            – How do you organise?
+            <br>– Check out our <a href="{% url 'processes' %}">Processes</a>.
+        </p>
+
+        <p>
+            – Can I provide feedback?
+            <br>– Please do! We have a <a href="{% url 'feedback' %}">Feedback</a> form.
+        </p>
+
+        <p>
+            – Is this website open source?
+            <br>– Yes, on
+            <a href="https://git.sr.ht/~sirodoht/chaitinschool.org">sr.ht</a>
+            and
+            <a href="https://github.com/chaitinschool/chaitinschool.org">GitHub</a>.
+        </p>
+
+        <p>
+            – Which font should I install to enjoy this website to the fullest?
+            <br>– Great question!
+            <a href="https://bitbucket.org/georgd/eb-garamond/downloads/EBGaramond-0.016.zip">EB Garamond</a>
+            is fervently
+            <a href="http://www.georgduffner.at/ebgaramond/">recommended</a> (install OTF files).
+        </p>
+    </article>
+</section>
 {% endblock %}
 
-{% block content %}
-<article>
-    <strong>About</strong> <small>(in one sentence)</small>
-    <p>
-        We are a community of people interested in software engineering as a
-        fun activity of leisure time as well as a craft to become skilled at.
-    </p>
-    <p>
-        <a href="{% url 'whatwedo' %}">What we do »</a>
-    </p>
-</article>
-
+{% block sidedetails %}
 {% if request.user.is_authenticated and request.user.is_superuser and draft_workshop_list %}
 <article>
     <strong>Draft Workshops</strong>
@@ -43,84 +189,19 @@
 {% if future_workshop_list %}
 <article>
     <strong>
-        Upcoming Events
+        <a href="{% url 'workshop_list' %}" class="muted-link">
+            Upcoming Events</a>
         <small>
             (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ICS feed</a>)
         </small>
     </strong>
     <ul class="events">
         {% for w in future_workshop_list %}
-        <li>
-            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
-                {{ w.scheduled_at|date:'Y-m-d' }}</time>
-            <a href="{% url 'workshop' w.slug %}">
-                {{ w.title }}
-            </a>
-        </li>
+        {% include "partials/event_item.html" %}
         {% endfor %}
     </ul>
 </article>
 {% endif %}
-
-<article>
-    <strong>Past Events</strong>
-    {% if request.user.is_authenticated and request.user.is_superuser %}
-    | <a href="{% url 'admin:main_workshop_add' %}">Add new</a>
-    {% endif %}
-    <ul class="events">
-        {% for w in past_workshop_list %}
-        <li>
-            <time datetime="{{ w.scheduled_at|date:'Y-m-d' }}">
-                {{ w.scheduled_at|date:'Y-m-d' }}</time>
-            <a href="{% url 'workshop' w.slug %}">
-                {{ w.title }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</article>
-
-<article>
-    <strong>About</strong> <small>(in one paragraph)</small>
-    <p>
-        Programming is a fun skill we want to become better at. We value
-        learning together rather than alone. We are a school because the
-        etymological definition of school is “leisure time”. We are a
-        school that is:
-    </p>
-    <ul>
-        <li>not only for beginners</li>
-        <li>not online</li>
-        <li>not based on a teacher-student model</li>
-        <li>not transaction-based</li>
-    </ul>
-    <p>
-        <a href="{% url 'values' %}">What we value »</a>
-    </p>
-</article>
-
-<article>
-    <strong>Philosophy</strong>
-    <p>
-        school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
-        (skholḗ, “spare time, leisure”, later, “conversations and the
-        knowledge gained through them during free time; the places
-        where these conversations took place”) —
-        <small>
-            (from <a href="https://en.wiktionary.org/wiki/school#Etymology_2">Wiktionary</a>)
-        </small>
-    </p>
-    <p>
-        School used to mean leisure; then it came to be the things
-        one gained when on leisure. Now it means death.
-    </p>
-    <p>
-        Let’s reclaim it.
-    </p>
-    <p>
-        <a href="{% url 'vision' %}">More on vision »</a>
-    </p>
-</article>
 
 {% if request.user.is_authenticated %}
 <article class="landing-members">
@@ -137,107 +218,4 @@
     </div>
 </article>
 {% endif %}
-
-<article>
-    <strong>Subscribe for upcoming events</strong>
-    <form method="post" action="{% url 'index' %}">
-        <label for="email">Email (private, never shared):</label>
-        <input type="email" id="email" name="email" required>
-        {% csrf_token %}
-        <input type="submit" value="submit">
-    </form>
-    <p>
-        <a href="{% url 'coc' %}">Code of Conduct »</a>
-    </p>
-</article>
-
-<article>
-    <strong>Chat</strong>
-    <p>
-        We’re on Discord:
-        <a href="https://discord.gg/bzjKNG4bUU">https://discord.gg/bzjKNG4bUU</a>
-    </p>
-</article>
-
-{% if request.user.is_authenticated and request.user.is_superuser %}
-<article>
-    <strong>Blog</strong>
-    | <a href="{% url 'admin:main_post_add' %}">Add new</a>
-
-    <ul>
-        {% for post in post_list %}
-        <li>
-            <a href="{% url 'post' post.slug %}">{{ post }}</a>
-            {% if post.published_at %}
-            —
-            <time datetime="{{ post.published_at|date:'Y-m-d' }}">
-                {{ post.published_at|date:'F j, Y' }}
-            </time>
-            {% endif %}
-            | <a href="{% url 'admin:main_post_change' post.id %}">Edit</a>
-        </li>
-    {% endfor %}
-    </ul>
-</article>
-{% else %}
-<article>
-    <strong>Blog</strong>
-    <ul>
-        {% for post in post_list %}
-        {% if post.is_published %}
-        <li>
-            <a href="{% url 'post' post.slug %}">{{ post }}</a>
-            —
-            <time datetime="{{ post.published_at|date:'Y-m-d' }}">
-                {{ post.published_at|date:'F j, Y' }}
-            </time>
-        </li>
-        {% endif %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
-
-<article>
-    <strong>FAQ</strong>
-    <p>
-        – What does Chaitin mean?
-        <br>–
-        <a href="https://en.wikipedia.org/wiki/Gregory_Chaitin">Gregory Chaitin</a>
-        is a computer scientist—among others—known for his
-        <a href="https://en.wikipedia.org/wiki/Chaitin%27s_constant">constant</a>.
-    </p>
-
-    <p>
-        – Can I do whatever I want?
-        <br>– Yes, as long as you follow our
-        <a href="{% url 'coc' %}">Code of Conduct</a>.
-    </p>
-
-    <p>
-        – How do you organise?
-        <br>– Check out our <a href="{% url 'processes' %}">Processes</a>.
-    </p>
-
-    <p>
-        – Can I provide feedback?
-        <br>– Please do! We have a <a href="{% url 'feedback' %}">Feedback</a> form.
-    </p>
-
-    <p>
-        – Is this website open source?
-        <br>– Yes, on
-        <a href="https://git.sr.ht/~sirodoht/chaitinschool.org">sr.ht</a>
-        and
-        <a href="https://github.com/chaitinschool/chaitinschool.org">GitHub</a>.
-    </p>
-
-    <p>
-        – Which font should I install to enjoy this website to the fullest?
-        <br>– Great question!
-        <a href="https://bitbucket.org/georgd/eb-garamond/downloads/EBGaramond-0.016.zip">EB Garamond</a>
-        is fervently
-        <a href="http://www.georgduffner.at/ebgaramond/">recommended</a> (install OTF files).
-    </p>
-</article>
 {% endblock %}

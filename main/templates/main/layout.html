@@ -20,53 +20,62 @@
     </head>
 
     <body>
-        {% if messages %}
-        <aside>
-            {% for message in messages %}
-            <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>
-                {{ message|safe }}
+        <header>
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'logo.svg' %}">
+                </a>
             </div>
-            {% endfor %}
-
-            {{ form.non_field_errors }}
-            {% if form.email.errors %}
-                {% for error in form.email.errors %}
-                    <span class="form-error">{{ error|escape }}</span><br>
-                {% endfor %}
-            {% endif %}
-        </aside>
-        {% endif %}
-
-        <main>
-            {% block logo %}
             <a href="{% url 'index' %}" class="title">
-                <div>Chaitin School</div>
+                <h1>Chaitin School</h1>
             </a>
-            {% endblock %}
             <div class="subtitle">of Software&nbsp;Engineering<br></div>
             <div class="subsubtitle">an in-person community in london, uk</div>
 
-            <nav>
-                <a href="{% url 'index' %}">home</a>
-                | <a href="{% url 'workshop_list' %}">events</a>
-                | <a href="{% url 'mentorship_list' %}">mentorships</a>
-                | <a href="{% url 'philosophy' %}">philosophy</a>
-                | <a href="{% url 'blog' %}">blog</a>
+            <ul role="navigation">
+                <li><a href="{% url 'index' %}">home</a></li>
+                <li><a href="{% url 'workshop_list' %}">events</a></li>
+                <li><a href="{% url 'mentorship_list' %}">mentorships</a></li>
+                <li><a href="{% url 'philosophy' %}">philosophy</a></li>
+                <li><a href="{% url 'blog' %}">blog</a></li>
                 {% if request.user.is_authenticated %}
-                | <a href="{% url 'user_detail' request.user.username %}">{{ request.user.displayname }}</a>
+                <li><a href="{% url 'user_detail' request.user.username %}">{{ request.user.displayname }}</a></li>
                 {% else %}
-                | <a href="{% url 'user_create' %}">join</a>
-                | <a href="{% url 'login' %}">log in</a>
+                <li><a href="{% url 'user_create' %}">join</a></li>
+                <li><a href="{% url 'login' %}">log in</a></li>
                 {% endif %}
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
-                | <a href="{% url 'admin:index' %}">admin</a>
+                <li><a href="{% url 'admin:index' %}">admin</a></li>
                 {% endif %}
-            </nav>
+            </ul>
+        </header>
+
+        <main>
+            {% if messages %}
+            <aside>
+                {% for message in messages %}
+                <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>
+                    {{ message|safe }}
+                </div>
+                {% endfor %}
+
+                {{ form.non_field_errors }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <span class="form-error">{{ error|escape }}</span><br>
+                    {% endfor %}
+                {% endif %}
+            </aside>
+            {% endif %}
 
             {% block content %}
             {% endblock %}
-        </main>
 
+            <section id="sidedetails">
+                {% block sidedetails %}
+                {% endblock %}
+            </section>
+        </main>
     </body>
 </html>

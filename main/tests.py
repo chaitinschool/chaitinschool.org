@@ -185,11 +185,12 @@ class StaticTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_index_get_workshop(self):
+        future_year = timezone.now().year + 10
         workshop = models.Workshop.objects.create(
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(future_year, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)

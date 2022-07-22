@@ -29,7 +29,7 @@
     <br>
     <form method="post" action="{% url 'user_avatar_remove' %}">
         {% csrf_token %}
-        <input type="submit" value="remove profile photo" class="avatar-remove">
+        <input type="submit" value="remove profile photo" class="btn-danger">
     </form>
     {% endif %}
 
