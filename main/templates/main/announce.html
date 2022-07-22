@@ -1,7 +1,7 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
-<article>
+<article class="workshops-single">
     <h1>Announce {{ workshop.title }}</h1>
     <form method="post" onsubmit="return confirm('Confirm sending?');">
         {{ form.as_p }}

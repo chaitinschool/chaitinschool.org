@@ -9,10 +9,10 @@
 {% endblock %}
 
 {% block content %}
-<article itemscope itemtype="http://schema.org/BlogPosting" class="blogpost">
+<article itemscope itemtype="http://schema.org/BlogPosting" class="blogposts-single">
     <h1 itemprop="name headline">{{ object.title }}</h1>
 
-    <div class="blogpost-metadata">
+    <div class="blogposts-metadata">
         {% if post.is_published %}
         {% if object.author.username %}
         <a href="{% url 'user_detail' object.author.username %}">~{{ object.author.username }}</a>

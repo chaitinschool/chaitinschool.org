@@ -174,7 +174,7 @@
 {% if request.user.is_authenticated and request.user.is_superuser and draft_workshop_list %}
 <article>
     <strong>Draft Workshops</strong>
-    <ul class="events">
+    <ul class="workshops-items">
         {% for w in draft_workshop_list %}
         <li>
             <a href="{% url 'workshop' w.slug %}">
@@ -195,7 +195,7 @@
             (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ICS feed</a>)
         </small>
     </strong>
-    <ul class="events">
+    <ul class="workshops-items">
         {% for w in future_workshop_list %}
         {% include "partials/workshop_item.html" %}
         {% endfor %}

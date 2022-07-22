@@ -190,12 +190,18 @@ body {
 @media (max-width: 1000px) {
     body {
         grid-template-columns: 1fr;
+        grid-template-rows: min-content;
     }
 }
 
 header {
     align-self: center;
     padding: 32px;
+}
+@media (max-width: 450px) {
+    header {
+        padding: 8px;
+    }
 }
 
 main {
@@ -270,14 +276,19 @@ h1 {
     font-size: 38px;
     font-weight: 400;
     line-height: 1.2;
+    margin: 32px 0 0;
 }
 
-h2 {
-    margin-bottom: 0;
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 24px 0 0;
 }
 
 ul[role="navigation"] {
-    margin: 32px auto;
+    margin: 32px auto 16px;
     width: 120px;
     list-style-type: decimal-leading-zero;
 }
@@ -289,17 +300,17 @@ ol {
 
 .nav-secondary {
     position: sticky;
-    top: 108px;
+    top: 96px;
     padding-left: 40px;
     list-style-type: lower-roman;
 }
 
-article {
-    margin-top: 32px;
-}
-
 img {
     width: 100%;
+}
+
+article {
+    margin-top: 32px;
 }
 
 aside {
@@ -390,6 +401,7 @@ hr {
     border-bottom: 0;
 }
 
+/* landing page */
 .logo {
     width: 128px;
     margin: 16px auto;
@@ -468,53 +480,40 @@ hr {
     margin-right: 8px;
 }
 
-.events {
+/* workshops */
+.workshops-items {
     list-style-type: none;
     padding-left: 0;
 }
 
-.events li {
+.workshops-items li {
     padding: 8px;
     line-height: 1.3;
 }
 
-.events li:nth-child(odd) {
+.workshops-items li:nth-child(odd) {
     background: var(--grey-5-color);
 }
 
-.events time {
+.workshops-items time {
     display: block;
     font-family: monospace;
     font-size: 16px;
     color: var(--grey-3-color);
 }
 
-.blogpost h1 {
-    margin: 32px 0 0;
-}
-
-.blogpost-metadata {
-    color: var(--grey-3-color);
-}
-
-.blogpost-metadata a {
-    color: var(--grey-3-color);
-}
-
-.workshop {
+.workshops-single {
     max-width: 600px;
+    margin-top: 0;
 }
 
-.workshop h1 {
-    margin: 32px 0 0;
-}
-
-.workshop-datetime {
+.workshops-datetime {
     display: inline-block;
     background: var(--highlight-color);
     margin-top: 8px;
 }
 
+/* user profile */
 .avatar > img {
     object-fit: cover;
     width: 200px;
@@ -535,9 +534,24 @@ hr {
     font-size: 38px;
 }
 
+/* blog */
+.blogposts-single {
+    max-width: 600px;
+    margin-top: 0;
+}
+
+.blogposts-metadata {
+    color: var(--grey-3-color);
+}
+
+.blogposts-metadata a {
+    color: var(--grey-3-color);
+}
+
 /* mentorships */
 .mentorships-single {
     max-width: 600px;
+    margin-top: 0;
 }
 
 .mentorships-profile-grid-avatar {

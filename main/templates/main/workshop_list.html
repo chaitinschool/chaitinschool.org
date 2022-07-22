@@ -32,7 +32,7 @@ All Events & Workshops — Chaitin School
 {% endblock %}
 
 {% block content %}
-<article>
+<section class="workshops">
     <h1>
         {% if upcoming_only %}
         Upcoming
@@ -66,7 +66,7 @@ All Events & Workshops — Chaitin School
     {% if future_workshop_list %}
     <a href="{% url 'workshop_list_upcoming' %}" class="muted-link">
         <h2>Upcoming</h2></a>
-    <ul class="events">
+    <ul class="workshops-items">
         {% for w in future_workshop_list %}
         {% include "partials/workshop_item.html" with w=w %}
         {% endfor %}
@@ -77,7 +77,7 @@ All Events & Workshops — Chaitin School
     {% if past_only or not upcoming_only and not past_only %}
     <a href="{% url 'workshop_list_past' %}" class="muted-link">
         <h2>Past</h2></a>
-    <ul class="events">
+    <ul class="workshops-items">
         {% for w in past_workshop_list %}
         {% include "partials/workshop_item.html" with w=w %}
         {% endfor %}
@@ -89,5 +89,5 @@ All Events & Workshops — Chaitin School
         <a href="{% url 'workshop_list' %}">See all events</a>
     </p>
     {% endif %}
-</article>
+</section>
 {% endblock %}
