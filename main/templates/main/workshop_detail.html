@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<article class="workshop">
+<article class="workshops-single">
     <h1>{{ workshop.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
@@ -24,7 +24,7 @@
     {% endif %}
 
     <div>
-        <div class="workshop-datetime">
+        <div class="workshops-datetime">
             {{ workshop.scheduled_at|default:"NOT PUBLISHED" }}
         </div>
     </div>

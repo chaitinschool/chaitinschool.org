@@ -247,7 +247,7 @@ class WorkshopListICS(ListView):
 
 class AttendanceView(SuccessMessageMixin, FormView):
     form_class = forms.AttendanceForm
-    template_name = "main/workshop.html"
+    template_name = "main/workshop_detail.html"
     success_message = "See you there!"
 
     def get_success_url(self):
