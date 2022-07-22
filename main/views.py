@@ -132,14 +132,10 @@ def index(request):
             member_list = member_list.filter(is_public=True)
 
         today = timezone.now().date()
-        past_workshop_list = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=False,
-            scheduled_at__date__lt=today,
-        ).order_by("-scheduled_at")
         future_workshop_list = models.Workshop.objects.filter(
             scheduled_at__date__isnull=False,
             scheduled_at__date__gte=today,
-        ).order_by("-scheduled_at")
+        ).order_by("scheduled_at")
         draft_workshop_list = models.Workshop.objects.filter(
             scheduled_at__date__isnull=True
         ).order_by("-title")
@@ -148,7 +144,6 @@ def index(request):
             request,
             "main/index.html",
             {
-                "past_workshop_list": past_workshop_list,
                 "future_workshop_list": future_workshop_list,
                 "draft_workshop_list": draft_workshop_list,
                 "post_list": post_list,
@@ -217,11 +212,7 @@ class WorkshopList(ListView):
                 scheduled_at__date__isnull=False,
                 scheduled_at__date__gte=today,
                 title__icontains=search_param,
-            ).order_by("-scheduled_at")
-            context["draft_workshop_list"] = models.Workshop.objects.filter(
-                scheduled_at__date__isnull=True,
-                title__icontains=search_param,
-            ).order_by("-title")
+            ).order_by("scheduled_at")
             return context
 
         context["past_workshop_list"] = models.Workshop.objects.filter(
@@ -231,7 +222,7 @@ class WorkshopList(ListView):
         context["future_workshop_list"] = models.Workshop.objects.filter(
             scheduled_at__date__isnull=False,
             scheduled_at__date__gte=today,
-        ).order_by("-scheduled_at")
+        ).order_by("scheduled_at")
         context["draft_workshop_list"] = models.Workshop.objects.filter(
             scheduled_at__date__isnull=True
         ).order_by("-title")
