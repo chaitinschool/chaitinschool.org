@@ -292,10 +292,17 @@ ul[role="navigation"] {
     width: 120px;
     list-style-type: decimal-leading-zero;
 }
+@media (max-height: 728px) {
+    ul[role="navigation"] {
+        display: grid;
+        grid-template-columns: auto auto;
+        width: 300px;
+    }
+}
 
 ul,
 ol {
-    padding-left: 20px;
+    padding-left: 32px;
 }
 
 .nav-secondary {
