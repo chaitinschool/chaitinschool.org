@@ -5,7 +5,10 @@
 {% block content %}
 <section id="introduction">
     <article>
-        <strong>About</strong> <small>(in one sentence)</small>
+        <strong>
+            <a href="{% url 'about' %}" class="muted-link">About</a>
+        </strong>
+        <small>(in one sentence)</small>
         <p>
             We are a community of people interested in software engineering as a
             fun activity of leisure time as well as a craft to become skilled at.
@@ -18,7 +21,10 @@
 
 <section id="primarydetails">
     <article>
-        <strong>About</strong> <small>(in one paragraph)</small>
+        <strong>
+            <a href="{% url 'about' %}" class="muted-link">About</a>
+        </strong>
+        <small>(in one paragraph)</small>
         <p>
             Programming is a fun skill we want to become better at. We value
             learning together rather than alone. We are a school because the

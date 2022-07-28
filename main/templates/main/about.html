@@ -1,0 +1,37 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}About — Chaitin School{% endblock %}
+
+{% block content %}
+<section id="primarydetails">
+    <article>
+        <h1>About</h1>
+
+        <h2 id="in-one-sentence">In one sentence</h2>
+        <p>
+            We are a community of people interested in software engineering as a
+            fun activity of leisure time as well as a craft to become skilled at.
+        </p>
+
+        <h2 id="in-one-paragraph">In one paragraph</h2>
+        <p>
+            Programming is a fun skill we want to become better at. We value
+            learning together rather than alone. We are a school because the
+            etymological definition of school is “leisure time”. We are a
+            school that is:
+        </p>
+        <ul>
+            <li>not only for beginners</li>
+            <li>not online</li>
+            <li>not based on a teacher-student model</li>
+            <li>not transaction-based</li>
+        </ul>
+
+        <p>
+            Read more about our
+            <a href="{% url 'philosophy' %}">Philosophy</a> or check out our
+            <a href="{% url 'workshop_list' %}">Events</a>.
+        </p>
+    </article>
+</section>
+{% endblock %}

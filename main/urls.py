@@ -57,6 +57,7 @@ urlpatterns += [
 
 # document pages
 urlpatterns += [
+    path("about/", views.about, name="about"),
     path("philosophy/", views.philosophy, name="philosophy"),
     path("what-we-do/", views.whatwedo, name="whatwedo"),
     path("code-of-conduct/", views.coc, name="coc"),

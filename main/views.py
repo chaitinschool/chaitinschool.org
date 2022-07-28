@@ -319,16 +319,20 @@ class PostView(DetailView):
     template_name = "main/post.html"
 
 
+def about(request):
+    return render(request, "main/about.html")
+
+
+def philosophy(request):
+    return render(request, "main/philosophy.html")
+
+
 def coc(request):
     return render(request, "main/codeofconduct.html")
 
 
 def vision(request):
     return render(request, "main/vision.html")
-
-
-def philosophy(request):
-    return render(request, "main/philosophy.html")
 
 
 def processes(request):
