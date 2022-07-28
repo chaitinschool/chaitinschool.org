@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 from main import views
 
@@ -38,6 +39,9 @@ urlpatterns += [
     ),
     path("events/past/", views.WorkshopList.as_view(), name="workshop_list_past"),
     path("events.ics", views.WorkshopListICS.as_view(), name="workshop_list_ics"),
+    path(
+        "workshops/", RedirectView.as_view(url="/events/"), name="workshop_list_redir"
+    ),
     path(
         "workshops/<slug:slug>/",
         views.AttendanceView.as_view(),
