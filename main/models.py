@@ -1,5 +1,6 @@
 import uuid
 from base64 import b64encode
+from datetime import timedelta
 
 import bleach
 import markdown
@@ -133,6 +134,23 @@ class Workshop(models.Model):
                 "markdown.extensions.tables",
                 "markdown.extensions.footnotes",
             ],
+        )
+
+    @property
+    def gcal_url(self):
+        title = self.title.replace("#", "")
+        start_date = self.scheduled_at.strftime("%Y%m%dT%H%M%SZ")
+        end_date = self.scheduled_at + timedelta(hours=3)
+        end_date = end_date.strftime("%Y%m%dT%H%M%SZ")
+        return (
+            "https://www.google.com/calendar/render"
+            "?action=TEMPLATE"
+            f"&text={title} // {settings.PROJECT_NAME}"
+            f"&dates={start_date}/{end_date}"
+            "&details="
+            f"&location={self.location_name}, {self.location_address}"
+            "&sf=true"
+            "&output=xml"
         )
 
     def get_absolute_url(self):
