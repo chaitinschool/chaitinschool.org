@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from datetime import timezone as pytimezone
 from unittest.mock import patch
 
 from django.conf import settings
@@ -190,7 +191,7 @@ class StaticTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(future_year, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(future_year, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
@@ -205,7 +206,7 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
 
     def test_workshop_get(self):
@@ -221,7 +222,7 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         response = self.client.get(reverse("workshop_list"))
         self.assertEqual(response.status_code, 200)
@@ -233,7 +234,7 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         response = self.client.get(reverse("workshop_list_ics"))
         self.assertEqual(response.status_code, 200)
@@ -245,13 +246,13 @@ class WorkshopTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         workshop_b = models.Workshop.objects.create(
             title="Ruby",
             slug="ruby",
             body="details about ruby",
-            scheduled_at=datetime(2020, 2, 20, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 20, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         url = reverse("workshop_list") + "?" + urlencode({"s": "django"})
         response = self.client.get(url)
@@ -580,7 +581,7 @@ class AttendanceTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
 
     def test_rsvp(self):
@@ -650,7 +651,7 @@ class AttendanceTwiceTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         self.attendance = models.Attendance.objects.create(
             workshop=self.workshop,
@@ -688,7 +689,7 @@ class AnnounceAnonTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
 
     def test_announce_get(self):
@@ -702,7 +703,7 @@ class AnnounceUserTestCase(TestCase):
             title="Django",
             slug="django",
             body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=timezone.utc),
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
         )
         self.user = models.User.objects.create(username="alice")
         self.client.force_login(self.user)
@@ -849,3 +850,71 @@ class MentorshipTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Django Mentorship")
+
+
+class ImageUploadTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice", is_superuser=True)
+        self.client.force_login(self.user)
+
+    def test_image_upload(self):
+        with open("main/testdata/vulf.jpeg", "rb") as fp:
+            self.client.post(reverse("image_list"), {"file": fp})
+            self.assertTrue(models.Image.objects.filter(name="vulf").exists())
+            self.assertEqual(models.Image.objects.get(name="vulf").extension, "jpeg")
+            self.assertIsNotNone(models.Image.objects.get(name="vulf").slug)
+
+
+class ImageUploadAnonTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice")
+        self.client.force_login(self.user)
+
+    def test_image_upload(self):
+        with open("main/testdata/vulf.jpeg", "rb") as fp:
+            response = self.client.post(reverse("image_list"), {"file": fp})
+            self.assertEqual(response.status_code, 403)
+            self.assertFalse(models.Image.objects.filter(name="vulf").exists())
+
+
+class ImageRawTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice", is_superuser=True)
+        self.client.force_login(self.user)
+        with open("main/testdata/vulf.jpeg", "rb") as fp:
+            self.client.post(reverse("image_list"), {"file": fp})
+        self.image = models.Image.objects.get(name="vulf")
+
+    def test_image_raw(self):
+        response = self.client.get(
+            reverse("image_raw", args=(self.image.slug, self.image.extension)),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.image.data, response.content)
+
+
+class ImageRawWrongExtTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice", is_superuser=True)
+        self.client.force_login(self.user)
+        with open("main/testdata/vulf.jpeg", "rb") as fp:
+            self.client.post(reverse("image_list"), {"file": fp})
+        self.image = models.Image.objects.get(name="vulf")
+
+    def test_image_raw(self):
+        response = self.client.get(
+            reverse("image_raw", args=(self.image.slug, "png")),
+        )
+        self.assertEqual(response.status_code, 404)
+
+
+class ImageRawNotFoundTestCase(TestCase):
+    def setUp(self):
+        self.slug = "nonexistent-slug"
+        self.extension = "jpeg"
+
+    def test_image_raw(self):
+        response = self.client.get(
+            reverse("image_raw", args=(self.slug, self.extension)),
+        )
+        self.assertEqual(response.status_code, 404)

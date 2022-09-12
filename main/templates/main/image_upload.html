@@ -1,0 +1,33 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<section>
+    <h1>Image Upload</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {{ form.non_field_errors }}
+        <p>
+            <input type="file" name="file" id="id_file" multiple required>
+            {% if form.file.errors %}
+                {% for error in form.file.errors %}
+                    <span class="form-error">{{ error|escape }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </p>
+        {% csrf_token %}
+        <input type="submit" value="Upload">
+    </form>
+</section>
+
+<section>
+    <ul>
+        {% for image in images %}
+        <li>
+            <a href="{% url 'image_raw' image.slug image.extension %}">
+                {{ image.name }}.{{ image.extension }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

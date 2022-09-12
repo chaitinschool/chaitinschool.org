@@ -68,3 +68,14 @@ class AnnounceForm(forms.Form):
     dry_run = forms.BooleanField(
         required=False, help_text="Send email only to preview users for testing."
     )
+
+
+class UploadImagesForm(forms.Form):
+    file = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={"multiple": True}),
+        validators=[
+            dj_validators.FileExtensionValidator(
+                ["jpeg", "jpg", "png", "svg", "gif", "webp", "tiff", "tif", "bmp"]
+            )
+        ],
+    )

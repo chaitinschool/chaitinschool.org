@@ -221,3 +221,31 @@ class Mentorship(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Image(models.Model):
+    name = models.CharField(max_length=300)  # original filename
+    slug = models.CharField(max_length=300, unique=True)
+    data = models.BinaryField()
+    extension = models.CharField(max_length=10)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-uploaded_at"]
+
+    @property
+    def filename(self):
+        return self.slug + "." + self.extension
+
+    @property
+    def data_as_base64(self):
+        return b64encode(self.data).decode("utf-8")
+
+    def get_absolute_url(self):
+        path = reverse(
+            "image_raw", kwargs={"slug": self.slug, "extension": self.extension}
+        )
+        return f"//{settings.CANONICAL_HOST}{path}"
+
+    def __str__(self):
+        return self.name

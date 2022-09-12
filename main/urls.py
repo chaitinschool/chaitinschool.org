@@ -59,6 +59,12 @@ urlpatterns += [
     ),
 ]
 
+# images
+urlpatterns += [
+    path("images/<slug:slug>.<slug:extension>", views.image_raw, name="image_raw"),
+    path("images/", views.ImageUpload.as_view(), name="image_list"),
+]
+
 # document pages
 urlpatterns += [
     path("about/", views.about, name="about"),

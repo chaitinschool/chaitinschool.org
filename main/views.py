@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -570,3 +572,57 @@ class MentorshipList(ListView):
 
 class MentorshipDetail(DetailView):
     model = models.Mentorship
+
+
+def image_raw(request, slug, extension):
+    image = models.Image.objects.filter(slug=slug).first()
+    if not image or extension != image.extension:
+        raise Http404()
+    return HttpResponse(image.data, content_type="image/" + image.extension)
+
+
+class ImageUpload(LoginRequiredMixin, FormView):
+    form_class = forms.UploadImagesForm
+    template_name = "main/image_upload.html"
+
+    def get_success_url(self, obj):
+        return utils.get_protocol() + obj.get_absolute_url()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["images"] = models.Image.objects.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist("file")
+        if form.is_valid():
+            for f in files:
+                name_ext_parts = f.name.rsplit(".", 1)
+                name = name_ext_parts[0].replace(".", "-")
+                self.extension = name_ext_parts[1].casefold()
+                if self.extension == "jpg":
+                    self.extension = "jpeg"
+                data = f.read()
+
+                # file limit 5MB
+                if len(data) > 5 * 1000 * 1000:
+                    form.add_error("file", "File too big. Limit is 5MB.")
+                    return self.form_invalid(form)
+
+                self.slug = str(uuid.uuid4())[:8]
+                obj = models.Image.objects.create(
+                    name=name,
+                    data=data,
+                    extension=self.extension,
+                    slug=self.slug,
+                )
+            return HttpResponseRedirect(self.get_success_url(obj))
+        else:
+            return self.form_invalid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        raise PermissionDenied()

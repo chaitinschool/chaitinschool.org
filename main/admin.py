@@ -116,3 +116,15 @@ class MentorshipAdmin(admin.ModelAdmin):
     )
 
     ordering = ["-id"]
+
+
+@admin.register(models.Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "slug",
+        "extension",
+        "uploaded_at",
+    )
+
+    ordering = ["-id"]
