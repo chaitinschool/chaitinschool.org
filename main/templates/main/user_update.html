@@ -18,9 +18,11 @@
         <input type="submit" value="save">
     </form>
 
-    <p>
-        <br>
-        <br><a href="{% url 'logout' %}">Log out »</a>
+    <p style="margin-top: 128px;">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="submit" value="Log out">
+        </form>
     </p>
     <p>
         <br>

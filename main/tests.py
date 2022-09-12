@@ -169,7 +169,7 @@ class LogoutTestCase(TestCase):
         self.client.force_login(self.user)
 
     def test_logout(self):
-        response_logout = self.client.get(reverse("logout"))
+        response_logout = self.client.post(reverse("logout"))
         self.assertEqual(response_logout.status_code, 302)
         response_index = self.client.get(reverse("index"))
         user = response_index.context.get("user")
