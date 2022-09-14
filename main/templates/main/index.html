@@ -210,18 +210,17 @@
 {% endif %}
 
 {% if request.user.is_authenticated %}
-<article class="landing-members">
+<article>
     <strong>Members</strong>
-    <div class="landing-members-grid">
+    <ul>
         {% for user in member_list %}
-        <a href="{% url 'user_detail' user.username %}">
-            <img src="data:image;base64,{{ user.avatar_base64 }}">
-            <div>
-                {{ user.full_name|default:user.displayname }}
-            </div>
-        </a>
+        <li>
+            <a href="{% url 'user_detail' user.username %}">
+                {{ user.displayname }}
+            </a>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 </article>
 {% endif %}
 {% endblock %}

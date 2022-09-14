@@ -458,35 +458,6 @@ hr {
     color: var(--grey-3-color);
 }
 
-.landing-members-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 8px;
-    margin-top: 16px;
-}
-@media (max-width: 500px) {
-    .landing-members-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.landing-members-grid a {
-    display: flex;
-    align-items: center;
-}
-
-.landing-members-grid a:hover {
-    text-decoration: none;
-    background: var(--highlight-color);
-}
-
-.landing-members-grid img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
 /* workshops */
 .workshops-items {
     list-style-type: none;
