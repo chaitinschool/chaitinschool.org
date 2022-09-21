@@ -207,6 +207,7 @@ class Mentorship(models.Model):
     title = models.CharField(max_length=300)
     slug = models.CharField(max_length=300)
     body = models.TextField()
+    is_available = models.BooleanField(default=False)
 
     @property
     def body_as_html(self):

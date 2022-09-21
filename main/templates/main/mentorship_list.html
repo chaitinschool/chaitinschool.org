@@ -21,12 +21,27 @@
         Available mentorships:
     </p>
     <ul>
-    {% for mentorship in mentorship_list %}
+        {% for mentorship in mentorship_list_available %}
         <li>
             <a href="{% url 'mentorship_detail' mentorship.slug %}">{{ mentorship.title }}</a>
         </li>
-    {% endfor %}
+        {% empty %}
+        <li><em>(none currently)</em></li>
+        {% endfor %}
     </ul>
+
+    {% if mentorship_list_unavailable %}
+    <p>
+        Past mentorships:
+    </p>
+    <ul>
+        {% for mentorship in mentorship_list_unavailable %}
+        <li>
+            <a href="{% url 'mentorship_detail' mentorship.slug %}">{{ mentorship.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     <p>
         Interested in offering a mentorship opportunity?

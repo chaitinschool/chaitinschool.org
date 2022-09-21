@@ -569,6 +569,16 @@ class AnnounceView(SuccessMessageMixin, mixins.SuperuserRequiredMixin, FormView)
 class MentorshipList(ListView):
     queryset = models.Mentorship.objects.all().order_by("slug")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mentorship_list_available"] = models.Mentorship.objects.filter(
+            is_available=True
+        ).order_by("slug")
+        context["mentorship_list_unavailable"] = models.Mentorship.objects.filter(
+            is_available=False
+        ).order_by("slug")
+        return context
+
 
 class MentorshipDetail(DetailView):
     model = models.Mentorship
