@@ -21,9 +21,11 @@ from main import forms, mixins, models, utils
 
 class UserCreate(CreateView):
     form_class = forms.UserCreationForm
-    success_url = reverse_lazy("index")
     template_name = "main/user_create.html"
     success_message = "welcome to Chaitin School :)"
+
+    def get_success_url(self):
+        return reverse_lazy("user_detail", args=(self.request.POST["username"],))
 
     def form_valid(self, form):
         self.object = form.save()
