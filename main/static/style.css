@@ -489,6 +489,7 @@ hr {
     display: inline-block;
     background: var(--highlight-color);
     margin-top: 8px;
+    padding: 0 8px;
 }
 
 /* user profile */
