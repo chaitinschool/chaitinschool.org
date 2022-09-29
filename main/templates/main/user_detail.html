@@ -13,13 +13,18 @@
 
 {% block content %}
 <section class="profile">
-    <h1>
-        About
-        {% if object.full_name %}
-        {{ object.full_name }}
+    <div>
+        {% if object == request.user %}
+        <a href="{% url 'user_avatar' %}">
+            <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
+        </a>
         {% else %}
-        {{ object.displayname }}
+        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
         {% endif %}
+    </div>
+
+    <h1>
+        {{ object.displayname }}
     </h1>
 
     <div>{{ object.about_as_html|safe }}</div>
@@ -38,16 +43,4 @@
 {% endblock %}
 
 {% block sidedetails %}
-<div style="text-align: center;">
-    {% if object == request.user %}
-    <a href="{% url 'user_avatar' %}">
-        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
-    </a>
-    {% else %}
-    <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
-    {% endif %}
-    <div class="profile-text">
-        {{ object.displayname }}
-    </div>
-</div>
 {% endblock %}
