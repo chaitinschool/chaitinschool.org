@@ -153,6 +153,10 @@ class Workshop(models.Model):
             "&output=xml"
         )
 
+    @property
+    def body_for_ics(self):
+        return self.body.replace("\n", " ").replace("#", "")
+
     def get_absolute_url(self):
         path = reverse("workshop", kwargs={"slug": self.slug})
         return f"//{settings.CANONICAL_HOST}{path}"

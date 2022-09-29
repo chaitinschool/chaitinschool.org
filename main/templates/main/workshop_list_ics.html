@@ -29,7 +29,7 @@ DTSTAMP:{{ w.scheduled_at|date:"Ymd\THis" }}
 DTSTART;TZID=Europe/London:{{ w.scheduled_at|date:"Ymd\THis" }}
 DURATION:PT2H
 LOCATION:{{ workshop.location_name }}
-DESCRIPTION: {{ w.body }}
+DESCRIPTION: {{ w.body_for_ics }}
 STATUS:CONFIRMED
 SEQUENCE:{{ w.id }}
 END:VEVENT
