@@ -1,0 +1,45 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Community Office Hours — Chaitin School{% endblock %}
+
+{% block content %}
+<section class="officehours">
+    <h1>Community Office Hours</h1>
+
+    <p>
+        During our
+        <a href="{% url 'workshop_list' %}?s=Hack Night">Hack Night events</a>
+        we hold community office hours where anyone can drop by and discuss
+        their technical problem.
+    </p>
+    <p>
+        Contrary to traditional university office hours, there are no fixed
+        roles of professors and students. Everyone* is welcome to attend
+        and either ask or provide a possible answer.
+    </p>
+    <p>
+        If you’re new, check out our
+        <a href="{% url 'coc' %}">Code of Conduct</a>.
+    </p>
+
+    <hr>
+    <p>
+        ✱ Everyone as in literally everyone. People new to programming, people
+        old to programming, old people in general, young people in general,
+        people who think “everyone” in this paragraph does not include them,
+        and people who think the previous clause does not include them.
+    </p>
+    <p>
+        If you have any accessibility needs,
+        <a href="mailto:x+accessibility@chaitinschool.org">let us know</a>.
+    </p>
+    <p>
+        If you are not sure you can attend Community Office Hours,
+        <a href="mailto:x+yes@chaitinschool.org">send us an email</a>.
+    </p>
+    <p>
+        For any questions in general,
+        <a href="mailto:x+questions@chaitinschool.org">send us an email</a>.
+    </p>
+</section>
+{% endblock %}

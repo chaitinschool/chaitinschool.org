@@ -638,3 +638,7 @@ class ImageUpload(LoginRequiredMixin, FormView):
         if request.user.is_authenticated and request.user.is_superuser:
             return super().dispatch(request, *args, **kwargs)
         raise PermissionDenied()
+
+
+def officehours(request):
+    return render(request, "main/officehours.html")
