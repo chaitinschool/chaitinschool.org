@@ -168,13 +168,6 @@ class Workshop(models.Model):
         ordering = ["-scheduled_at"]
 
 
-class Feedback(models.Model):
-    comment = models.TextField()
-
-    def __str__(self):
-        return self.comment[:30] + "..."
-
-
 class EmailRecord(models.Model):
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True)
     subject = models.CharField(max_length=300)

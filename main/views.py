@@ -370,21 +370,6 @@ def unsubscribe_key(request, key):
     return redirect("index")
 
 
-class FeedbackView(SuccessMessageMixin, FormView):
-    form_class = forms.FeedbackForm
-    template_name = "main/feedback.html"
-    success_url = reverse_lazy("index")
-    success_message = "Thank you 🙏"
-
-    def form_valid(self, form):
-        obj = form.save()
-        mail_admins(
-            f"New feedback: {obj.id}",
-            f"**Comment**\n\n{obj.comment}",
-        )
-        return super().form_valid(form)
-
-
 class Broadcast(mixins.SuperuserRequiredMixin, FormView):
     form_class = forms.BroadcastForm
     template_name = "main/broadcast.html"

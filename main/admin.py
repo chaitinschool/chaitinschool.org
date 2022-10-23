@@ -73,16 +73,6 @@ class WorkshopAdmin(admin.ModelAdmin):
     ordering = ["-id"]
 
 
-@admin.register(models.Feedback)
-class FeedbackAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "comment",
-    )
-
-    ordering = ["-id"]
-
-
 @admin.register(models.EmailRecord)
 class EmailRecordAdmin(admin.ModelAdmin):
     list_display = (

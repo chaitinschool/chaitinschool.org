@@ -5,7 +5,6 @@ from main import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("feedback/", views.FeedbackView.as_view(), name="feedback"),
     path("subscribe/", views.subscribe, name="subscribe"),
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),

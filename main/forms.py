@@ -29,14 +29,6 @@ class SubscriptionForm(forms.ModelForm):
         fields = ["email"]
 
 
-class FeedbackForm(forms.ModelForm):
-    class Meta:
-        model = models.Feedback
-        fields = [
-            "comment",
-        ]
-
-
 class BroadcastForm(forms.Form):
     subject = forms.CharField()
     body = forms.CharField(widget=forms.Textarea)
