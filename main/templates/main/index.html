@@ -172,21 +172,6 @@
 {% endblock %}
 
 {% block sidedetails %}
-{% if request.user.is_authenticated and request.user.is_superuser and draft_workshop_list %}
-<article>
-    <strong>Draft Workshops</strong>
-    <ul class="workshops-items">
-        {% for w in draft_workshop_list %}
-        <li>
-            <a href="{% url 'workshop' w.slug %}">
-                {{ w.title }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
-
 {% if future_workshop_list %}
 <article>
     <strong>

@@ -196,6 +196,7 @@ class StaticTestCase(TestCase):
             slug="django",
             body="details about django",
             scheduled_at=datetime(future_year, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=True,
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
@@ -227,6 +228,7 @@ class WorkshopTestCase(TestCase):
             slug="django",
             body="details about django",
             scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=True,
         )
         response = self.client.get(reverse("workshop_list"))
         self.assertEqual(response.status_code, 200)
@@ -239,10 +241,24 @@ class WorkshopTestCase(TestCase):
             slug="django",
             body="details about django",
             scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=True,
         )
         response = self.client.get(reverse("workshop_list_ics"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Django")
+        workshop.delete()
+
+    def test_workshop_list_ics_unconfirmed(self):
+        """Test that ICS endpoint does not leak unconfirmed events."""
+        workshop = models.Workshop.objects.create(
+            title="ruby",
+            slug="ruby",
+            body="details about ruby",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+        )
+        response = self.client.get(reverse("workshop_list_ics"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "ruby")
         workshop.delete()
 
     def test_workshop_list_search(self):
@@ -251,12 +267,14 @@ class WorkshopTestCase(TestCase):
             slug="django",
             body="details about django",
             scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=True,
         )
         workshop_b = models.Workshop.objects.create(
             title="Ruby",
             slug="ruby",
             body="details about ruby",
             scheduled_at=datetime(2020, 2, 20, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=True,
         )
         url = reverse("workshop_list") + "?" + urlencode({"s": "django"})
         response = self.client.get(url)
@@ -265,6 +283,50 @@ class WorkshopTestCase(TestCase):
         self.assertNotContains(response, "Ruby")
         workshop_a.delete()
         workshop_b.delete()
+
+    def test_workshop_list_search_unconfirmed(self):
+        """Test that search functionality does not leak unconfirmed events."""
+        workshop = models.Workshop.objects.create(
+            title="haskell",
+            slug="haskell",
+            body="details about haskell",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+        )
+        url = reverse("workshop_list") + "?" + urlencode({"s": "django"})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "haskell")
+        workshop.delete()
+
+
+class WorkshopConfirmTestCase(TestCase):
+    def setUp(self):
+        self.user = models.User.objects.create(username="alice")
+        self.workshop = models.Workshop.objects.create(
+            title="Django",
+            slug="django",
+            body="details about django",
+            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
+            is_confirmed=False,
+        )
+
+    def test_workshop_confirm_anon(self):
+        url = reverse("confirm", args=(self.workshop.slug,))
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(
+            models.Workshop.objects.get(slug=self.workshop.slug).is_confirmed
+        )
+
+    def test_workshop_confirm_auth(self):
+        self.client.force_login(self.user)
+        url = reverse("confirm", args=(self.workshop.slug,))
+        response = self.client.post(url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            models.Workshop.objects.get(slug=self.workshop.slug).is_confirmed
+        )
+        self.assertContains(response, "is now public")
 
 
 class SubscriptionTestCase(TestCase):

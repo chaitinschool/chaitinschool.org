@@ -1,8 +1,32 @@
-<li>
+{% if w.is_confirmed %}
+<li class="workshops-items-single">
     <a href="{% url 'workshop' w.slug %}">
-        {{ w.title }}</a>
-    <time datetime="{{ w.scheduled_at|date:'c' }}">
-        {{ w.scheduled_at|date:'Y-m-d D' }}
-        {{ w.scheduled_at|date:'g:iA'|lower }}
-    </time>
+        <div class="workshops-items-single-title">{{ w.title }}</div>
+        <div class="workshops-items-single-byline">
+            <time datetime="{{ w.scheduled_at|date:'c' }}">
+                {{ w.scheduled_at|date:'Y-m-d D' }}
+                {{ w.scheduled_at|date:'g:iA'|lower }}
+            </time>
+        </div>
+    </a>
 </li>
+{% else %}
+
+{# show unconfirmed workshops to logged in users only #}
+
+{% if request.user.is_authenticated %}
+<li class="workshops-items-single" style="opacity: 0.6;">
+    <a href="{% url 'workshop' w.slug %}">
+        <div class="workshops-items-single-title">{{ w.title }}</div>
+        <div class="workshops-items-single-byline">
+            <time datetime="{{ w.scheduled_at|date:'c' }}">
+                {{ w.scheduled_at|date:'Y-m-d D' }}
+                {{ w.scheduled_at|date:'g:iA'|lower }}
+            </time>
+            <span class="workshops-item-single-byline-flag">NOT CONFIRMED</span>
+        </div>
+    </a>
+</li>
+{% endif %}
+
+{% endif %}

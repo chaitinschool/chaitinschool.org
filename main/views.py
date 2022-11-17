@@ -13,6 +13,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 
@@ -137,19 +138,15 @@ def index(request):
 
         today = timezone.now().date()
         future_workshop_list = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=False,
+            is_confirmed=True,
             scheduled_at__date__gte=today,
         ).order_by("scheduled_at")
-        draft_workshop_list = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=True
-        ).order_by("-title")
 
         return render(
             request,
             "main/index.html",
             {
                 "future_workshop_list": future_workshop_list,
-                "draft_workshop_list": draft_workshop_list,
                 "post_list": post_list,
                 "member_list": member_list,
                 "canonical_host": settings.CANONICAL_HOST,
@@ -208,28 +205,25 @@ class WorkshopList(ListView):
         if search_param:
             context["search_param"] = search_param
             context["past_workshop_list"] = models.Workshop.objects.filter(
-                scheduled_at__date__isnull=False,
+                is_confirmed=True,
                 scheduled_at__date__lt=today,
                 title__icontains=search_param,
             ).order_by("-scheduled_at")
             context["future_workshop_list"] = models.Workshop.objects.filter(
-                scheduled_at__date__isnull=False,
+                is_confirmed=True,
                 scheduled_at__date__gte=today,
                 title__icontains=search_param,
             ).order_by("scheduled_at")
             return context
 
         context["past_workshop_list"] = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=False,
+            is_confirmed=True,
             scheduled_at__date__lt=today,
         ).order_by("-scheduled_at")
         context["future_workshop_list"] = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=False,
+            is_confirmed=True,
             scheduled_at__date__gte=today,
         ).order_by("scheduled_at")
-        context["draft_workshop_list"] = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=True
-        ).order_by("-title")
 
         return context
 
@@ -243,7 +237,7 @@ class WorkshopListICS(ListView):
         context = super().get_context_data(**kwargs)
 
         context["workshop_list"] = models.Workshop.objects.filter(
-            scheduled_at__date__isnull=False,
+            is_confirmed=True,
         ).order_by("-scheduled_at")
 
         return context
@@ -627,3 +621,14 @@ class ImageUpload(LoginRequiredMixin, FormView):
 
 def officehours(request):
     return render(request, "main/officehours.html")
+
+
+@require_POST
+def confirm(request, slug):
+    if not request.user.is_authenticated:
+        raise PermissionDenied()
+    workshop = get_object_or_404(models.Workshop, slug=slug)
+    workshop.is_confirmed = True
+    workshop.save()
+    messages.success(request, "event is now public")
+    return redirect("workshop", slug=slug)

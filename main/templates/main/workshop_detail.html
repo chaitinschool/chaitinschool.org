@@ -15,12 +15,20 @@
 <article class="workshops-single">
     <h1>{{ workshop.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
-    <p>
+    <div class="workshops-single-tools">
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
         {% if workshop.is_future %}
         | <a href="{% url 'announce' workshop.slug %}">Announce</a>
+
+        {% if not workshop.is_confirmed %}
+        | <form method="post" action="{% url 'confirm' workshop.slug %}" class="inline">
+            {% csrf_token %}
+            <input type="submit" value="Confirm">
+        </form>
         {% endif %}
-    </p>
+
+        {% endif %}
+    </div>
     {% endif %}
 
     <div>

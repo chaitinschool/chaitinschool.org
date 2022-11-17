@@ -56,6 +56,11 @@ urlpatterns += [
         views.AnnounceView.as_view(),
         name="announce",
     ),
+    path(
+        "workshops/<slug:slug>/confirm/",
+        views.confirm,
+        name="confirm",
+    ),
 ]
 
 # images
