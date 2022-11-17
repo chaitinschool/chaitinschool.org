@@ -118,6 +118,7 @@ class Workshop(models.Model):
     location_name = models.CharField(max_length=300)
     location_address = models.CharField(max_length=300)
     location_url = models.URLField()
+    is_confirmed = models.BooleanField(default=False)
 
     @property
     def is_future(self):

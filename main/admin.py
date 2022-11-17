@@ -66,6 +66,7 @@ class PostAdmin(admin.ModelAdmin):
 class WorkshopAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "is_confirmed",
         "title",
         "slug",
     )
