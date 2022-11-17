@@ -9,6 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core import mail
 from django.core.exceptions import PermissionDenied
 from django.core.mail import mail_admins
+from django.db.models import Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -138,8 +139,8 @@ def index(request):
 
         today = timezone.now().date()
         future_workshop_list = models.Workshop.objects.filter(
-            is_confirmed=True,
-            scheduled_at__date__gte=today,
+            Q(is_confirmed=True),
+            Q(scheduled_at__date__gte=today) | Q(scheduled_at__date__isnull=True),
         ).order_by("scheduled_at")
 
         return render(
@@ -210,9 +211,11 @@ class WorkshopList(ListView):
                 title__icontains=search_param,
             ).order_by("-scheduled_at")
             context["future_workshop_list"] = models.Workshop.objects.filter(
-                is_confirmed=True,
-                scheduled_at__date__gte=today,
-                title__icontains=search_param,
+                Q(is_confirmed=True),
+                Q(scheduled_at__date__gte=today) | Q(scheduled_at__date__isnull=True),
+                Q(
+                    title__icontains=search_param,
+                ),
             ).order_by("scheduled_at")
             return context
 
@@ -221,8 +224,8 @@ class WorkshopList(ListView):
             scheduled_at__date__lt=today,
         ).order_by("-scheduled_at")
         context["future_workshop_list"] = models.Workshop.objects.filter(
-            is_confirmed=True,
-            scheduled_at__date__gte=today,
+            Q(is_confirmed=True),
+            Q(scheduled_at__date__gte=today) | Q(scheduled_at__date__isnull=True),
         ).order_by("scheduled_at")
 
         return context
