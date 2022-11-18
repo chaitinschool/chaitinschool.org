@@ -145,7 +145,7 @@ def index(request):
         past_workshop_list = models.Workshop.objects.filter(
             Q(is_confirmed=True),
             Q(scheduled_at__date__lt=today),
-        ).order_by("scheduled_at")
+        ).order_by("-scheduled_at")
 
         return render(
             request,
