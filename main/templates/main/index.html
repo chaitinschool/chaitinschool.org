@@ -78,7 +78,12 @@
             <input type="submit" value="submit">
         </form>
         <p>
-            <a href="{% url 'coc' %}">Code of Conduct »</a>
+            or
+            <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
+                Add to Calendar</a>.
+        </p>
+        <p>
+            Check out our <a href="{% url 'coc' %}">Code of Conduct »</a>
         </p>
     </article>
 
@@ -202,7 +207,7 @@
     <p>
         or
         <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
-            Add feed to your Calendar app</a>.
+            Add to Calendar</a>.
     </p>
 </article>
 
