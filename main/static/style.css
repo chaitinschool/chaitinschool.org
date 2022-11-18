@@ -512,6 +512,7 @@ hr {
 .workshops-single {
     max-width: 600px;
     margin-top: 0;
+    word-wrap: break-word;
 }
 
 .workshops-single-tools {
