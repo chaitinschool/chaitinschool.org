@@ -6,9 +6,7 @@ db.sqlite3
 
 # environment
 .envrc
-.direnv/
-.pyenv/
-venv/
+.venv/
 
 # generated static
 /static/
