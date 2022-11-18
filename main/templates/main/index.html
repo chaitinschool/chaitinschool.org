@@ -178,11 +178,42 @@
         <a href="{% url 'workshop_list' %}" class="muted-link">
             Upcoming Events</a>
         <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ICS feed</a>)
+            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
         </small>
     </strong>
     <ul class="workshops-items">
         {% for w in future_workshop_list %}
+        {% include "partials/workshop_item.html" %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+<article>
+    <strong>
+        <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
+    </strong>
+    <form method="post" action="{% url 'index' %}">
+        <label for="email">Email (private, never shared):</label>
+        <input type="email" id="email" name="email" required>
+        {% csrf_token %}
+        <input type="submit" value="submit">
+    </form>
+    <p>
+        or
+        <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
+            Add feed to your Calendar app</a>.
+    </p>
+</article>
+
+{% if past_workshop_list %}
+<article>
+    <strong>
+        <a href="{% url 'workshop_list' %}" class="muted-link">
+            Past Events</a>
+    </strong>
+    <ul class="workshops-items">
+        {% for w in past_workshop_list %}
         {% include "partials/workshop_item.html" %}
         {% endfor %}
     </ul>

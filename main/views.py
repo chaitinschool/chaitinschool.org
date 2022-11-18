@@ -142,12 +142,17 @@ def index(request):
             Q(is_confirmed=True),
             Q(scheduled_at__date__gte=today) | Q(scheduled_at__date__isnull=True),
         ).order_by("scheduled_at")
+        past_workshop_list = models.Workshop.objects.filter(
+            Q(is_confirmed=True),
+            Q(scheduled_at__date__lt=today),
+        ).order_by("scheduled_at")
 
         return render(
             request,
             "main/index.html",
             {
                 "future_workshop_list": future_workshop_list,
+                "past_workshop_list": past_workshop_list,
                 "post_list": post_list,
                 "member_list": member_list,
                 "canonical_host": settings.CANONICAL_HOST,
