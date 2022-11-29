@@ -246,6 +246,7 @@ class WorkshopListICS(ListView):
 
         context["workshop_list"] = models.Workshop.objects.filter(
             is_confirmed=True,
+            scheduled_at__isnull=False,
         ).order_by("-scheduled_at")
 
         return context
