@@ -16,7 +16,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         workshops = {}
         for workshop in models.Workshop.objects.filter(scheduled_at__isnull=False):
             workshops[workshop.id] = workshop.title

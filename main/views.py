@@ -395,7 +395,6 @@ class Broadcast(mixins.SuperuserRequiredMixin, FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-
             # list of messages to sent out
             message_list = []
             record_ids = []
@@ -493,7 +492,6 @@ class AnnounceView(SuccessMessageMixin, mixins.SuperuserRequiredMixin, FormView)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-
             # list of messages to sent out
             message_list = []
             record_ids = []

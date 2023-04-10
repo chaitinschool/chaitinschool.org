@@ -406,7 +406,6 @@ class UnsubscribeInvalidTestCase(TestCase):
 
 class BlogTestCase(TestCase):
     def test_blog_index(self):
-
         models.Post.objects.create(
             title="First post",
             slug="first-post",

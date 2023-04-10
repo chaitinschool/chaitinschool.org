@@ -11,7 +11,6 @@ import main.validators
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
