@@ -22,3 +22,9 @@ test:
 cov:
 	coverage run --source='.' manage.py test
 	coverage report -m
+
+.PHONY: upgrade
+upgrade:
+	pip-compile -U requirements.in --resolver=backtracking
+	pip install --upgrade pip
+	pip install -r requirements.txt
