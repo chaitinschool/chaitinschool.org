@@ -80,6 +80,7 @@ urlpatterns += [
     path("vision/", views.vision, name="vision"),
     path("funding/", views.funding, name="funding"),
     path("office-hours/", views.officehours, name="officehours"),
+    path("projects/", views.projects, name="projects"),
 ]
 
 # user system

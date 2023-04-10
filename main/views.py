@@ -358,6 +358,10 @@ def whatwedo(request):
     return render(request, "main/whatwedo.html")
 
 
+def projects(request):
+    return render(request, "main/projects.html")
+
+
 def subscribe(request):
     return render(request, "main/subscribe.html")
 
