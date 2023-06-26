@@ -240,18 +240,4 @@
 </article>
 {% endif %}
 
-{% if request.user.is_authenticated %}
-<article>
-    <strong>Members</strong>
-    <ul>
-        {% for user in member_list %}
-        <li>
-            <a href="{% url 'user_detail' user.username %}">
-                {{ user.displayname }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
 {% endblock %}

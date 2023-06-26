@@ -40,12 +40,6 @@
                 <li><a href="{% url 'mentorship_list' %}">mentorships</a></li>
                 <li><a href="{% url 'officehours' %}">office hours</a></li>
                 <li><a href="{% url 'blog' %}">blog</a></li>
-                {% if request.user.is_authenticated %}
-                <li><a href="{% url 'user_detail' request.user.username %}">{{ request.user.displayname }}</a></li>
-                {% else %}
-                <li><a href="{% url 'user_create' %}">join</a></li>
-                <li><a href="{% url 'login' %}">log in</a></li>
-                {% endif %}
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>
