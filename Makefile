@@ -25,6 +25,6 @@ cov:
 
 .PHONY: upgrade
 upgrade:
-	pip-compile -U requirements.in --resolver=backtracking
+	pip-compile -U requirements.in --resolver=backtracking --generate-hashes
 	pip install --upgrade pip
 	pip install -r requirements.txt
