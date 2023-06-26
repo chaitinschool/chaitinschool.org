@@ -22,6 +22,23 @@
 <section id="primarydetails">
     <article>
         <strong>
+            <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
+        </strong>
+        <form method="post" action="{% url 'index' %}">
+            <label for="email">Email (private, never shared):</label>
+            <input type="email" id="email" name="email" required>
+            {% csrf_token %}
+            <input type="submit" value="submit">
+        </form>
+        <p>
+            or
+            <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
+                Add to Calendar</a>.
+        </p>
+    </article>
+
+    <article>
+        <strong>
             <a href="{% url 'about' %}" class="muted-link">About</a>
         </strong>
         <small>(in one paragraph)</small>
@@ -41,6 +58,40 @@
             <a href="{% url 'values' %}">What we value »</a>
         </p>
     </article>
+
+    {% if future_workshop_list %}
+    <article>
+        <strong>
+            <a href="{% url 'workshop_list' %}" class="muted-link">
+                Upcoming Events</a>
+            <small>
+                (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
+            </small>
+        </strong>
+        <ul class="workshops-items">
+            {% for w in future_workshop_list %}
+            {% include "partials/workshop_item.html" %}
+            {% endfor %}
+        </ul>
+    </article>
+    {% endif %}
+
+    {% if past_workshop_list %}
+    <article>
+        <strong>
+            <a href="{% url 'workshop_list' %}" class="muted-link">
+                Past 5 Events</a>
+            <small>
+                (<a href="{% url 'workshop_list' %}">all events</a>)
+            </small>
+        </strong>
+        <ul class="workshops-items">
+            {% for w in past_workshop_list %}
+            {% include "partials/workshop_item.html" %}
+            {% endfor %}
+        </ul>
+    </article>
+    {% endif %}
 
     <article>
         <strong>
@@ -189,55 +240,4 @@
         </ul>
     </article>
 </section>
-{% endblock %}
-
-{% block sidedetails %}
-{% if future_workshop_list %}
-<article>
-    <strong>
-        <a href="{% url 'workshop_list' %}" class="muted-link">
-            Upcoming Events</a>
-        <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
-        </small>
-    </strong>
-    <ul class="workshops-items">
-        {% for w in future_workshop_list %}
-        {% include "partials/workshop_item.html" %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
-
-<article>
-    <strong>
-        <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
-    </strong>
-    <form method="post" action="{% url 'index' %}">
-        <label for="email">Email (private, never shared):</label>
-        <input type="email" id="email" name="email" required>
-        {% csrf_token %}
-        <input type="submit" value="submit">
-    </form>
-    <p>
-        or
-        <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
-            Add to Calendar</a>.
-    </p>
-</article>
-
-{% if past_workshop_list %}
-<article>
-    <strong>
-        <a href="{% url 'workshop_list' %}" class="muted-link">
-            Past Events</a>
-    </strong>
-    <ul class="workshops-items">
-        {% for w in past_workshop_list %}
-        {% include "partials/workshop_item.html" %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
-
 {% endblock %}
