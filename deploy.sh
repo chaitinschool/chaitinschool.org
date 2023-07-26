@@ -14,7 +14,6 @@ python manage.py test
 
 # push origin
 git push origin master
-git push github master
 
 # pull and reload on server
 ssh root@95.217.223.96 'cd /opt/apps/chaitin \
