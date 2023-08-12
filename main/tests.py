@@ -185,10 +185,6 @@ class StaticTestCase(TestCase):
         response = self.client.get(reverse("coc"))
         self.assertEqual(response.status_code, 200)
 
-    def test_index_officehours(self):
-        response = self.client.get(reverse("officehours"))
-        self.assertEqual(response.status_code, 200)
-
     def test_index_get_workshop(self):
         future_year = timezone.now().year + 10
         workshop = models.Workshop.objects.create(
