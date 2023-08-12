@@ -34,6 +34,23 @@
     </p>
 </article>
 
+{% if future_workshop_list %}
+<article>
+    <strong>
+        <a href="{% url 'workshop_list' %}" class="muted-link">
+            Upcoming Events</a>
+        <small>
+            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
+        </small>
+    </strong>
+    <ul class="workshops-items">
+        {% for w in future_workshop_list %}
+        {% include "partials/workshop_item.html" %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
 <article>
     <strong>
         <a href="{% url 'about' %}" class="muted-link">About</a>
@@ -55,23 +72,6 @@
         <a href="{% url 'values' %}">What we value »</a>
     </p>
 </article>
-
-{% if future_workshop_list %}
-<article>
-    <strong>
-        <a href="{% url 'workshop_list' %}" class="muted-link">
-            Upcoming Events</a>
-        <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
-        </small>
-    </strong>
-    <ul class="workshops-items">
-        {% for w in future_workshop_list %}
-        {% include "partials/workshop_item.html" %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
 
 {% if past_workshop_list %}
 <article>
