@@ -633,10 +633,6 @@ class ImageUpload(LoginRequiredMixin, FormView):
         raise PermissionDenied()
 
 
-def officehours(request):
-    return render(request, "main/officehours.html")
-
-
 @require_POST
 def confirm(request, slug):
     if not request.user.is_authenticated:
