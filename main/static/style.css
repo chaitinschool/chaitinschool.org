@@ -283,10 +283,9 @@ ol {
 }
 
 .nav-secondary {
-    position: sticky;
-    top: 96px;
-    padding-left: 40px;
     list-style-type: lower-roman;
+    border: 1px solid var(--grey-4-color);
+    padding: 8px 40px;
 }
 
 img {
