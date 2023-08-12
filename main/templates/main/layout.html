@@ -37,8 +37,7 @@
                 <li><a href="{% url 'workshop_list' %}">events</a></li>
                 <li><a href="{% url 'philosophy' %}">philosophy</a></li>
                 <li><a href="{% url 'projects' %}">projects</a></li>
-                <li><a href="{% url 'mentorship_list' %}">mentorships</a></li>
-                <li><a href="{% url 'officehours' %}">office hours</a></li>
+                <!--<li><a href="{% url 'mentorship_list' %}">mentorships</a></li>-->
                 <li><a href="{% url 'blog' %}">blog</a></li>
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
@@ -67,11 +66,6 @@
 
             {% block content %}
             {% endblock %}
-
-            <section id="sidedetails">
-                {% block sidedetails %}
-                {% endblock %}
-            </section>
         </main>
     </body>
 </html>
