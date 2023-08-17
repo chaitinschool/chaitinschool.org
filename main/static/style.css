@@ -222,6 +222,7 @@ main {
 @media (max-width: 1000px) {
     main {
         padding-left: 8px;
+        padding-right: 8px;
         max-width: 560px;
         margin: 0 auto;
     }
@@ -285,7 +286,7 @@ ol {
 .nav-secondary {
     list-style-type: lower-roman;
     border: 1px solid var(--grey-4-color);
-    padding: 8px 40px;
+    padding: 8px 42px;
 }
 
 img {
