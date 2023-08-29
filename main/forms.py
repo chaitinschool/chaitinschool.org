@@ -24,6 +24,8 @@ class UserAvatarRemoveForm(forms.Form):
 
 
 class SubscriptionForm(forms.ModelForm):
+    carlos = forms.BooleanField(required=False)
+
     class Meta:
         model = models.Subscription
         fields = ["email"]

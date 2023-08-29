@@ -24,6 +24,10 @@
     <form method="post" action="{% url 'index' %}">
         <label for="email">Email (private, never shared):</label>
         <input type="email" id="email" name="email" required>
+
+        <label for="carlos" style="display: inline-block; margin: 4px 0 8px;">I am not a robot:</label>
+        <input type="checkbox" name="carlos" id="carlos">
+
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
@@ -122,6 +126,10 @@
     <form method="post" action="{% url 'index' %}">
         <label for="email">Email (private, never shared):</label>
         <input type="email" id="email" name="email" required>
+
+        <label for="carlos" style="display: inline-block; margin: 4px 0 8px;">I am not a robot:</label>
+        <input type="checkbox" name="carlos" id="carlos">
+
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>

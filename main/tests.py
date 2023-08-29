@@ -331,11 +331,12 @@ class SubscriptionTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Subscribe")
 
-    def test_index_post(self):
+    def test_index_post_human(self):
         response = self.client.post(
             reverse("index"),
             {
                 "email": "tester@example.com",
+                "carlos": True,
             },
             follow=True,
         )
@@ -361,6 +362,51 @@ class SubscriptionTestCase(TestCase):
             mail.outbox[0].from_email,
             settings.SERVER_EMAIL,
         )
+
+    def test_index_post_robot(self):
+        response = self.client.post(
+            reverse("index"),
+            {
+                "email": "tester@example.com",
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "If you are not a robot please re-entry your email and check the box!",
+        )
+
+        # verify model
+        self.assertEqual(models.Subscription.objects.all().count(), 0)
+
+        # verify email message
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_index_post_robot_with_checkbox(self):
+        response = self.client.post(
+            reverse("index"),
+            {
+                "email": "tester@example.com",
+                "carlos": False,
+            },
+            follow=True,
+        )
+
+        # verify request
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "If you are not a robot please re-entry your email and check the box!",
+        )
+
+        # verify model
+        self.assertEqual(models.Subscription.objects.all().count(), 0)
+
+        # verify email message
+        self.assertEqual(len(mail.outbox), 0)
 
 
 class UnsubscribeTestCase(TestCase):

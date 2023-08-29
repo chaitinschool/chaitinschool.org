@@ -181,6 +181,15 @@ def index(request):
                     },
                 )
 
+        carlos = form.cleaned_data["carlos"]
+        if not carlos:
+            # this is a bot
+            messages.error(
+                request,
+                "If you are not a robot please re-entry your email and check the box!",
+            )
+            return redirect("index")
+
         # this branch only executes if form is valid
         form.save()
         submitter_email = form.cleaned_data["email"]
