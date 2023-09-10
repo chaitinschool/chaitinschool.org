@@ -20,6 +20,12 @@
     </p>
     {% endif %}
 
+    {% if not mentorship.is_available %}
+    <div style="background: lightpink; margin-top: 16px; padding: 4px 8px; border-radius: 3px;">
+        This mentorship is no longer available.
+    </div>
+    {% endif %}
+
     <div>
         {{ object.body_as_html|safe }}
     </div>
