@@ -43,6 +43,7 @@
     </div>
 
     <h2>Apply</h2>
+    {% if mentorship.is_available %}
     <p>
         To apply, send an email to
         <a href="mailto:{{ mentorship.mentor.email }}">{{ mentorship.mentor.email }}</a>,
@@ -52,6 +53,11 @@
         </a>
         will get back to you.
     </p>
+    {% else %}
+    <p>
+        This mentorship is no longer available.
+    </p>
+    {% endif %}
 
     <h2>About mentorships</h2>
     <p>
