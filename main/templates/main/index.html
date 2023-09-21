@@ -1,65 +1,11 @@
 {% extends 'main/layout.html' %}
 
-{% load static %}
-
 {% block content %}
 <article>
-    <strong>
-        <a href="{% url 'about' %}" class="muted-link">About</a>
-    </strong>
-    <small>(in one sentence)</small>
     <p>
-        We are a small group of people interested in software engineering as a
+        We are an in-person group of people interested in software engineering as a
         fun activity of leisure time as well as a craft to become skilled at.
     </p>
-    <p>
-        <a href="{% url 'whatwedo' %}">What we do »</a>
-    </p>
-</article>
-
-<article>
-    <strong>
-        <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
-    </strong>
-    <form method="post" action="{% url 'index' %}">
-        <label for="email">Email (private, never shared):</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="carlos" style="display: inline-block; margin: 4px 0 8px;">I am not a robot:</label>
-        <input type="checkbox" name="carlos" id="carlos">
-
-        {% csrf_token %}
-        <input type="submit" value="submit">
-    </form>
-    <p>
-        or
-        <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
-            Add to Calendar</a>.
-    </p>
-</article>
-
-{% if future_workshop_list %}
-<article>
-    <strong>
-        <a href="{% url 'workshop_list' %}" class="muted-link">
-            Upcoming Events</a>
-        <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
-        </small>
-    </strong>
-    <ul class="workshops-items">
-        {% for w in future_workshop_list %}
-        {% include "partials/workshop_item.html" %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
-
-<article>
-    <strong>
-        <a href="{% url 'about' %}" class="muted-link">About</a>
-    </strong>
-    <small>(in one paragraph)</small>
     <p>
         Programming is a fun skill we want to become better at. We value
         learning together rather than alone. We are a school because the
@@ -72,32 +18,18 @@
         <li>not based on a teacher-student model</li>
         <li>not transaction-based</li>
     </ul>
-    <p>
-        <a href="{% url 'values' %}">What we value »</a>
-    </p>
 </article>
 
-{% if past_workshop_list %}
-<article>
-    <strong>
-        <a href="{% url 'workshop_list' %}" class="muted-link">
-            Past 5 Events</a>
-        <small>
-            (<a href="{% url 'workshop_list' %}">all events</a>)
-        </small>
-    </strong>
-    <ul class="workshops-items">
-        {% for w in past_workshop_list %}
-        {% include "partials/workshop_item.html" %}
-        {% endfor %}
-    </ul>
-</article>
-{% endif %}
+<p>
+    <em>
+        One of the symptoms of an approaching nervous breakdown is the
+        belief that one’s work is terribly important.
+    </em>
+    <br> — Bertrand Russell
+</p>
 
 <article>
-    <strong>
-        <a href="{% url 'philosophy' %}" class="muted-link">Philosophy</a>
-    </strong>
+    <strong>Philosophy</strong>
     <p>
         school &lt; from Ancient Greek σχολεῖον (skholeîon), from σχολή
         (skholḗ, “spare time, leisure”, later, “conversations and the
@@ -115,20 +47,117 @@
         Let’s reclaim it.
     </p>
     <p>
-        <a href="{% url 'vision' %}">More on vision »</a>
+        The goal of Chaitin School is to create space, in both spatial and
+        temporal dimensions. Space for people to explore
+        ideas, to make experiments and to fail; to make jokes, to participate,
+        and to meet new friends and networks.
+    </p>
+    <p>
+        Chaitin School is not interested in acquiring money.
+        Managing money is a very distracting process,
+        which would cause us to stop focusing on the essence of what we really
+        want to do here: learn computer science and software engineering. 
+        Paradoxically, we desire material assets, which makes the only way of
+        receiving them to be as gifts.
     </p>
 </article>
 
 <article>
-    <strong>
-        <a href="{% url 'subscribe' %}" class="muted-link">Subscribe for upcoming events</a>
-    </strong>
-    <form method="post" action="{% url 'index' %}">
-        <label for="email">Email (private, never shared):</label>
-        <input type="email" id="email" name="email" required>
+    <strong>Values</strong>
+    <p>
+        Inclusivity. We aim to be radically inclusive. No fees, no tickets, no
+        applications, no acceptance criteria. We welcome everybody who wants to
+        take part in our activities. Our only requirement is our
+        <a href="{% url 'coc' %}">Code of Conduct</a>,
+        which we hope is embraced and welcomed by everyone.
+    </p>
+    <p>
+        Expertise. We view software building both as an engineering discipline
+        and as a craft. We value both skill and creativity as things we want to
+        develop. Among others, these require practice, intelligence,
+        consistency, persistence.
+    </p>
+    <p>
+        Humour. Computers are fun and if they’re not, there is no point
+        programming them. The element of amusement is fundamental to our
+        approach.
+    </p>
+    <p>
+        Gifting. There are no transactions involved in what we do.
+        We gift as much as we feel comfortable. What usually happens is that
+        people appreciate it and take up an active role too. But this is
+        neither required nor expected.
+    </p>
+    <p>
+        Democracy. Traditional learning institutions have knowledge
+        authorities who provide absolution. It’s useful to learn along
+        someone experienced that has many answers, however,
+        hierarchy means people have to depend on the opinion of one (or a few).
+        In contrast, we aim to create a space where knowledge is assessed from
+        its content, regardless of where or whom it came from.
+    </p>
+    <p>
+        Exploration. We are interested in the knowledge behind computer science and software
+        engineering. Whether some of it has already been discovered is
+        irrelevant. We are interested in both kinds—and most times, by thinking
+        about
+        <a href="https://sites.pitt.edu/~druzdzel/feynman.html">what you already know</a>,
+        you discover what you don’t.
+    </p>
+    <p>
+        Community. Only if it is shared is there value to this project.
+        Thankfully, there are a lot of people to share it with; it’s hard only
+        because it—the community and the projects—are constantly defined
+        and redefined.
+    </p>
+</article>
 
-        <label for="carlos" style="display: inline-block; margin: 4px 0 8px;">I am not a robot:</label>
-        <input type="checkbox" name="carlos" id="carlos">
+{% if future_workshop_list %}
+<article>
+    <strong>
+        <a href="{% url 'workshop_list' %}">
+            Upcoming Events</a>
+        <small>
+            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
+        </small>
+    </strong>
+    <ul>
+        {% for w in future_workshop_list %}
+        {% include "partials/workshop_item.html" %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+{% if past_workshop_list %}
+<article>
+    <strong>
+        <a href="{% url 'workshop_list' %}">
+            Past 5 Events</a>
+        <small>
+            (<a href="{% url 'workshop_list' %}">all events</a>)
+        </small>
+    </strong>
+    <ul>
+        {% for w in past_workshop_list %}
+        {% include "partials/workshop_item.html" %}
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+<article>
+    <strong>Subscribe for event notifications</strong>
+    <form method="post" action="{% url 'index' %}">
+        <p>
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email" required>
+        </p>
+
+        <p>
+            <label for="carlos">I am not a robot:</label>
+            <input type="checkbox" name="carlos" id="carlos">
+        </p>
 
         {% csrf_token %}
         <input type="submit" value="submit">
@@ -153,7 +182,7 @@
 {% if request.user.is_authenticated and request.user.is_superuser %}
 <article>
     <strong>
-        <a href="{% url 'blog' %}" class="muted-link">Blog</a>
+        <a href="{% url 'blog' %}">Blog</a>
     </strong>
     | <a href="{% url 'admin:main_post_add' %}">Add new</a>
 
@@ -193,38 +222,27 @@
 
 <article>
     <strong>FAQ</strong>
-    <p>
-        – What does Chaitin mean?
-        <br>–
-        <a href="https://en.wikipedia.org/wiki/Gregory_Chaitin">Gregory Chaitin</a>
-        is a computer scientist—among others—known for his
-        <a href="https://en.wikipedia.org/wiki/Chaitin%27s_constant">constant</a>.
-    </p>
-
-    <p>
-        – Can I do whatever I want?
-        <br>– Yes, as long as you follow our
-        <a href="{% url 'coc' %}">Code of Conduct</a>.
-    </p>
-
-    <p>
-        – How do you organise?
-        <br>– Check out our <a href="{% url 'processes' %}">Processes</a>.
-    </p>
-
-    <p>
-        – Is this website open source?
-        <br>– Yes, on
-        <a href="https://github.com/chaitinschool/chaitinschool.org">GitHub</a>.
-    </p>
-
-    <p>
-        – Which font should I install to enjoy this website to the fullest?
-        <br>– Great question!
-        <a href="https://bitbucket.org/georgd/eb-garamond/downloads/EBGaramond-0.016.zip">EB Garamond</a>
-        is fervently
-        <a href="http://www.georgduffner.at/ebgaramond/">recommended</a> (install OTF files).
-    </p>
+    <ul>
+        <li>
+            What does Chaitin mean?
+            <br>
+            <a href="https://en.wikipedia.org/wiki/Gregory_Chaitin">Gregory Chaitin</a>
+            is a computer scientist—among others—known for his
+            <a href="https://en.wikipedia.org/wiki/Chaitin%27s_constant">constant</a>.
+        </li>
+        <li>
+            Can I do whatever I want?
+            <br>
+            Yes, as long as you follow our
+            <a href="{% url 'coc' %}">Code of Conduct</a>.
+        </li>
+        <li>
+            Is this website open source?
+            <br>
+            Yes, on
+            <a href="https://github.com/chaitinschool/chaitinschool.org">GitHub</a>.
+        </li>
+    </ul>
 </article>
 
 <article>

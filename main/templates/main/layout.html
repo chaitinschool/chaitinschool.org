@@ -6,39 +6,22 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Chaitin School of Software Engineering — in-person community in london, uk{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
-
-        {% block meta %}
-        <meta name="keywords" content="london, software engineering, school, learn, teach">
-        <meta name="twitter:card" content="summary">
-        <meta property="og:url" content="https://chaitinschool.org/">
-        <meta property="og:title" content="Chaitin School of Software Engineering — in-person community in london, uk">
-        <meta property="og:description" content="software engineering community in london, uk">
-        <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
-        {% endblock %}
+        <style>
+            body { font-family: monospace; line-height: 1.5; }
+            main { width: 600px; }
+        </style>
     </head>
-
     <body>
         <header>
-            <div class="logo">
-                <a href="{% url 'index' %}">
-                    <img src="{% static 'logo.svg' %}">
-                </a>
+            <div style="font-family: serif; font-size: 40px;">
+                Chaitin School of Software Engineering
             </div>
-            <a href="{% url 'index' %}" class="title">
-                <h1>Chaitin School</h1>
-            </a>
-            <div class="subtitle">of Software&nbsp;Engineering<br></div>
-            <div class="subsubtitle">an in-person community in london, uk</div>
 
             <ul role="navigation">
                 <li><a href="{% url 'index' %}">home</a></li>
                 <li><a href="{% url 'workshop_list' %}">events</a></li>
-                <li><a href="{% url 'philosophy' %}">philosophy</a></li>
                 <li><a href="{% url 'projects' %}">projects</a></li>
-                <!--<li><a href="{% url 'mentorship_list' %}">mentorships</a></li>-->
-                <li><a href="{% url 'blog' %}">blog</a></li>
+                <li><a href="{% url 'coc' %}">code of conduct</a></li>
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>

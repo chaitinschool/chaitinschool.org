@@ -335,44 +335,12 @@ class PostView(DetailView):
     template_name = "main/post.html"
 
 
-def about(request):
-    return render(request, "main/about.html")
-
-
-def philosophy(request):
-    return render(request, "main/philosophy.html")
-
-
 def coc(request):
     return render(request, "main/codeofconduct.html")
 
 
-def vision(request):
-    return render(request, "main/vision.html")
-
-
-def processes(request):
-    return render(request, "main/processes.html")
-
-
-def funding(request):
-    return render(request, "main/funding.html")
-
-
-def values(request):
-    return render(request, "main/values.html")
-
-
-def whatwedo(request):
-    return render(request, "main/whatwedo.html")
-
-
 def projects(request):
     return render(request, "main/projects.html")
-
-
-def subscribe(request):
-    return render(request, "main/subscribe.html")
 
 
 def unsubscribe_key(request, key):

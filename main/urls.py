@@ -5,7 +5,6 @@ from main import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("subscribe/", views.subscribe, name="subscribe"),
     path("blog/", views.BlogView.as_view(), name="blog"),
     path("blog/<slug:slug>/", views.PostView.as_view(), name="post"),
     path(
@@ -71,14 +70,7 @@ urlpatterns += [
 
 # document pages
 urlpatterns += [
-    path("about/", views.about, name="about"),
-    path("philosophy/", views.philosophy, name="philosophy"),
-    path("what-we-do/", views.whatwedo, name="whatwedo"),
     path("code-of-conduct/", views.coc, name="coc"),
-    path("processes/", views.processes, name="processes"),
-    path("values/", views.values, name="values"),
-    path("vision/", views.vision, name="vision"),
-    path("funding/", views.funding, name="funding"),
     path("projects/", views.projects, name="projects"),
 ]
 
