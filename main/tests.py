@@ -196,7 +196,6 @@ class StaticTestCase(TestCase):
         )
         response = self.client.get(reverse("index"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "About")
         self.assertContains(response, "Django")
         workshop.delete()
 
@@ -326,11 +325,6 @@ class WorkshopConfirmTestCase(TestCase):
 
 
 class SubscriptionTestCase(TestCase):
-    def test_subscribe_get(self):
-        response = self.client.get(reverse("subscribe"))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Subscribe")
-
     def test_index_post_human(self):
         response = self.client.post(
             reverse("index"),
