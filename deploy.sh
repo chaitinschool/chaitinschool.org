@@ -7,10 +7,10 @@ set -x
 make lint
 
 # static
-python manage.py collectstatic --noinput
+./.venv/bin/python manage.py collectstatic --noinput
 
 # make sure tests pass
-python manage.py test
+./.venv/bin/python manage.py test
 
 # push origin
 git push origin master

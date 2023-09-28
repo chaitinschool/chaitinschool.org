@@ -4,27 +4,27 @@ all: format lint cov
 .PHONY: format
 format:
 	@echo Format Python code
-	black --exclude '/\.venv/' .
-	isort --skip-glob .venv --profile black .
+	./.venv/bin/black --exclude '/\.venv/' .
+	./.venv/bin/isort --skip-glob .venv --profile black .
 
 .PHONY: lint
 lint:
 	@echo Lint Python code
-	flake8 --exclude=.venv/ --ignore=E203,E501,W503
-	isort --check-only --skip-glob venv --profile black .
-	black --check --exclude '/\.venv/' .
+	./.venv/bin/flake8 --exclude=.venv/ --ignore=E203,E501,W503
+	./.venv/bin/isort --check-only --skip-glob venv --profile black .
+	./.venv/bin/black --check --exclude '/\.venv/' .
 
 .PHONY: test
 test:
-	python -Wall manage.py test
+	./.venv/bin/python -Wall manage.py test
 
 .PHONY: cov
 cov:
-	coverage run --source='.' manage.py test
-	coverage report -m
+	./.venv/bin/coverage run --source='.' manage.py test
+	./.venv/bin/coverage report -m
 
 .PHONY: upgrade
 upgrade:
-	pip-compile -U requirements.in --resolver=backtracking --generate-hashes
-	pip install --upgrade pip
-	pip install -r requirements.txt
+	./.venv/bin/pip-compile -U requirements.in --resolver=backtracking --generate-hashes
+	./.venv/bin/pip install --upgrade pip
+	./.venv/bin/pip install -r requirements.txt
