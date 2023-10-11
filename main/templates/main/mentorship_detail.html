@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<article class="mentorships-single">
+<article>
     <h1>{{ object.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <p>
@@ -31,11 +31,11 @@
     </div>
 
     <h2>Mentor</h2>
-    <div class="mentorships-profile-grid">
+    <div>
         <a href="{% url 'user_detail' mentorship.mentor.username %}">
-            <img src="data:image;base64,{{ mentorship.mentor.avatar_base64 }}" class="mentorships-profile-grid-avatar">
+            <img width="200px" src="data:image;base64,{{ mentorship.mentor.avatar_base64 }}">
         </a>
-        <div class="mentorships-profile-grid-text">
+        <div>
             <a href="{% url 'user_detail' mentorship.mentor.username %}">
                 {{ mentorship.mentor.displayname }}
             </a>
