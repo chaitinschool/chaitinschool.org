@@ -74,6 +74,15 @@ urlpatterns += [
     path("projects/", views.projects, name="projects"),
 ]
 
+# redirects
+urlpatterns += [
+    path(
+        "discord/",
+        RedirectView.as_view(url="https://discord.gg/bzjKNG4bUU"),
+        name="discord",
+    ),
+]
+
 # user system
 urlpatterns += [
     path("~<slug:username>/", views.UserDetail.as_view(), name="user_detail"),
