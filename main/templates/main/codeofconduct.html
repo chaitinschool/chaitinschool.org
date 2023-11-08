@@ -146,6 +146,18 @@
         </li>
     </ul>
 
+    <h2>Past Incidents</h2>
+    <p>
+        We keep a log of past incidents along with our response to them:
+    </p>
+    <ul>
+        {% for incident in incident_list %}
+        <li>
+            [<a href="{% url 'incident_detail' incident.id %}">{{ incident.happened_at }}</a>]
+        </li>
+        {% endfor %}
+    </ul>
+
     <h2>Thanks</h2>
     <p>
         We want to thank the authors of the
