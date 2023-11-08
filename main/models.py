@@ -248,3 +248,22 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Incident(models.Model):
+    happened_at = models.DateField()
+    text = models.TextField()
+
+    @property
+    def text_as_html(self):
+        return markdown.markdown(
+            self.text,
+            extensions=[
+                "markdown.extensions.fenced_code",
+                "markdown.extensions.tables",
+                "markdown.extensions.footnotes",
+            ],
+        )
+
+    def __str__(self):
+        return f"[{self.id}] {self.text[:30]}..."

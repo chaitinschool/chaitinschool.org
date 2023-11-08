@@ -119,3 +119,14 @@ class ImageAdmin(admin.ModelAdmin):
     )
 
     ordering = ["-id"]
+
+
+@admin.register(models.Incident)
+class IncidentAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "happened_at",
+        "__str__",
+    )
+    list_display_links = ("id", "happened_at", "__str__")
+    ordering = ["-id"]
