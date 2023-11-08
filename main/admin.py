@@ -125,8 +125,9 @@ class ImageAdmin(admin.ModelAdmin):
 class IncidentAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "published_at",
         "happened_at",
         "__str__",
     )
-    list_display_links = ("id", "happened_at", "__str__")
+    list_display_links = ("id", "__str__")
     ordering = ["-id"]
