@@ -251,6 +251,7 @@ class Image(models.Model):
 
 
 class Incident(models.Model):
+    published_at = models.DateTimeField(auto_now_add=True)
     happened_at = models.DateField()
     text = models.TextField()
 
