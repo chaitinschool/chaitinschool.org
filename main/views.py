@@ -336,7 +336,13 @@ class PostView(DetailView):
 
 
 def coc(request):
-    return render(request, "main/codeofconduct.html")
+    return render(
+        request,
+        "main/codeofconduct.html",
+        {
+            "incident_list": models.Incident.objects.all(),
+        },
+    )
 
 
 def projects(request):
@@ -619,3 +625,7 @@ def confirm(request, slug):
     workshop.save()
     messages.success(request, "event is now public")
     return redirect("workshop", slug=slug)
+
+
+class IncidentDetail(DetailView):
+    model = models.Incident

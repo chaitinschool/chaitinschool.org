@@ -68,6 +68,11 @@ urlpatterns += [
     path("images/", views.ImageUpload.as_view(), name="image_list"),
 ]
 
+# incidents
+urlpatterns += [
+    path("incidents/<int:pk>/", views.IncidentDetail.as_view(), name="incident_detail"),
+]
+
 # document pages
 urlpatterns += [
     path("code-of-conduct/", views.coc, name="coc"),

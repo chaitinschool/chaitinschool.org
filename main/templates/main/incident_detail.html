@@ -1,0 +1,13 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Incident {{ object.id }} [{{ object.happened_at }}] — Chaitin School{% endblock %}
+
+{% block content %}
+<article>
+    <h1>Incident {{ object.id }} [{{ object.happened_at }}]</h1>
+
+    <div>
+        {{ object.text_as_html|safe }}
+    </div>
+</article>
+{% endblock %}
