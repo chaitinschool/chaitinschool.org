@@ -8,6 +8,10 @@
 
     <div>
         {{ object.text_as_html|safe }}
+
+        <p>
+            Published on {{ object.published_at }}.
+        </p>
     </div>
 </article>
 {% endblock %}
