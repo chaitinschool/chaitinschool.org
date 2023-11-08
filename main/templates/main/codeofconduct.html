@@ -155,6 +155,10 @@
         <li>
             [<a href="{% url 'incident_detail' incident.id %}">{{ incident.happened_at }}</a>]
         </li>
+        {% empty %}
+        <li>
+            <em>(empty)</em>
+        </li>
         {% endfor %}
     </ul>
 
