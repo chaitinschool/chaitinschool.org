@@ -345,6 +345,10 @@ def coc(request):
     )
 
 
+def operations(request):
+    return render(request, "main/operations.html")
+
+
 def projects(request):
     return render(request, "main/projects.html")
 
