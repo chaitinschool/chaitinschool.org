@@ -25,6 +25,6 @@ cov:
 
 .PHONY: upgrade
 upgrade:
-	./.venv/bin/pip-compile -U requirements.in --resolver=backtracking --generate-hashes
+	./.venv/bin/pip-compile -U requirements.in
 	./.venv/bin/pip install --upgrade pip
 	./.venv/bin/pip install -r requirements.txt
