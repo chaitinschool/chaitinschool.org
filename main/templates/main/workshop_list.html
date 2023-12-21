@@ -66,22 +66,22 @@ All Events & Workshops — Chaitin School
     {% if future_workshop_list %}
     <a href="{% url 'workshop_list_upcoming' %}" class="muted-link">
         <h2>Upcoming</h2></a>
-    <ul class="workshops-items">
+    <div class="workshops-items">
         {% for w in future_workshop_list %}
         {% include "partials/workshop_item.html" with w=w %}
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
     {% endif %}
 
     {% if past_only or not upcoming_only and not past_only %}
     <a href="{% url 'workshop_list_past' %}" class="muted-link">
         <h2>Past</h2></a>
-    <ul class="workshops-items">
+    <div class="workshops-items">
         {% for w in past_workshop_list %}
         {% include "partials/workshop_item.html" with w=w %}
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
 
     {% if search_param or upcoming_only or past_only %}

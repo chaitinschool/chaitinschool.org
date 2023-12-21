@@ -97,10 +97,9 @@
         its content, regardless of where or whom it came from.
     </p>
     <p>
-        Exploration. We are interested in the knowledge behind computer science and software
-        engineering. Whether some of it has already been discovered is
-        irrelevant. We are interested in both kinds—and most times, by thinking
-        about
+        Exploration. We are interested in the knowledge behind computer science and
+        software engineering. Whether some of it has already been discovered is
+        irrelevant. We are interested in both kinds—and most times, by thinking about
         <a href="https://sites.pitt.edu/~druzdzel/feynman.html">what you already know</a>,
         you discover what you don’t.
     </p>
@@ -121,11 +120,11 @@
             (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
         </small>
     </strong>
-    <ul>
+    <div>
         {% for w in future_workshop_list %}
         {% include "partials/workshop_item.html" %}
         {% endfor %}
-    </ul>
+    </div>
 </article>
 {% endif %}
 
@@ -138,11 +137,11 @@
             (<a href="{% url 'workshop_list' %}">all events</a>)
         </small>
     </strong>
-    <ul>
+    <div>
         {% for w in past_workshop_list %}
         {% include "partials/workshop_item.html" %}
         {% endfor %}
-    </ul>
+    </div>
 </article>
 {% endif %}
 
@@ -173,9 +172,15 @@
 </article>
 
 <article>
-    <strong>Discord</strong>
+    <strong>Chat</strong>
     <p>
-        <a href="https://discord.gg/bzjKNG4bUU">https://discord.gg/bzjKNG4bUU</a>
+        On IRC:
+        <a href="irc://irc.libera.chat/#chaitin">#chaitin</a>
+        at <a href="https://libera.chat/">libera.chat</a>.
+    </p>
+    <p>
+        On Discord:
+        <a href="https://discord.gg/bzjKNG4bUU">https://discord.gg/bzjKNG4bUU</a>.
     </p>
 </article>
 

@@ -1,22 +1,23 @@
 {% if w.is_confirmed %}
-<li>
+<div style="margin: 8px 0;">
     <a href="{% url 'workshop' w.slug %}">
         {{ w.title }}
-        {% if w.scheduled_at %}
-        <br>
+    </a>
+    {% if w.scheduled_at %}
+    <div style="padding-left: 24px; color: #777;">
         <time datetime="{{ w.scheduled_at|date:'c' }}">
             {{ w.scheduled_at|date:'Y-m-d D' }}
             {{ w.scheduled_at|date:'g:iA'|lower }}
         </time>
-        {% endif %}
-    </a>
-</li>
+    </div>
+    {% endif %}
+</div>
 {% else %}
 
 {# show unconfirmed workshops to logged in users only #}
 
 {% if request.user.is_authenticated %}
-<li style="opacity: 0.6;">
+<div style="margin: 8px 0; opacity: 0.6;">
     <a href="{% url 'workshop' w.slug %}">
         {{ w.title }}
         {% if w.scheduled_at %}
@@ -28,7 +29,7 @@
         {% endif %}
         <span> — NOT CONFIRMED</span>
     </a>
-</li>
+</div>
 {% endif %}
 
 {% endif %}
