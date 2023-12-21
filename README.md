@@ -39,8 +39,8 @@ categories, those under `python manage.py` and those under `make`.
 Using [venv](https://docs.python.org/3/library/venv.html):
 
 ```sh
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements_dev.txt
 ```
