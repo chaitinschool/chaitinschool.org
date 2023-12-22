@@ -3,28 +3,31 @@ all: format lint cov
 
 .PHONY: format
 format:
-	@echo Format Python code
-	./.venv/bin/black --exclude '/\.venv/' .
-	./.venv/bin/isort --skip-glob .venv --profile black .
+	$(info Formating Python code)
+	black --exclude '/\.venv/' .
+	isort --profile black .
 
 .PHONY: lint
 lint:
-	@echo Lint Python code
-	./.venv/bin/flake8 --exclude=.venv/ --ignore=E203,E501,W503
-	./.venv/bin/isort --check-only --skip-glob venv --profile black .
-	./.venv/bin/black --check --exclude '/\.venv/' .
+	$(info Running Python linters)
+	flake8 --exclude=.venv/ --max-line-length 88 --ignore=E203,E501,E704
+	isort --check-only --profile black .
+	black --check --exclude '/\.venv/' .
 
 .PHONY: test
 test:
-	./.venv/bin/python -Wall manage.py test
+	$(info Running test suite)
+	python -Wall manage.py test
 
 .PHONY: cov
 cov:
-	./.venv/bin/coverage run --source='.' manage.py test
-	./.venv/bin/coverage report -m
+	$(info Generating coverage report)
+	coverage run --source='.' --omit '.venv/*' manage.py test
+	coverage report -m
 
 .PHONY: upgrade
 upgrade:
-	./.venv/bin/pip-compile -U requirements.in
-	./.venv/bin/pip install --upgrade pip
-	./.venv/bin/pip install -r requirements.txt
+	$(info Running pip-compile -U)
+	pip-compile -U requirements.in
+	pip install --upgrade pip
+	pip install -r requirements.txt
