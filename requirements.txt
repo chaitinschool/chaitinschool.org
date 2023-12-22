@@ -10,8 +10,12 @@ bleach==6.1.0
     # via -r requirements.in
 django==5.0
     # via -r requirements.in
+gunicorn==21.2.0
+    # via -r requirements.in
 markdown==3.5.1
     # via -r requirements.in
+packaging==23.2
+    # via gunicorn
 six==1.16.0
     # via bleach
 sqlparse==0.4.4
