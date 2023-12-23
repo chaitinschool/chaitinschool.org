@@ -12,14 +12,14 @@
 {% endblock %}
 
 {% block content %}
-<section class="profile">
+<section>
     <div>
         {% if object == request.user %}
         <a href="{% url 'user_avatar' %}">
-            <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
+            <img src="data:image;base64,{{ object.avatar_base64 }}" width="200px">
         </a>
         {% else %}
-        <img src="data:image;base64,{{ object.avatar_base64 }}" class="profile-avatar">
+        <img src="data:image;base64,{{ object.avatar_base64 }}" width="200px">
         {% endif %}
     </div>
 
