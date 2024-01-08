@@ -3,7 +3,7 @@ from base64 import b64encode
 from datetime import timedelta
 
 import bleach
-import markdown
+import mistune
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -34,21 +34,15 @@ class User(AbstractUser):
         return "~" + self.username
 
     @property
-    @property
-    def about_as_html(self):
-        dirty_html = markdown.markdown(
-            self.about,
-            extensions=[
-                "markdown.extensions.fenced_code",
-                "markdown.extensions.tables",
-                "markdown.extensions.footnotes",
-            ],
-        )
-        return bleach.clean(
+    def plan_as_html(self):
+        markdown = mistune.create_markdown(plugins=["task_lists"])
+        dirty_html = markdown(self.plan)
+        cleaned_html = bleach.clean(
             dirty_html,
             tags=denylist.ALLOWED_HTML_ELEMENTS,
             attributes=denylist.ALLOWED_HTML_ATTRS,
         )
+        return cleaned_html
 
     def __str__(self):
         return self.username
@@ -84,14 +78,8 @@ class Post(models.Model):
 
     @property
     def body_as_html(self):
-        return markdown.markdown(
-            self.body,
-            extensions=[
-                "markdown.extensions.fenced_code",
-                "markdown.extensions.tables",
-                "markdown.extensions.footnotes",
-            ],
-        )
+        markdown = mistune.create_markdown(plugins=["task_lists"])
+        return markdown(self.body)
 
     def __str__(self):
         return self.title
@@ -115,14 +103,8 @@ class Workshop(models.Model):
 
     @property
     def body_as_html(self):
-        return markdown.markdown(
-            self.body,
-            extensions=[
-                "markdown.extensions.fenced_code",
-                "markdown.extensions.tables",
-                "markdown.extensions.footnotes",
-            ],
-        )
+        markdown = mistune.create_markdown(plugins=["task_lists"])
+        return markdown(self.body)
 
     @property
     def gcal_url(self):
@@ -196,14 +178,8 @@ class Mentorship(models.Model):
 
     @property
     def body_as_html(self):
-        return markdown.markdown(
-            self.body,
-            extensions=[
-                "markdown.extensions.fenced_code",
-                "markdown.extensions.tables",
-                "markdown.extensions.footnotes",
-            ],
-        )
+        markdown = mistune.create_markdown(plugins=["task_lists"])
+        return markdown(self.body)
 
     def __str__(self):
         return self.title
@@ -244,14 +220,8 @@ class Incident(models.Model):
 
     @property
     def text_as_html(self):
-        return markdown.markdown(
-            self.text,
-            extensions=[
-                "markdown.extensions.fenced_code",
-                "markdown.extensions.tables",
-                "markdown.extensions.footnotes",
-            ],
-        )
+        markdown = mistune.create_markdown(plugins=["task_lists"])
+        return markdown(self.text)
 
     def __str__(self):
         return f"[{self.id}] {self.text[:30]}..."
