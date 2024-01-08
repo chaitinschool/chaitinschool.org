@@ -8,7 +8,7 @@ asgiref==3.7.2
     # via django
 bleach==6.1.0
     # via -r requirements.in
-django==5.0
+django==5.0.1
     # via -r requirements.in
 gunicorn==21.2.0
     # via -r requirements.in
