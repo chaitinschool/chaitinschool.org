@@ -1,10 +1,10 @@
 # elements allowed to exist inside the HTML of a markdown text
-ALLOWED_HTML_ELEMENTS = [
+ALLOWED_HTML_ELEMENTS = {
     "a",
     "abbr",
     "acronym",
-    "br",
     "blockquote",
+    "br",
     "cite",
     "code",
     "em",
@@ -18,6 +18,7 @@ ALLOWED_HTML_ELEMENTS = [
     "h6",
     "hr",
     "img",
+    "input",
     "li",
     "ol",
     "p",
@@ -33,16 +34,19 @@ ALLOWED_HTML_ELEMENTS = [
     "thead",
     "tr",
     "ul",
-]
+}
 
 # attributes allowed to exist inside the elements of the HTML of a markdown text
 ALLOWED_HTML_ATTRS = [
     "alt",
+    "class",
+    "disabled",
     "height",
     "href",
     "id",
     "name",
     "src",
     "title",
+    "type",
     "width",
 ]
