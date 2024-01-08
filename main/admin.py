@@ -3,6 +3,8 @@ from django.contrib.auth.admin import UserAdmin as DjUserAdmin
 
 from main import models
 
+admin.site.site_header = "Chaitin School admin"
+
 
 @admin.register(models.User)
 class UserAdmin(DjUserAdmin):
@@ -12,13 +14,12 @@ class UserAdmin(DjUserAdmin):
         "email",
         "date_joined",
         "last_login",
-        "is_public",
     )
     list_display_links = ("id", "username")
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        ("Personal info", {"fields": ("full_name", "email", "about", "is_public")}),
+        ("Personal info", {"fields": ("email", "plan")}),
         (
             "Permissions",
             {
@@ -33,7 +34,7 @@ class UserAdmin(DjUserAdmin):
         ),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
-    search_fields = ("username", "full_name", "email")
+    search_fields = ("username", "email")
 
     ordering = ["-id"]
 
