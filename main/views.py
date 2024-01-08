@@ -49,30 +49,21 @@ class UserDetail(DetailView):
         queryset = models.User.objects.filter(username=username)
         return queryset
 
-    def dispatch(self, request, *args, **kwargs):
-        user = self.get_object()
-        if request.user.is_authenticated:
-            return super().dispatch(request, *args, **kwargs)
-        if user.is_public:
-            return super().dispatch(request, *args, **kwargs)
-        raise PermissionDenied()
-
 
 class UserUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = models.User
     fields = [
         "username",
         "email",
-        "full_name",
-        "about",
-        "is_public",
+        "plan",
     ]
     template_name = "main/user_update.html"
-    success_message = "profile updated"
-    success_url = reverse_lazy("user_update")
 
     def get_object(self):
         return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy("user_detail", args=(self.object.username,))
 
 
 class UserDelete(LoginRequiredMixin, DeleteView):
@@ -133,9 +124,6 @@ class UserAvatarRemove(LoginRequiredMixin, FormView):
 def index(request):
     if request.method == "GET" or request.method == "HEAD":
         post_list = models.Post.objects.all().order_by("-published_at")
-        member_list = models.User.objects.all().order_by("?")
-        if not request.user.is_authenticated:
-            member_list = member_list.filter(is_public=True)
 
         today = timezone.now().date()
         future_workshop_list = models.Workshop.objects.filter(
@@ -154,7 +142,6 @@ def index(request):
                 "future_workshop_list": future_workshop_list,
                 "past_workshop_list": past_workshop_list,
                 "post_list": post_list,
-                "member_list": member_list,
                 "canonical_host": settings.CANONICAL_HOST,
             },
         )
@@ -427,101 +414,6 @@ class Broadcast(mixins.SuperuserRequiredMixin, FormView):
                     attachments=utils.get_email_attachments(
                         form.cleaned_data.get("ics_attachment")
                     ),
-                )
-                message_list.append(email)
-
-            # send out emails
-            connection = mail.get_connection(
-                "django.core.mail.backends.smtp.EmailBackend",
-                # override email host because we use a different one for non-transactional emails
-                host=settings.EMAIL_HOST_BROADCASTS,
-            )
-            connection.send_messages(message_list)
-            models.EmailRecord.objects.filter(id__in=record_ids).update(
-                sent_at=timezone.now()
-            )
-            messages.success(request, f"{len(message_list)} emails sent.")
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class AnnounceView(SuccessMessageMixin, mixins.SuperuserRequiredMixin, FormView):
-    form_class = forms.AnnounceForm
-    template_name = "main/announce.html"
-
-    def get_initial(self):
-        if not hasattr(self, "workshop"):
-            self.workshop = get_object_or_404(models.Workshop, slug=self.kwargs["slug"])
-        return {
-            "subject": self.workshop.title + " // " + settings.PROJECT_NAME,
-            "body": self.workshop.body,
-        }
-
-    def get_success_url(self):
-        return reverse_lazy("announce", args=(self.workshop.slug,))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["dry_run_email"] = settings.EMAIL_BROADCAST_PREVIEW
-        context["subscriptions_count"] = models.Subscription.objects.all().count()
-        context["subscriptions_list"] = models.Subscription.objects.all().order_by(
-            "created_at",
-        )
-        context["workshop"] = self.workshop
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        if form.is_valid():
-            # list of messages to sent out
-            message_list = []
-            record_ids = []
-
-            # get all subscriptions
-            subscription_list = models.Subscription.objects.all()
-            # if dry run, override and sent only to broadcast preview email
-            if form.cleaned_data.get("dry_run"):
-                subscription_list = [
-                    models.Subscription(email=settings.EMAIL_BROADCAST_PREVIEW)
-                ]
-
-            for subscription in subscription_list:
-                unsubscribe_url = (
-                    utils.get_protocol() + subscription.get_unsubscribe_url()
-                )
-                body = form.cleaned_data.get("body") + utils.get_email_body_footer(
-                    unsubscribe_url
-                )
-
-                # initialise email record
-                email_record = models.EmailRecord.objects.create(
-                    email=subscription.email,
-                    subject=form.cleaned_data.get("subject"),
-                    body=body,
-                    sent_at=None,
-                )
-                if not form.cleaned_data.get("dry_run"):
-                    # in dry run case, there is no subscription object for the email record
-                    # (there is a subscription but we create it temporarily and we don't save it)
-                    email_record.subscription = subscription
-                    email_record.save()
-                record_ids.append(email_record.id)
-
-                # create email message
-                email = mail.EmailMessage(
-                    subject=form.cleaned_data.get("subject"),
-                    body=body,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[subscription.email],
-                    reply_to=[settings.DEFAULT_FROM_EMAIL],
-                    headers={
-                        "X-PM-Message-Stream": settings.EMAIL_POSTMARK_HEADER,
-                        "List-Unsubscribe": unsubscribe_url,
-                        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-                    },
-                    attachments=utils.get_email_attachments(self.workshop.slug),
                 )
                 message_list.append(email)
 

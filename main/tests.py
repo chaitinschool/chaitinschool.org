@@ -75,9 +75,7 @@ class UserUpdateTestCase(TestCase):
         data = {
             "username": "bob",
             "email": "bob@example.com",
-            "full_name": "Bob ex-Alice",
-            "about": "Hey",
-            "is_public": True,
+            "plan": "Hey",
         }
         response = self.client.post(reverse("user_update"), data)
         self.assertEqual(response.status_code, 302)
@@ -85,11 +83,7 @@ class UserUpdateTestCase(TestCase):
         self.assertEqual(
             models.User.objects.get(username="bob").email, "bob@example.com"
         )
-        self.assertEqual(
-            models.User.objects.get(username="bob").full_name, "Bob ex-Alice"
-        )
-        self.assertEqual(models.User.objects.get(username="bob").about, "Hey")
-        self.assertEqual(models.User.objects.get(username="bob").is_public, True)
+        self.assertEqual(models.User.objects.get(username="bob").plan, "Hey")
 
     def test_update_anon(self):
         data = {
@@ -117,15 +111,10 @@ class UserDetailTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.user.username)
 
-    def test_detail_anon(self):
-        response = self.client.get(reverse("user_detail", args=(self.user.username,)))
-        self.assertEqual(response.status_code, 403)
-
     def test_detail_anon_public(self):
         data = {
             "username": "bob",
             "email": "bob@example.com",
-            "is_public": True,
         }
         self.user_b = models.User.objects.create(**data)
         response = self.client.get(reverse("user_detail", args=(self.user_b.username,)))
@@ -741,152 +730,6 @@ class AttendanceTwiceTestCase(TestCase):
         self.assertIn(
             f"[chaitin] RSVP <attendee@example.com> for {self.workshop.title}", subjects
         )
-
-
-class AnnounceAnonTestCase(TestCase):
-    def setUp(self):
-        self.workshop = models.Workshop.objects.create(
-            title="Django",
-            slug="django",
-            body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
-        )
-
-    def test_announce_get(self):
-        response = self.client.get(reverse("announce", args=(self.workshop.slug,)))
-        self.assertEqual(response.status_code, 403)
-
-
-class AnnounceUserTestCase(TestCase):
-    def setUp(self):
-        self.workshop = models.Workshop.objects.create(
-            title="Django",
-            slug="django",
-            body="details about django",
-            scheduled_at=datetime(2020, 2, 18, 13, 15, 0, tzinfo=pytimezone.utc),
-        )
-        self.user = models.User.objects.create(username="alice")
-        self.client.force_login(self.user)
-
-    def test_announce_get(self):
-        response = self.client.get(reverse("announce", args=(self.workshop.slug,)))
-        self.assertEqual(response.status_code, 403)
-
-
-class AnnounceSuperuserTestCase(TestCase):
-    def setUp(self):
-        self.workshop = models.Workshop.objects.create(
-            slug="workshop-1",
-            title="Django Workshop",
-            scheduled_at=timezone.now(),
-            location_name="Newspeak House",
-            location_address="E2",
-            location_url="https://g.co/",
-        )
-        self.subscription = models.Subscription.objects.create(
-            email="tester@example.com"
-        )
-        self.user = models.User.objects.create(username="alice", is_superuser=True)
-        self.client.force_login(self.user)
-
-    def test_announce_get(self):
-        response = self.client.get(reverse("announce", args=(self.workshop.slug,)))
-        self.assertEqual(response.status_code, 200)
-
-    def test_announce_dry_run_post(self):
-        with patch.object(
-            # Django default test runner overrides SMTP EmailBackend with locmem,
-            # but because we re-import the SMTP backend in
-            # views.mail.get_connection, we need to mock it here too.
-            views.mail,
-            "get_connection",
-            return_value=mail.get_connection(
-                "django.core.mail.backends.locmem.EmailBackend"
-            ),
-        ):
-            response = self.client.post(
-                reverse("announce", args=(self.workshop.slug,)),
-                {
-                    "subject": "Workshop Announcement",
-                    "body": "Hey! We're having a workshop :D",
-                    "dry_run": True,
-                },
-                follow=True,
-            )
-
-            # verify request
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "1 emails sent.")
-
-            # verify model
-            self.assertEqual(models.EmailRecord.objects.all().count(), 1)
-            self.assertEqual(
-                models.EmailRecord.objects.all()[0].email,
-                settings.EMAIL_BROADCAST_PREVIEW,
-            )
-            self.assertEqual(
-                models.EmailRecord.objects.all()[0].subject,
-                "Workshop Announcement",
-            )
-            self.assertIn(
-                "Hey! We're having a workshop :D",
-                models.EmailRecord.objects.all()[0].body,
-            )
-            self.assertIsNone(
-                models.EmailRecord.objects.all()[0].subscription,
-            )
-            self.assertNotEqual(
-                models.EmailRecord.objects.all()[0].sent_at,
-                None,
-            )
-
-    def test_announce_post(self):
-        with patch.object(
-            # Django default test runner overrides SMTP EmailBackend with locmem,
-            # but because we re-import the SMTP backend in
-            # views.mail.get_connection, we need to mock it here too.
-            views.mail,
-            "get_connection",
-            return_value=mail.get_connection(
-                "django.core.mail.backends.locmem.EmailBackend"
-            ),
-        ):
-            response = self.client.post(
-                reverse("announce", args=(self.workshop.slug,)),
-                {
-                    "subject": "Workshop Announcement",
-                    "body": "Hey! We're having a workshop :D",
-                    "dry_run": False,
-                },
-                follow=True,
-            )
-
-            # verify request
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "1 emails sent.")
-
-            # verify model
-            self.assertEqual(models.EmailRecord.objects.all().count(), 1)
-            self.assertEqual(
-                models.EmailRecord.objects.all()[0].email,
-                "tester@example.com",
-            )
-            self.assertEqual(
-                models.EmailRecord.objects.all()[0].subject,
-                "Workshop Announcement",
-            )
-            self.assertIn(
-                "Hey! We're having a workshop :D",
-                models.EmailRecord.objects.all()[0].body,
-            )
-            self.assertEqual(
-                models.EmailRecord.objects.all()[0].subscription,
-                self.subscription,
-            )
-            self.assertNotEqual(
-                models.EmailRecord.objects.all()[0].sent_at,
-                None,
-            )
 
 
 class MentorshipTestCase(TestCase):

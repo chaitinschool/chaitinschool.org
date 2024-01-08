@@ -51,11 +51,6 @@ urlpatterns += [
         name="workshop_ics",
     ),
     path(
-        "workshops/<slug:slug>/announce/",
-        views.AnnounceView.as_view(),
-        name="announce",
-    ),
-    path(
         "workshops/<slug:slug>/confirm/",
         views.confirm,
         name="confirm",
