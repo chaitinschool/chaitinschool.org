@@ -19,6 +19,12 @@
                 header a div:last-child { display: block; }
             }
             nav a { color: blue; }
+            @media (prefers-color-scheme: dark) {
+                nav a { color: #00dc00; }
+                header a div { color: #00dc00; }
+                a { color: #00dc00; }
+                body { background: black; color: #00dc00; }
+            }
         </style>
     </head>
     <body>
