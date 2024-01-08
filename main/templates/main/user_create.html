@@ -8,11 +8,11 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <input type="submit" value="join">
+        <input type="submit" value="create account">
     </form>
 
     <p>
-        Please be aware that we maintain a
+        Please be aware that we maintain a strict
         <a href="{% url 'coc' %}">Code of Conduct</a>.
     </p>
 </section>
