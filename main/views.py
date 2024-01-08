@@ -21,6 +21,10 @@ from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateVi
 from main import forms, mixins, models, utils
 
 
+class Directory(ListView):
+    model = models.User
+
+
 class UserCreate(CreateView):
     form_class = forms.UserCreationForm
     template_name = "main/user_create.html"

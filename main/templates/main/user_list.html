@@ -1,0 +1,17 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Directory — Chaitin School{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Directory</h1>
+
+    <ul>
+        {% for user in user_list %}
+        <li>
+            <a href="{% url 'user_detail' user.username %}">{{ user }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
