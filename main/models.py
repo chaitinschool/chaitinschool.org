@@ -26,27 +26,14 @@ class User(AbstractUser):
     )
     first_name = None
     last_name = None
-    full_name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
-    about = models.TextField(blank=True)
-    avatar_data = models.BinaryField()
-    avatar_ext = models.CharField(max_length=4)
-    is_public = models.BooleanField(
-        default=False,
-        help_text="Enable to make profile available to non-logged-in users.",
-    )
+    plan = models.TextField(blank=True)
 
     @property
     def displayname(self):
         return "~" + self.username
 
     @property
-    def avatar_base64(self):
-        if not self.avatar_data:
-            # 1x1 PNG with #f2f2f2 fill
-            return "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP89B8AAukB8/71MdcAAAAASUVORK5CYII="
-        return b64encode(self.avatar_data).decode("utf-8")
-
     @property
     def about_as_html(self):
         dirty_html = markdown.markdown(
