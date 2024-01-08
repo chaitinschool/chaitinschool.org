@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,6 +23,9 @@
                 a { color: #00dc00; }
                 body { background: black; color: #00dc00; }
             }
+            img { width: 100%; }
+            label { display: block; margin-bottom: 4px; }
+            .helptext { display: block; }
         </style>
     </head>
     <body>
@@ -54,13 +55,8 @@
             <nav style="text-align: center; margin: 24px 0;">
                 <a href="{% url 'index' %}">home</a>
                 | <a href="{% url 'workshop_list' %}">events</a>
-                | <a href="{% url 'operations' %}">operations</a>
                 | <a href="{% url 'projects' %}">projects</a>
                 | <a href="{% url 'coc' %}">code&nbsp;of&nbsp;conduct</a>
-
-                {% if request.user.is_authenticated and request.user.is_superuser %}
-                <li><a href="{% url 'admin:index' %}">admin</a></li>
-                {% endif %}
             </nav>
         </header>
 
