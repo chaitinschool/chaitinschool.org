@@ -77,7 +77,6 @@ urlpatterns += [
 urlpatterns += [
     path("code-of-conduct/", views.coc, name="coc"),
     path("projects/", views.projects, name="projects"),
-    path("operations/", views.operations, name="operations"),
 ]
 
 # redirects
