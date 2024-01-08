@@ -49,7 +49,7 @@
       ansible.builtin.git:
         repo: https://github.com/chaitinschool/chaitinschool.org
         dest: /var/www/chaitin
-        version: master
+        version: main
         accept_hostkey: true
       become_user: deploy
     - name: dependencies
