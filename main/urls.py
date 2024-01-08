@@ -86,6 +86,7 @@ urlpatterns += [
 # user system
 urlpatterns += [
     path("directory/", views.Directory.as_view(), name="directory"),
+    path("profile/", views.profile, name="profile"),
     path("~<slug:username>/", views.UserDetail.as_view(), name="user_detail"),
     path("accounts/logout/", views.Logout.as_view(), name="logout"),
     path("accounts/", include("django.contrib.auth.urls")),

@@ -25,6 +25,13 @@ class Directory(ListView):
     model = models.User
 
 
+def profile(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    url = reverse_lazy("user_detail", args=(request.user.username,))
+    return redirect(url)
+
+
 class UserCreate(CreateView):
     form_class = forms.UserCreationForm
     template_name = "main/user_create.html"
