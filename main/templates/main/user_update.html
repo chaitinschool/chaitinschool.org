@@ -1,17 +1,10 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}Settings — Chaitin School{% endblock %}
+{% block title %}Account — Chaitin School{% endblock %}
 
 {% block content %}
 <section>
-    <h1>Settings</h1>
-    <p>
-        {% if request.user.avatar_data %}
-        <a href="{% url 'user_avatar' %}">Change profile picture »</a>
-        {% else %}
-        <a href="{% url 'user_avatar' %}">Add a profile picture »</a>
-        {% endif %}
-    </p>
+    <h1>Account</h1>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}

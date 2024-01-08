@@ -13,31 +13,17 @@
 
 {% block content %}
 <section>
-    <div>
-        {% if object == request.user %}
-        <a href="{% url 'user_avatar' %}">
-            <img src="data:image;base64,{{ object.avatar_base64 }}" width="200px">
-        </a>
-        {% else %}
-        <img src="data:image;base64,{{ object.avatar_base64 }}" width="200px">
-        {% endif %}
-    </div>
-
     <h1>
         {{ object.displayname }}
     </h1>
 
-    <div>{{ object.about_as_html|safe }}</div>
-
     {% if object == request.user %}
-    {% if not request.user.avatar_data %}
     <p>
-        <a href="{% url 'user_avatar' %}">Add profile picture »</a>
+        <a href="{% url 'user_update' %}">Update learning plan »</a>
     </p>
     {% endif %}
-    <p>
-        <a href="{% url 'user_update' %}">Settings »</a>
-    </p>
-    {% endif %}
+
+    <div style="margin-bottom: 4px;"><strong>Learning plan:</strong></div>
+    <div>{{ object.plan_as_html|safe|default:"<em>(empty)</em>" }}</div>
 </section>
 {% endblock %}
