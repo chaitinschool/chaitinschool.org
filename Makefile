@@ -10,7 +10,7 @@ format:
 .PHONY: lint
 lint:
 	$(info Running Python linters)
-	flake8 --exclude=.venv/ --max-line-length 88 --ignore=E203,E501,E704
+	flake8 --exclude=.venv/ --max-line-length 88 --ignore=E203,E501,W503
 	isort --check-only --profile black .
 	black --check --exclude '/\.venv/' .
 
