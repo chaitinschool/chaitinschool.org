@@ -14,8 +14,9 @@
 {% block content %}
 <article>
     <h1>{{ workshop.title }}</h1>
+
     {% if request.user.is_authenticated and request.user.is_superuser %}
-    <div>
+    <div style="margin: 16px 0;">
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
         {% if workshop.is_future and not workshop.is_confirmed %}
         | <form method="post" action="{% url 'confirm' workshop.slug %}" style="display: inline-block;">
@@ -26,10 +27,10 @@
     </div>
     {% endif %}
 
-    <div>
-        <div>
-            {{ workshop.scheduled_at|default:"NOT SCHEDULED YET" }}
-        </div>
+    <div style="background: aliceblue; padding: 8px;">
+        <strong>
+            {{ workshop.scheduled_at|date:"D, d M Y H:i"|default:"NOT SCHEDULED YET" }}
+        </strong>
     </div>
 
     <div>
@@ -38,11 +39,15 @@
 
     {% if workshop.is_future %}
     <h2>RSVP</h2>
+    <p>
+        Happening at {{ workshop.scheduled_at|date:"D, d M Y H:i" }}
+    </p>
     <form method="post" action="{% url 'workshop' workshop.slug %}">
         {{ form.as_p }}
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
+
     <p>
         Add to your calendar:
         <a href="{{ workshop.gcal_url }}" target="_blank">Google</a>
