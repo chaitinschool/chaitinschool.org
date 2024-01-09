@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block content %}
-<article class="workshops-single">
+<article>
     <h1>{{ workshop.title }}</h1>
     {% if request.user.is_authenticated and request.user.is_superuser %}
-    <div class="workshops-single-tools">
+    <div>
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
         {% if workshop.is_future and not workshop.is_confirmed %}
-        | <form method="post" action="{% url 'confirm' workshop.slug %}" class="inline">
+        | <form method="post" action="{% url 'confirm' workshop.slug %}" style="display: inline-block;">
             {% csrf_token %}
             <input type="submit" value="Confirm">
         </form>
@@ -27,7 +27,7 @@
     {% endif %}
 
     <div>
-        <div class="workshops-datetime">
+        <div>
             {{ workshop.scheduled_at|default:"NOT SCHEDULED YET" }}
         </div>
     </div>
