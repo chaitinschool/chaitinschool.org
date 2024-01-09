@@ -112,12 +112,12 @@
 </article>
 
 {% if future_workshop_list %}
-<article>
+<article style="margin: 24px 0;">
     <strong>
-        <a href="{% url 'workshop_list' %}">
+        <a href="{% url 'workshop_list' %}" style="color: blue;">
             Upcoming Events</a>
         <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">ics feed</a>)
+            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}" style="color: blue;">ics feed</a>)
         </small>
     </strong>
     <div>
@@ -129,12 +129,12 @@
 {% endif %}
 
 {% if past_workshop_list %}
-<article>
+<article style="margin: 24px 0;">
     <strong>
-        <a href="{% url 'workshop_list' %}">
+        <a href="{% url 'workshop_list' %}" style="color: blue;">
             Past 5 Events</a>
         <small>
-            (<a href="{% url 'workshop_list' %}">all events</a>)
+            (<a href="{% url 'workshop_list' %}" style="color: blue;">all events</a>)
         </small>
     </strong>
     <div>
@@ -154,7 +154,7 @@
         </p>
 
         <p>
-            <label for="carlos">I am not a robot:</label>
+            <label for="carlos" style="display: inline-block;">I am not a robot:</label>
             <input type="checkbox" name="carlos" id="carlos">
         </p>
 
@@ -187,7 +187,7 @@
 {% if request.user.is_authenticated and request.user.is_superuser %}
 <article>
     <strong>
-        <a href="{% url 'blog' %}">Blog</a>
+        <a href="{% url 'blog' %}" style="color: blue;">Blog</a>
     </strong>
     | <a href="{% url 'admin:main_post_add' %}">Add new</a>
 
