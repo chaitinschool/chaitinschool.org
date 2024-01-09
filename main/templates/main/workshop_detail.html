@@ -17,16 +17,11 @@
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <div class="workshops-single-tools">
         <a href="{% url 'admin:main_workshop_change' workshop.id %}">Edit workshop</a>
-        {% if workshop.is_future %}
-        | <a href="{% url 'announce' workshop.slug %}">Announce</a>
-
-        {% if not workshop.is_confirmed %}
+        {% if workshop.is_future and not workshop.is_confirmed %}
         | <form method="post" action="{% url 'confirm' workshop.slug %}" class="inline">
             {% csrf_token %}
             <input type="submit" value="Confirm">
         </form>
-        {% endif %}
-
         {% endif %}
     </div>
     {% endif %}
@@ -44,7 +39,7 @@
     {% if workshop.is_future %}
     <h2>RSVP</h2>
     <form method="post" action="{% url 'workshop' workshop.slug %}">
-        {{ form }}
+        {{ form.as_p }}
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>
