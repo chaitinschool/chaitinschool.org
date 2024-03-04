@@ -35,7 +35,7 @@ class User(AbstractUser):
 
     @property
     def plan_as_html(self):
-        markdown = mistune.create_markdown(plugins=["task_lists"])
+        markdown = mistune.create_markdown(plugins=["task_lists", "footnotes"])
         dirty_html = markdown(self.plan)
         cleaned_html = bleach.clean(
             dirty_html,
@@ -78,7 +78,7 @@ class Post(models.Model):
 
     @property
     def body_as_html(self):
-        markdown = mistune.create_markdown(plugins=["task_lists"])
+        markdown = mistune.create_markdown(plugins=["task_lists", "footnotes"])
         return markdown(self.body)
 
     def __str__(self):
@@ -103,7 +103,7 @@ class Workshop(models.Model):
 
     @property
     def body_as_html(self):
-        markdown = mistune.create_markdown(plugins=["task_lists"])
+        markdown = mistune.create_markdown(plugins=["task_lists", "footnotes"])
         return markdown(self.body)
 
     @property
@@ -178,7 +178,7 @@ class Mentorship(models.Model):
 
     @property
     def body_as_html(self):
-        markdown = mistune.create_markdown(plugins=["task_lists"])
+        markdown = mistune.create_markdown(plugins=["task_lists", "footnotes"])
         return markdown(self.body)
 
     def __str__(self):
@@ -220,7 +220,7 @@ class Incident(models.Model):
 
     @property
     def text_as_html(self):
-        markdown = mistune.create_markdown(plugins=["task_lists"])
+        markdown = mistune.create_markdown(plugins=["task_lists", "footnotes"])
         return markdown(self.text)
 
     def __str__(self):
