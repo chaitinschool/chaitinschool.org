@@ -146,8 +146,13 @@
 {% endif %}
 
 <article>
-    <strong>Subscribe for event notifications</strong>
+    <strong>Get event updates</strong>
     <form method="post" action="{% url 'index' %}">
+        <!--
+        <p>
+            {{ form.non_field_errors }}
+        </p>
+
         <p>
             <label for="email">email:</label>
             <input type="email" id="email" name="email" required>
@@ -160,9 +165,9 @@
 
         {% csrf_token %}
         <input type="submit" value="submit">
+        -->
     </form>
     <p>
-        or
         <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
             Add to Calendar</a>.
     </p>

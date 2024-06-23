@@ -87,7 +87,7 @@ class UserDelete(LoginRequiredMixin, DeleteView):
 
 class Logout(DjLogoutView):
     def dispatch(self, request, *args, **kwargs):
-        messages.add_message(request, messages.INFO, "logged out")
+        messages.info(request, "logged out")
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -158,6 +158,9 @@ def index(request):
         )
 
     elif request.method == "POST":
+        # disable email subscriptions for now
+        return redirect("index")
+
         form = forms.SubscriptionForm(request.POST)
 
         # if post data not valid
