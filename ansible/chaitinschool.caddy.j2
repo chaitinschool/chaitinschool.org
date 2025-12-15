@@ -1,0 +1,13 @@
+chaitinschool.org {
+	route {
+		file_server /static/* {
+			root /var/www/chaitinschool
+		}
+		reverse_proxy 127.0.0.1:5004
+	}
+	encode zstd gzip
+	log {
+		output stdout
+		format console
+	}
+}

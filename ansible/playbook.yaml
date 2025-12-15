@@ -11,12 +11,36 @@
       ansible.builtin.apt:
         update_cache: yes
         name:
-          - vim
+          - gcc
           - git
-          - python3.10
-          - python3.10-venv
-          - python3.10-dev
+          - rclone
+          - vim
         state: present
+
+    # caddy
+    - name: add caddy key
+      ansible.builtin.apt_key:
+        id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
+        url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+        keyring: /etc/apt/trusted.gpg.d/caddy-stable.gpg
+        state: present
+    - name: add caddy deb repository
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/etc/apt/trusted.gpg.d/caddy-stable.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+    - name: add caddy deb-src repository
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/etc/apt/trusted.gpg.d/caddy-stable.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+    - name: install caddy
+      ansible.builtin.apt:
+        update_cache: yes
+        name: caddy
+    - name: caddyfile
+      ansible.builtin.template:
+        src: chaitinschool.caddy.j2
+        dest: /etc/caddy/chaitinschool.caddy
+        owner: root
+        group: root
+        mode: '0644'
 
     # deploy user and directory
     - name: www directory
@@ -44,26 +68,26 @@
         group: www-data
         recurse: yes
 
+    # uv
+    - name: uv
+      ansible.builtin.shell:
+        cmd: curl -LsSf https://astral.sh/uv/0.9.17/install.sh | sh
+      become_user: deploy
+
     # repository
     - name: clone
       ansible.builtin.git:
         repo: https://github.com/chaitinschool/chaitinschool.org
-        dest: /var/www/chaitin
+        dest: /var/www/chaitinschool
         version: main
         accept_hostkey: true
-      become_user: deploy
-    - name: dependencies
-      ansible.builtin.pip:
-        virtualenv_command: python3 -m venv .venv
-        virtualenv: /var/www/chaitin/.venv
-        requirements: /var/www/chaitin/requirements.txt
       become_user: deploy
 
     # systemd
     - name: systemd template
       ansible.builtin.template:
-        src: chaitin.service.j2
-        dest: /etc/systemd/system/chaitin.service
+        src: chaitinschool.service.j2
+        dest: /etc/systemd/system/chaitinschool.service
         owner: root
         group: root
         mode: '0644'
@@ -72,35 +96,35 @@
         daemon_reload: true
     - name: systemd enable
       ansible.builtin.systemd:
-        name: chaitin
+        name: chaitinschool
         enabled: yes
     - name: systemd start
       ansible.builtin.systemd:
-        name: chaitin
+        name: chaitinschool
         state: restarted
 
     # deployment specific
     - name: collectstatic
       ansible.builtin.shell:
         cmd: |
-          source .venv/bin/activate
-          python3 manage.py collectstatic --no-input
-        chdir: /var/www/chaitin
+          source $HOME/.local/bin/env
+          uv run manage.py collectstatic --no-input
+        chdir: /var/www/chaitinschool
       args:
         executable: /bin/bash
       become_user: deploy
     - name: migrations
       ansible.builtin.shell:
         cmd: |
-          source .venv/bin/activate
-          python3 manage.py migrate --no-input
-        chdir: /var/www/chaitin
+          source $HOME/.local/bin/env
+          uv run manage.py migrate --no-input
+        chdir: /var/www/chaitinschool
       args:
         executable: /bin/bash
       become_user: deploy
     - name: gunicorn restart
       ansible.builtin.systemd:
-        name: chaitin
+        name: chaitinschool
         state: restarted
     - name: caddy restart
       ansible.builtin.systemd:
