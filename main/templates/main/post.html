@@ -6,7 +6,7 @@
 <meta name="twitter:card" content="summary">
 <meta property="og:title" content="{{ object.title }} — Chaitin School">
 <meta property="og:description" content="{{ object.byline }}">
-{% endblock %}
+{% endblock meta %}
 
 {% block content %}
 <article itemscope itemtype="http://schema.org/BlogPosting">
@@ -36,4 +36,4 @@
         {{ object.body_as_html|safe }}
     </div>
 </article>
-{% endblock %}
+{% endblock content %}

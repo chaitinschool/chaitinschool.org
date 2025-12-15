@@ -9,7 +9,7 @@
 <meta property="og:title" content="{{ object.displayname }} — Chaitin School">
 <meta property="og:description" content="{{ object.full_name|default:object.username }}, member of Chaitin School.">
 <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
-{% endblock %}
+{% endblock meta %}
 
 {% block content %}
 <section>
@@ -26,4 +26,4 @@
     <div style="margin-bottom: 4px;"><strong>Learning plan:</strong></div>
     <div>{{ object.plan_as_html|safe|default:"<em>(empty)</em>" }}</div>
 </section>
-{% endblock %}
+{% endblock content %}

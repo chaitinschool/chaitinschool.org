@@ -9,7 +9,7 @@
 <meta property="og:title" content="{{ object.title }} — Chaitin School">
 <meta property="og:description" content="{{ object.body|truncatewords:17 }}">
 <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
-{% endblock %}
+{% endblock meta %}
 
 {% block content %}
 <article>
@@ -71,4 +71,4 @@
         Chaitin School mentorships have zero fees.
     </p>
 </article>
-{% endblock %}
+{% endblock content %}

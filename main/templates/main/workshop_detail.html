@@ -9,7 +9,7 @@
 <meta property="og:title" content="{{ workshop.title }} — Chaitin School">
 <meta property="og:description" content="{{ workshop.body|truncatewords:17 }}">
 <meta property="og:image" content="https://chaitinschool.org{% static 'logo.png' %}">
-{% endblock %}
+{% endblock meta %}
 
 {% block content %}
 <article>
@@ -55,4 +55,4 @@
     </p>
     {% endif %}
 </article>
-{% endblock %}
+{% endblock content %}

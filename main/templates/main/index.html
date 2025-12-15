@@ -117,7 +117,7 @@
         <a href="{% url 'workshop_list' %}" style="color: blue;">
             Upcoming Events</a>
         <small>
-            (<a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}" style="color: blue;">ics feed</a>)
+            (<a href="webcal://{{ canonical_host }}{% url 'workshop_list_ics' %}" style="color: blue;">ics feed</a>)
         </small>
     </strong>
     <div>
@@ -168,7 +168,7 @@
         -->
     </form>
     <p>
-        <a href="webcal://{{ canonical_host}}{% url 'workshop_list_ics' %}">
+        <a href="webcal://{{ canonical_host }}{% url 'workshop_list_ics' %}">
             Add to Calendar</a>.
     </p>
     <p>
@@ -269,4 +269,4 @@
         </li>
     </ul>
 </article>
-{% endblock %}
+{% endblock content %}
